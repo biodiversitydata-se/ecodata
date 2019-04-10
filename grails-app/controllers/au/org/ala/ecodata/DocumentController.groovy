@@ -2,7 +2,7 @@ package au.org.ala.ecodata
 
 import grails.converters.JSON
 import org.apache.commons.io.FilenameUtils
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
+import grails.web.servlet.mvc.GrailsParameterMap
 import org.elasticsearch.action.search.SearchResponse
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest

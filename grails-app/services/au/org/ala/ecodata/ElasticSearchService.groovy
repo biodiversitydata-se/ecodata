@@ -24,14 +24,20 @@ import org.elasticsearch.action.search.SearchType
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.geo.ShapeRelation
 import org.elasticsearch.common.geo.builders.ShapeBuilder
-import org.elasticsearch.common.settings.ImmutableSettings
+import org.elasticsearch.common.settings.Settings
+
+//import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.index.query.*
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders
 import org.elasticsearch.node.Node
+import org.elasticsearch.search.aggregations.AggregationBuilder
 import org.elasticsearch.search.builder.SearchSourceBuilder
-import org.elasticsearch.search.facet.FacetBuilders
-import org.elasticsearch.search.facet.range.RangeFacetBuilder
-import org.elasticsearch.search.facet.terms.TermsFacet
+import org.elasticsearch.search.aggregations.AggregationBuilders
+import org.elasticsearch.search.aggregations.bucket.range.RangeBuilder
+import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder
+//import org.elasticsearch.search.facet.FacetBuilders
+//import org.elasticsearch.search.facet.range.RangeFacetBuilder
+//import org.elasticsearch.search.facet.terms.TermsFacet
 import org.elasticsearch.search.highlight.HighlightBuilder
 import org.elasticsearch.search.sort.SortOrder
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
@@ -47,7 +53,7 @@ import static au.org.ala.ecodata.ElasticIndex.*
 import static au.org.ala.ecodata.Status.ACTIVE
 import static au.org.ala.ecodata.Status.DELETED
 import static au.org.ala.ecodata.Status.COMPLETED
-import static org.elasticsearch.index.query.FilterBuilders.*
+//import static org.elasticsearch.index.query.FilterBuilders.*
 import static org.elasticsearch.index.query.QueryBuilders.*
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder
 /**
@@ -98,8 +104,7 @@ class ElasticSearchService {
     @PostConstruct
     def initialize() {
         log.info "Setting-up elasticsearch node and client"
-        ImmutableSettings.Builder settings = ImmutableSettings.settingsBuilder();
-        settings.put("path.home", grailsApplication.config.app.elasticsearch.location);
+        Settings settings = Settings.builder().put("path.home", grailsApplication.config.app.elasticsearch.location).build();
         node = nodeBuilder().local(true).settings(settings).node();
         client = node.client();
         client.admin().cluster().prepareHealth().setWaitForYellowStatus().setTimeout('30s').execute().actionGet();
@@ -1351,7 +1356,7 @@ class ElasticSearchService {
         }
 
         if (filters) {
-            BoolFilterBuilder builder = FilterBuilders.boolFilter()
+            BoolQueryBuilder builder = FilterBuilders.boolFilter()
             builder.must(*filters)
 
             queryBuilder = filteredQuery(qsQuery, builder)
@@ -1397,8 +1402,8 @@ class ElasticSearchService {
 
     }
 
-    private static FilterBuilder buildGeoFilter(Map geographicSearchCriteria) {
-        GeoShapeFilterBuilder filter = null
+    private static QueryBuilder buildGeoFilter(Map geographicSearchCriteria) {
+        GeoShapeQueryBuilder filter = null
 
         ShapeBuilder shape = null
         switch (geographicSearchCriteria.type) {
@@ -1447,7 +1452,8 @@ class ElasticSearchService {
 
         if (facetGroup) {
             facetGroup.each { String facetName, List ranges ->
-                RangeFacetBuilder rangeFacet = FacetBuilders.rangeFacet(facetName).field(facetName);
+                RangeBuilder rangeFacet = AggregationBuilders.range(facetName).field(facetName)
+                //RangeFacetBuilder rangeFacet = FacetBuilders.rangeFacet(facetName).field(facetName);
                 ranges?.each { Map range ->
                     if(range.gte && range.lt){
                         rangeFacet.addRange(range.gte, range.lt)
@@ -1549,7 +1555,7 @@ class ElasticSearchService {
      * @param filters
      * @return
      */
-    BoolFilterBuilder buildFilters(filters) {
+    BoolQueryBuilder buildFilters(filters) {
         // see http://www.elasticsearch.org/guide/reference/java-api/query-dsl-filters/
         //log.debug "filters (fq) = ${filters} - type: ${filters.getClass().name}"
 
@@ -1557,7 +1563,7 @@ class ElasticSearchService {
 
         Map facets = parseFilterParams(filterList)
 
-        BoolFilterBuilder boolFilter = FilterBuilders.boolFilter()
+        BoolQueryBuilder boolFilter = FilterBuilders.boolFilter()
         facets.each { String facetName, List<String> facetValues ->
 
             if (facetValues.size() == 0) {
@@ -1577,13 +1583,13 @@ class ElasticSearchService {
 
     }
 
-    FilterBuilder filterValue(String filterName, List facetValues) {
+    QueryBuilder filterValue(String filterName, List facetValues) {
 
-        FilterBuilder filter
+        QueryBuilder filter
         if (facetValues.size() == 1) {
             String value = facetValues[0]
             if (filterName == '_query') {
-                filter = FilterBuilders.queryFilter(QueryBuilders.queryStringQuery(value))
+                filter = QueryBuilders.queryFilter(QueryBuilders.queryStringQuery(value))
             }
             else {
                 Map range = parseRangeString(value)
@@ -1606,14 +1612,14 @@ class ElasticSearchService {
                     }
                 }
                 else {
-                    filter = FilterBuilders.termFilter(filterName, value)
+                    filter = QueryBuilders.termFilter(filterName, value)
                 }
             }
         }
         else {
-            filter = FilterBuilders.boolFilter()
+            filter = QueryBuilders.boolQuery()
             facetValues.each { String value ->
-                ((BoolFilterBuilder)filter).should(filterValue(filterName, [value]))
+                ((QueryBuilder)filter).should(filterValue(filterName, [value]))
             }
         }
 
