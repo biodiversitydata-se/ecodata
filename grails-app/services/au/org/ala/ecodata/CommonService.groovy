@@ -52,7 +52,7 @@ class CommonService {
             }
           //  if (v == "null" || v == JSONObject.NULL) {
             // http://docs.grails.org/3.0.6/api/org/grails/web/json/JSONObject.Null.html
-            if (v == "null" || JSON.parse(v).v) {
+            if (v == "null" || JSON.parse(v).v == null) {
                 v = null
             }
             o[k] = v
@@ -85,8 +85,8 @@ class CommonService {
      * @return map of properties
      */
     def toBareMap(o) {
-        def dbo = o.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = o.getProperty("dbo")
+     //   def mapOfProperties = dbo.toMap()
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")

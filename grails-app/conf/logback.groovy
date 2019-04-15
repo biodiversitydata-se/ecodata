@@ -61,7 +61,7 @@ final info  = [
 final debug = [
         'grails.mongodb',
         'grails.gorm',
-        'org.grails.datastore.gorm',
+      //  'org.grails.datastore.gorm',
         'au.org.ala.ecodata'
 //        'grails.app.services.au.org.ala.volunteer.ExportService',
 //        'grails.app.controllers.au.org.ala.volunteer.ProjectController',
