@@ -15,7 +15,7 @@
 
 package au.org.ala.ecodata
 
-//import org.elasticsearch.client.InIndexRequest
+
 import com.vividsolutions.jts.geom.Coordinate
 import grails.converters.JSON
 import groovy.json.JsonSlurper
@@ -28,7 +28,6 @@ import org.elasticsearch.action.get.GetRequest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.action.index.IndexResponse
 
-//import org.elasticsearch.action.index.IndexRequestBuilder
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.action.search.SearchType
 import org.elasticsearch.client.Client
@@ -40,8 +39,6 @@ import org.elasticsearch.common.geo.ShapeRelation
 import org.elasticsearch.common.geo.builders.ShapeBuilder
 import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.unit.TimeValue
-import org.elasticsearch.common.xcontent.XContentBuilder
-import org.elasticsearch.common.xcontent.XContentFactory
 import org.elasticsearch.common.xcontent.XContentType
 
 //import org.elasticsearch.common.settings.Settings
@@ -51,6 +48,7 @@ import org.elasticsearch.node.Node
 import org.elasticsearch.rest.RestStatus
 import org.elasticsearch.search.aggregations.AggregationBuilder
 import org.elasticsearch.search.aggregations.BucketOrder
+import org.elasticsearch.search.aggregations.bucket.histogram.HistogramAggregationBuilder
 import org.elasticsearch.search.aggregations.bucket.range.RangeAggregationBuilder
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.aggregations.AggregationBuilders
@@ -59,14 +57,9 @@ import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder
 
-//import org.elasticsearch.search.facet.FacetBuilders
-//import org.elasticsearch.search.facet.range.RangeFacetBuilder
-//import org.elasticsearch.search.facet.terms.TermsFacet
-//import org.elasticsearch.search.highlight.HighlightBuilder
 import org.elasticsearch.search.sort.SortOrder
 import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent
 import org.grails.datastore.mapping.engine.event.EventType
-//import org.elasticsearch.search.aggregations.BucketOrder;
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 import java.text.SimpleDateFormat
@@ -1165,7 +1158,7 @@ class ElasticSearchService {
 
         index = index ?: DEFAULT_INDEX
         def request = buildSearchRequest(query, params, index, geoSearchCriteria)
-        client.search(request).actionGet()
+        client.search(request, RequestOptions.DEFAULT)
     }
 
     /**
@@ -1176,7 +1169,7 @@ class ElasticSearchService {
      * @return IndexResponse
      */
     def doSearch(SearchRequest request) {
-        def response = client.search(request).actionGet()
+        def response = client.search(request, RequestOptions.DEFAULT) //.actionGet()
         return response
     }
 
@@ -1196,7 +1189,7 @@ class ElasticSearchService {
         SearchSourceBuilder source = pagenateQuery(paginationParams).query(queryBuilder)
         request.source(source)
 
-        client.search(request).actionGet()
+        client.search(request, RequestOptions.DEFAULT) //.actionGet()
     }
 
     /*
@@ -1325,6 +1318,7 @@ class ElasticSearchService {
         if (params.types && params.types instanceof Collection<String>) {
             types = params.types
         }
+        //request.t
         request.types(types as String[])
 
         QueryBuilder query = buildQuery(queryString, params, geoSearchCriteria, index)
@@ -1333,18 +1327,18 @@ class ElasticSearchService {
 
         // add facets
         addFacets(params.facets, params.fq, params.flimit, params.fsort).each {
-            source.query(it)
+            source.aggregation(it)
         }
 
         if(params.rangeFacets){
             addRangeFacets(params.rangeFacets as List).each {
-                source.query(it)
+                source.aggregation(it)
             }
         }
 
         if(params.histogramFacets){
             addHistogramFacets(params.histogramFacets).each {
-                source.query(it)
+                source.aggregation(it)
             }
         }
 
@@ -1353,6 +1347,7 @@ class ElasticSearchService {
         }
 
         if (params.omitSource) {
+           // source.
             source.noFields()
         }
 
@@ -1553,7 +1548,7 @@ class ElasticSearchService {
         if (facets) {
             facets.split(",").each { facet ->
                 List parts = facet.split(':')
-                facetList.add(FacetBuilders.histogramFacet(parts[0]).field(parts[0]).interval(Long.parseLong(parts[1])))
+                facetList.add(HistogramAggregationBuilder(parts[0]).field(parts[0]).interval(Long.parseLong(parts[1])))
             }
         }
 
@@ -1589,7 +1584,7 @@ class ElasticSearchService {
 
         if (facets) {
             facets.split(",").each {
-                facetList.add(AggregationBuilders.terms(it).field(it).size(flimit).order(fsort))
+                facetList.add(AggregationBuilders.terms(it).field("${it}.keyword").size(flimit).order(fsort))
             }
         }
 
