@@ -231,8 +231,8 @@ class ProjectService {
      * @return map of properties
      */
     def toRichMap(prj) {
-        def dbo = prj.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = prj.getProperty("dbo")
+        //def mapOfProperties = dbo.toMap()
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties["status"] = mapOfProperties["status"]?.capitalize();

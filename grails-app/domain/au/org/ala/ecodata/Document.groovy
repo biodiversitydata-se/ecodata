@@ -1,5 +1,11 @@
 package au.org.ala.ecodata
 
+import grails.core.support.GrailsConfigurationAware
+
+//import grails.core.GrailsApplication
+import grails.config.Config
+import org.springframework.beans.factory.annotation.Value;
+
 import static au.org.ala.ecodata.Status.ACTIVE
 
 import org.bson.types.ObjectId
@@ -7,7 +13,8 @@ import org.bson.types.ObjectId
 /**
  * Represents documents stored in a filesystem that are accessible via http.
  */
-class Document {
+class Document {//implements GrailsConfigurationAware{
+
 
     def grailsApplication
 
@@ -27,6 +34,7 @@ class Document {
         status index: true
         role index: true
         version false
+   //     autowire true
     }
 
     ObjectId id
@@ -60,17 +68,31 @@ class Document {
     Date lastUpdated
 	boolean isPrimaryProjectImage = false
 
+   // @Value('${app.file.upload.path}')
+  //  String fileUploadPath
+
+   // @Value('${app.uploads.url}')
+   // String fileUploadUrl
+
+   // static transients = ['fileUploadPath', 'fileUploadUrl']
+
     def isImage() {
         return DOCUMENT_TYPE_IMAGE == type
     }
 
-    def getUrl() {
+  /*  @Override
+    void setConfiguration(Config config) {
+        fileUploadPath = config.getProperty('app.file.upload.path')
+        fileUploadUrl = config.getProperty('app.uploads.url')
+    }*/
+
+    def getUrl(uploadUrl) {
         if (externalUrl) return externalUrl
 
-        return urlFor(filepath, filename)
+        return urlFor(uploadUrl, filepath, filename)
     }
 
-    def getThumbnailUrl() {
+    def getThumbnailUrl(uploadUrl) {
         if (isImage()) {
 
             if(hosted == ALA_IMAGE_SERVER){
@@ -79,7 +101,7 @@ class Document {
 
             File thumbFile = new File(filePath(THUMBNAIL_PREFIX+filename))
             if (thumbFile.exists()) {
-                return urlFor(filepath, THUMBNAIL_PREFIX + filename)
+                return urlFor(uploadUrl, filepath, THUMBNAIL_PREFIX + filename)
             }
             else {
                 return getUrl()
@@ -91,7 +113,7 @@ class Document {
     /**
      * Returns a String containing the URL by which the file attached to the supplied document can be downloaded.
      */
-    private def urlFor(path, name) {
+    private def urlFor(uploadUrl, path, name) {
         if (!name) {
             return ''
         }
@@ -103,17 +125,20 @@ class Document {
         path = path?path+'/':''
 
         def encodedFileName = URLEncoder.encode(name, 'UTF-8').replaceAll('\\+', '%20')
-        URI uri = new URI(grailsApplication.config.app.uploads.url + path + encodedFileName)
+        // URI uri = new URI(fileUploadUrl + path + encodedFileName)
+        // URI uri = new URI(grailsApplication.config.getProperty('app.uploads.url') + path + encodedFileName)
+        URI uri = new URI(uploadUrl + path + encodedFileName)
         return uri.toURL();
     }
 
-    private def filePath(name) {
+    private def filePath(fileUploadPath, name) {
 
         def path = filepath ?: ''
         if (path) {
             path = path+File.separator
         }
-        return grailsApplication.config.app.file.upload.path + '/' + path  + name
+       // return grailsApplication.config.app.file.upload.path + '/' + path  + name
+        return fileUploadPath + '/' + path  + name
 
     }
 

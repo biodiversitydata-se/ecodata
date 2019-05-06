@@ -2,6 +2,8 @@ package au.org.ala.ecodata
 import com.mongodb.BasicDBObject
 import com.mongodb.DBCursor
 import com.mongodb.DBObject
+import com.mongodb.client.model.Filters
+import org.bson.conversions.Bson
 import org.grails.datastore.mapping.query.api.BuildableCriteria
 import au.org.ala.ecodata.metadata.*
 
@@ -86,13 +88,16 @@ class ActivityService {
      */
     def doWithAllActivities(Closure action) {
         // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
-        com.mongodb.DBCollection collection = Activity.getCollection()
-        DBObject query = new BasicDBObject('status', ACTIVE)
-        DBCursor results = collection.find(query).batchSize(100)
+        def collection = Activity.getCollection()
+        //Bson query = Filters.eq("status", "ACTIVE");
+        BasicDBObject query = new BasicDBObject('status', ACTIVE)
+        def results = collection.find(query).batchSize(100)
 
-        results.each { dbObject ->
-            action.call(dbObject.toMap())
-        }
+        Activity.findAllByStatus("Active")
+
+//        results.each { dbObject ->
+//            action.call(dbObject.toMap())
+//        }
     }
 
     /**
@@ -225,7 +230,7 @@ class ActivityService {
      */
     def toMap(act, levelOfDetail = ['all'], version = null) {
        // def mapOfProperties = act instanceof Activity ? act.getProperty("dbo").toMap() : act
-        def mapOfProperties = act instanceof Activity ? act.getProperty("dbo") :act //[*:GormMongoUtil.extractDboProperties(act.getProperty("dbo"))] : act
+        def mapOfProperties = act instanceof Activity ? act.getProperty("dbo") : act //[*:GormMongoUtil.extractDboProperties(act.getProperty("dbo"))] : act
         mapOfProperties.complete = act.complete // This is not a persistent property so is not in the dbo.
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
@@ -523,8 +528,8 @@ class ActivityService {
      * @return map of properties
      */
     def toLiteMap(act) {
-        def dbo = act.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = act.getProperty("dbo")
+       // def mapOfProperties = dbo.toMap()
         [activityId: mapOfProperties.activityId,
                 siteId: mapOfProperties.siteId,
                 type: mapOfProperties.type,

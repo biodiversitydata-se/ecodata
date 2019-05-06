@@ -645,8 +645,8 @@ class RecordService {
     }
 
     def toMap(record){
-        def dbo = record.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = record.getProperty("dbo")
+        //def mapOfProperties = dbo.toMap()
         mapOfProperties.recordNumber = record.recordNumber
         mapOfProperties.remove("_id")
         mapOfProperties
