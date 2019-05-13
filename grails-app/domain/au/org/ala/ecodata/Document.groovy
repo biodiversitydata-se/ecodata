@@ -16,7 +16,7 @@ import org.bson.types.ObjectId
 class Document {//implements GrailsConfigurationAware{
 
 
-    def grailsApplication
+   // def grailsApplication
 
     static final String DOCUMENT_TYPE_IMAGE = 'image'
     static final String THUMBNAIL_PREFIX = 'thumb_'
@@ -92,19 +92,19 @@ class Document {//implements GrailsConfigurationAware{
         return urlFor(uploadUrl, filepath, filename)
     }
 
-    def getThumbnailUrl(uploadUrl) {
+    def getThumbnailUrl(uploadPath, uploadUrl) {
         if (isImage()) {
 
             if(hosted == ALA_IMAGE_SERVER){
                 return identifier
             }
 
-            File thumbFile = new File(filePath(THUMBNAIL_PREFIX+filename))
+            File thumbFile = new File(filePath(uploadPath, THUMBNAIL_PREFIX+filename))
             if (thumbFile.exists()) {
                 return urlFor(uploadUrl, filepath, THUMBNAIL_PREFIX + filename)
             }
             else {
-                return getUrl()
+                return getUrl(uploadUrl)
             }
         }
         return ''

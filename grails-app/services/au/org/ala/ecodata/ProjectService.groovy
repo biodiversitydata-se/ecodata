@@ -204,7 +204,10 @@ class ProjectService {
                     mapOfProperties.actualDurationInWeeks = project.actualDurationInWeeks
                     mapOfProperties.contractDurationInWeeks = project.contractDurationInWeeks
                 }
-            }
+            } /*else {
+                mapOfProperties.remove("sites")
+                mapOfProperties.sites = siteService.findAllForProjectId(project.projectId, [SiteService.FLAT], version)
+            }*/
 
             result = mapOfProperties.findAll { k, v -> v != null }
 

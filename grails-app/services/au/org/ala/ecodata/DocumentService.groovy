@@ -168,7 +168,7 @@ class DocumentService {
         Document primaryImageDoc;
         Document logoDoc = Document.findByProjectIdAndRoleAndStatus(id, LOGO, ACTIVE);
         String urlImage;
-        urlImage = logoDoc?.getUrl(grailsApplication.config.getProperty('app.uploads.url')) ? logoDoc.getThumbnailUrl(grailsApplication.config.getProperty('app.uploads.url')) : ''
+        urlImage = logoDoc?.getUrl(grailsApplication.config.getProperty('app.uploads.url')) ? logoDoc.getThumbnailUrl(grailsApplication.config.getProperty('app.file.upload.path'), grailsApplication.config.getProperty('app.uploads.url')) : ''
         if(!urlImage){
             primaryImageDoc = Document.findByProjectIdAndIsPrimaryProjectImage(id, true)
             urlImage = primaryImageDoc?.getUrl(grailsApplication.config.getProperty('app.uploads.url'));

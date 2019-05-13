@@ -122,7 +122,7 @@ class SiteService {
      * @return map of properties
      */
     def toMap(site, levelOfDetail = [], version = null) {
-        def mapOfProperties = site instanceof Site ? site.getProperty("dbo") : site
+        def mapOfProperties = site instanceof Site ? GormMongoUtil.extractDboProperties(site.getProperty("dbo")) : site
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
@@ -140,6 +140,9 @@ class SiteService {
         }
 
         mapOfProperties.findAll {k,v -> v != null}
+
+        def validMap = GormMongoUtil.deepPrune(mapOfProperties)
+        return validMap
     }
 
     Map toGeoJson(Map site) {
@@ -683,22 +686,14 @@ class SiteService {
      */
     void doWithAllSites(Closure action, Integer max = null) {
 
-        List sites = []
-        def deletedSites = Site.findAllByStatus("DELETED")
-        deletedSites.each {
-            sites.add (it.getProperty('dbo'))
+        def collection = Site.getCollection()
+        def siteQuery = new QueryBuilder().start('status').notEquals(DELETED).get()
+        def results = collection.find(siteQuery).batchSize(100)
+
+        results.each { dbObject ->
+            action.call(dbObject)
         }
-        sites
-        // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
-       // com.mongodb.DBCollection collection = Site.getCollection()
-    /*    def collection = Site.getCollection()
-      //  def siteQuery = new QueryBuilder().start('status').notEquals(DELETED).get()
-        Bson siteQuery = Filters.ne("status", "DELETED");
-        FindIterable results = collection.find(siteQuery).batchSize(100)
-*/
-       /* results.each { dbObject ->
-            action.call(dbObject.toMap())
-        }*/
+
     }
 
 

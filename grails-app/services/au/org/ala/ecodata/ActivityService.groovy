@@ -89,15 +89,12 @@ class ActivityService {
     def doWithAllActivities(Closure action) {
         // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
         def collection = Activity.getCollection()
-        //Bson query = Filters.eq("status", "ACTIVE");
         BasicDBObject query = new BasicDBObject('status', ACTIVE)
         def results = collection.find(query).batchSize(100)
 
-        Activity.findAllByStatus("Active")
-
-//        results.each { dbObject ->
-//            action.call(dbObject.toMap())
-//        }
+        results.each { dbObject ->
+            action.call(dbObject)
+        }
     }
 
     /**

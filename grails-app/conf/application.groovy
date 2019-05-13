@@ -609,11 +609,10 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
-        app.external.model.dir = "./models/"
+        app.external.model.dir = "/data/ecodata/models/" //"./models/"
         grails.hostname = "devt.ala.org.au"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
-        app.external.model.dir = "./models/"
         grails.serverURL = "http://devt.ala.org.au:8080/ecodata"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         grails.mail.host="localhost"

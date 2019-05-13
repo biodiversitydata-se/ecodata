@@ -117,7 +117,9 @@ class MetadataService {
     Map getOutputNameAndDataModelForAnActivityName(name) {
         def outputList = activitiesModel().activities.find { it.name == name }?.outputs
         if (outputList && outputList.size() > 0) {
-            return activitiesModel().outputs.grep { it.name in outputList }?.collectEntries { [(it.name): getOutputDataModel(it.template)] }
+            return activitiesModel().outputs.grep { it.name in outputList }?.collectEntries {
+                [(it.name): getOutputDataModel(it.template)]
+            }
         }
         return null
     }
