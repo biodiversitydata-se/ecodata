@@ -233,7 +233,7 @@ class SciStarterConverter {
 
         // iterate through mapping variable and copy or tranform the value
         mapping.each { key, value ->
-            log.debug(key)
+            log.debug(key.toString())
             if (value instanceof Map) {
                 if (value.transform) {
                     target[value.name] = value.transform(sciStarter, target);

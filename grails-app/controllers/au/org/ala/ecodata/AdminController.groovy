@@ -563,7 +563,7 @@ class AdminController {
     @AlaSecured("ROLE_ADMIN")
     def updateActivitiesModel() {
         def model = request.JSON
-        log.debug model
+        log.debug "${model}"
         metadataService.updateActivitiesModel(model)
         flash.message = "Activity model updated."
         def result = model
@@ -573,7 +573,7 @@ class AdminController {
     @AlaSecured("ROLE_ADMIN")
     def updateProgramsModel() {
         def model = request.JSON
-        log.debug model
+        log.debug "${model}"
         metadataService.updateProgramsModel(model)
         flash.message = "Programs model updated."
         def result = model

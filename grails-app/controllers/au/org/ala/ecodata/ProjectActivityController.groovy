@@ -95,7 +95,7 @@ class ProjectActivityController {
     @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        log.debug props
+        log.debug "${props}"
         def result
         def message
         if (id) {

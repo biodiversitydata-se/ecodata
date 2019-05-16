@@ -52,7 +52,7 @@ class CommonService {
             }
           //  if (v == "null" || v == JSONObject.NULL) {
             // http://docs.grails.org/3.0.6/api/org/grails/web/json/JSONObject.Null.html
-            if (v == "null" || JSON.parse(v).v == null) {
+            if (v == "null") {
                 v = null
             }
             o[k] = v

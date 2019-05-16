@@ -158,7 +158,7 @@ class ProjectController {
     def updateSites(String id){
         log.debug("Updating the sites for projectID : " + id)
         def props = request.JSON
-        log.debug props
+        log.debug "${props}"
         def allCurrentSites = []
         Site.findAllByProjects(id).each{
           allCurrentSites << it.siteId
@@ -188,7 +188,7 @@ class ProjectController {
     @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        log.debug props
+        log.debug "${props}"
         def result
         def message
 
