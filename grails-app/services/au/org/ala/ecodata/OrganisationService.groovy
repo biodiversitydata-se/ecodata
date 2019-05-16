@@ -145,7 +145,7 @@ class OrganisationService {
     }
 
     def toMap(Organisation org, levelOfDetail = []) {
-        def mapOfProperties = org.getProperty('dbo')
+        def mapOfProperties = GormMongoUtil.extractDboProperties(org.getProperty('dbo'))
        // def mapOfProperties = dbo.toMap()
 
         if ('projects' in levelOfDetail) {
@@ -159,7 +159,8 @@ class OrganisationService {
 
         }
 
-        mapOfProperties.findAll {k,v -> v != null}
+       // mapOfProperties.findAll {k,v -> v != null}
+        GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     /**

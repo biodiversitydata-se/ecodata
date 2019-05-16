@@ -123,6 +123,7 @@ class SiteService {
      */
     def toMap(site, levelOfDetail = [], version = null) {
         def mapOfProperties = site instanceof Site ? GormMongoUtil.extractDboProperties(site.getProperty("dbo")) : site
+       // def mapOfProperties = site instanceof Site ? site.getProperty("dbo") : site
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
@@ -139,8 +140,9 @@ class SiteService {
             }
         }
 
-        mapOfProperties.findAll {k,v -> v != null}
+       // mapOfProperties.findAll {k,v -> v != null}
 
+       // mapOfProperties as Site
         def validMap = GormMongoUtil.deepPrune(mapOfProperties)
         return validMap
     }

@@ -132,7 +132,7 @@ class ProjectService {
     Map toMap(project, levelOfDetail = [], includeDeletedActivities = false, version = null) {
         Map result
 
-        Map mapOfProperties = project instanceof Project ? project.getProperty("dbo") : project //[*:GormMongoUtil.extractDboProperties(project.getProperty("dbo"))] : project
+        Map mapOfProperties = project instanceof Project ? GormMongoUtil.extractDboProperties(project.getProperty("dbo")) : project //[*:GormMongoUtil.extractDboProperties(project.getProperty("dbo"))] : project
 
         if(levelOfDetail instanceof  List){
             levelOfDetail = levelOfDetail[0]
@@ -209,7 +209,8 @@ class ProjectService {
                 mapOfProperties.sites = siteService.findAllForProjectId(project.projectId, [SiteService.FLAT], version)
             }*/
 
-            result = mapOfProperties.findAll { k, v -> v != null }
+            //result = mapOfProperties.findAll { k, v -> v != null }
+            result = GormMongoUtil.deepPrune(mapOfProperties)
 
             // look up current associated organisation details
             result.associatedOrgs?.each {

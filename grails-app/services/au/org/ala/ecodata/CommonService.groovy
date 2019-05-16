@@ -85,12 +85,13 @@ class CommonService {
      * @return map of properties
      */
     def toBareMap(o) {
-        def mapOfProperties = o.getProperty("dbo")
+        def mapOfProperties = GormMongoUtil.extractDboProperties(o.getProperty("dbo"))
      //   def mapOfProperties = dbo.toMap()
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
-        mapOfProperties.findAll {k,v -> v != null && v != ""}
+       // mapOfProperties.findAll {k,v -> v != null && v != ""}
+        GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def checkApiKey(key) {

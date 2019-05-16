@@ -38,7 +38,7 @@ class DocumentService {
      * @return map of properties
      */
     def toMap(document, levelOfDetail = []) {
-        def mapOfProperties = document instanceof Document ? document.getProperty("dbo") : document
+        def mapOfProperties = document instanceof Document ? GormMongoUtil.extractDboProperties(document.getProperty("dbo")) : document
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
@@ -47,7 +47,8 @@ class DocumentService {
         if (document?.type == Document.DOCUMENT_TYPE_IMAGE) {
             mapOfProperties.thumbnailUrl = document.thumbnailUrl
         }
-        mapOfProperties.findAll {k,v -> v != null}
+        //mapOfProperties.findAll {k,v -> v != null}
+        GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def get(id, levelOfDetail = []) {

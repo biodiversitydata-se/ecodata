@@ -89,7 +89,11 @@ class ActivityService {
     def doWithAllActivities(Closure action) {
         // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
         def collection = Activity.getCollection()
+
+       // collection.setDBDecoderFactory
         BasicDBObject query = new BasicDBObject('status', ACTIVE)
+       // query.append('activityId', 'b97f76f1-3918-41b1-868d-1d419cc6b9d6')
+        //Activity.setMapping()
         def results = collection.find(query).batchSize(100)
 
         results.each { dbObject ->
@@ -227,7 +231,7 @@ class ActivityService {
      */
     def toMap(act, levelOfDetail = ['all'], version = null) {
        // def mapOfProperties = act instanceof Activity ? act.getProperty("dbo").toMap() : act
-        def mapOfProperties = act instanceof Activity ? act.getProperty("dbo") : act //[*:GormMongoUtil.extractDboProperties(act.getProperty("dbo"))] : act
+        def mapOfProperties = act instanceof Activity ? GormMongoUtil.extractDboProperties(act.getProperty("dbo")) : act //[*:GormMongoUtil.extractDboProperties(act.getProperty("dbo"))] : act
         mapOfProperties.complete = act.complete // This is not a persistent property so is not in the dbo.
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
@@ -248,7 +252,8 @@ class ActivityService {
             }
         }
 
-        mapOfProperties.findAll {k,v -> v != null}
+       // mapOfProperties.findAll {k,v -> v != null}
+        GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def loadAll(list) {

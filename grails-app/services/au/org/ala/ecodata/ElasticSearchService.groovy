@@ -117,25 +117,27 @@ class ElasticSearchService {
             return
         }
         def docId = getEntityId(doc)
-        def docJson = GormMongoUtil.extractDboProperties(doc) as JSON
+        def docMap = GormMongoUtil.extractDboProperties(doc)//doc as JSON
         index = index ?: DEFAULT_INDEX
 
         // Delete index if it exists and doc.status == 'deleted'
-        checkForDelete(doc, docId, index)
+        checkForDelete(docMap, docId, index)
 
         // Prevent deleted document from been indexed regardless of whether it has a previous index entry
-        if(doc.status?.toLowerCase() == DELETED) {
+        if(docMap.status?.toLowerCase() == DELETED) {
             return null;
         }
 
+        addCustomFields(docMap)
+        def docJson = docMap as JSON
+
         try {
-            addCustomFields(doc)
             IndexRequestBuilder builder = client.prepareIndex(index, DEFAULT_TYPE, docId)
             builder.setSource(docJson.toString(false)).execute().actionGet()
 
         } catch (Exception e) {
             log.error "Error indexing document: ${docJson.toString(true)}\nError: ${e}", e
-            throw e
+           // throw e
 /*            String subject = "Indexing failed on server ${grailsApplication.config.grails.serverURL}"
             String body = "Type: "+getDocType(doc)+"\n"
             body += "Index: "+index+"\n"
@@ -674,7 +676,6 @@ class ElasticSearchService {
         log.debug "Clearing index first"
         deleteIndex()
 
-
         // homepage index (doing some manual batching due to memory constraints)
         log.info "Indexing all MERIT and NON-MERIT projects in generic HOMEPAGE index"
         Project.withNewSession {
@@ -987,7 +988,9 @@ class ElasticSearchService {
             if (site) {
                 // Not useful for the search index and there is a bug right now that can result in invalid POI
                 // data causing the indexing to fail.
+              //  def mapOfSite = site.getProperty("dbo")
                 site.remove('poi')
+              //  site = mapOfSite as Site
                 activity.sites = [site]
             }
         }
