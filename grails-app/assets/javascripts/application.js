@@ -2,7 +2,7 @@
 //= require jquery-migrate-1.2.1.min.js
 //= require jquery.autocomplete-1.1/jquery.autocomplete.js
 //= require jquery-ui/jquery-ui-1.9.2.custom.min
-//= require html5
+// require html5
 // require bootstrap.min
 //= require bootstrap-combobox/bootstrap-combobox
 //= require knockoutjs/knockout-3.3.0.min

@@ -8,8 +8,8 @@ class ProjectActivityController {
     def projectActivityService
 
     def asJson = { model ->
-        response.setContentType("application/json;charset=UTF-8")
-        model
+        //response.setContentType("application/json;charset=UTF-8")
+        render model as JSON
     }
 
     /**
