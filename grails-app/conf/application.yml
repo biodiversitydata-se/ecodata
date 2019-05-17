@@ -118,7 +118,7 @@ grails:
             encoding: UTF-8
             htmlcodec: xml
             codecs:
-                expression: html
+                expression: none # escapes values inside ${} //html
                 scriptlets: html
                 taglib: none
                 staticparts: none
