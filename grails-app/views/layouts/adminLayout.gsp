@@ -54,13 +54,13 @@
 
 <body>
 <div id="fixed-footer-wrapper">
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
+    <div class="navbar navbar-default navbar-fixed-top">
+        %{--<div class="navbar-inner">--}%
 
             <div class="container-fluid">
-                <a class="brand">Ecodata</a>
+                <p class="navbar-text brand">Ecodata</p>
 
-                <div class="nav-collapse collapse">
+                <div class="navbar-collapse collapse">
                     <div class="navbar-text pull-right">
                         <span id="buttonBar">
                             <ec:currentUserDisplayName/>&nbsp;<hf:loginLogout cssClass="btn btn-small"
@@ -73,7 +73,7 @@
                     </div>
                 </div><!--/.nav-collapse -->
             </div>
-        </div>
+       %{-- </div>--}%
     </div>
 
     <div class="container-fluid">
