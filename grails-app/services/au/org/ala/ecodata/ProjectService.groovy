@@ -132,7 +132,8 @@ class ProjectService {
     Map toMap(project, levelOfDetail = [], includeDeletedActivities = false, version = null) {
         Map result
 
-        Map mapOfProperties = project instanceof Project ? project.getProperty("dbo").toMap() : project
+        Map mapOfProperties = project instanceof Project ? GormMongoUtil.extractDboProperties(project.getProperty("dbo")) : project //[*:GormMongoUtil.extractDboProperties(project.getProperty("dbo"))] : project
+
         if(levelOfDetail instanceof  List){
             levelOfDetail = levelOfDetail[0]
         }
@@ -205,7 +206,8 @@ class ProjectService {
                 }
             }
 
-            result = mapOfProperties.findAll { k, v -> v != null }
+            //result = mapOfProperties.findAll { k, v -> v != null }
+            result = GormMongoUtil.deepPrune(mapOfProperties)
 
             // look up current associated organisation details
             result.associatedOrgs?.each {
@@ -230,8 +232,8 @@ class ProjectService {
      * @return map of properties
      */
     def toRichMap(prj) {
-        def dbo = prj.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = prj.getProperty("dbo")
+        //def mapOfProperties = dbo.toMap()
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties["status"] = mapOfProperties["status"]?.capitalize();

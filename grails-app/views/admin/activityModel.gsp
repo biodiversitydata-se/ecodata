@@ -20,32 +20,34 @@
     <button type="button" data-bind="click:revert" class="btn">Cancel</button>
 </content>
 <div class="row-fluid clearfix">
-    <div class="span5">
-        <h2>Activities</h2>
-        <ul data-bind="sortable:{data:activities}" class="activityList sortableList">
-            <li class="item" data-bind="css:{disabled:!enabled()}">
-                <div data-bind="click:toggle"><span data-bind="text:name"></span></div>
-                <div data-bind="visible:expanded" class="details clearfix" style="display:none;">
-                    <div data-bind="template: {name: displayMode}"></div>
-                </div>
-            </li>
-        </ul>
-        <span data-bind="click:addActivity" class="clickable"><i class="icon-plus"></i> Add new</span>
-    </div>
-    <div class="span5 pull-right">
-        <h2>Outputs</h2>
-        <ul data-bind="sortable:outputs" class="sortableList">
-            <li data-bind="css:{referenced: isReferenced}" class="item">
-                <div data-bind="click:toggle">
-                    <span data-bind="click:addToCurrentActivity, clickBubble:false, visible:isAddable" class="add-arrow clickable" title="Add output to current activity"><i class="icon-arrow-left"></i></span>
-                    <span data-bind="text:name"></span>
-                </div>
-                <div data-bind="visible:expanded" class="details clearfix" style="display:none;">
-                    <div data-bind="template: {name: displayMode}"></div>
-                </div>
-            </li>
-        </ul>
-        <span data-bind="click:addOutput" class="clickable"><i class="icon-plus"></i> Add new</span>
+    <div class="container-fluid">
+        <div class="col-md-5">
+            <h2>Activities</h2>
+            <ul data-bind="sortable:{data:activities}" class="activityList sortableList">
+                <li class="item" data-bind="css:{disabled:!enabled()}">
+                    <div data-bind="click:toggle"><span data-bind="text:name"></span></div>
+                    <div data-bind="visible:expanded" class="details clearfix" style="display:none;">
+                        <div data-bind="template: {name: displayMode}"></div>
+                    </div>
+                </li>
+            </ul>
+            <span data-bind="click:addActivity" class="clickable"><i class="icon-plus"></i> Add new</span>
+        </div>
+        <div class="col-md-5 pull-right">
+            <h2>Outputs</h2>
+            <ul data-bind="sortable:outputs" class="sortableList">
+                <li data-bind="css:{referenced: isReferenced}" class="item">
+                    <div data-bind="click:toggle">
+                        <span data-bind="click:addToCurrentActivity, clickBubble:false, visible:isAddable" class="add-arrow clickable" title="Add output to current activity"><i class="icon-arrow-left"></i></span>
+                        <span data-bind="text:name"></span>
+                    </div>
+                    <div data-bind="visible:expanded" class="details clearfix" style="display:none;">
+                        <div data-bind="template: {name: displayMode}"></div>
+                    </div>
+                </li>
+            </ul>
+            <span data-bind="click:addOutput" class="clickable"><i class="icon-plus"></i> Add new</span>
+        </div>
     </div>
 </div>
 

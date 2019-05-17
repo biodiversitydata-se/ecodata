@@ -239,7 +239,7 @@ class ProjectActivityService {
      */
     Map toMap(projectActivity, levelOfDetail = []) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
-                projectActivity.getProperty("dbo").toMap() : projectActivity
+                GormMongoUtil.extractDboProperties(projectActivity.getProperty("dbo")) : projectActivity
 
         if (levelOfDetail == DOCS) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
@@ -261,7 +261,8 @@ class ProjectActivityService {
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
 
-        mapOfProperties.findAll { k, v -> v != null }
+        //mapOfProperties.findAll { k, v -> v != null }
+        GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     List<String> listRestrictedProjectActivityIds(String userId = null, String projectId = null) {

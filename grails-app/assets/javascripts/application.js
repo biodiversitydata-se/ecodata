@@ -1,10 +1,11 @@
-//= require jquery/jquery-1.11.1.min
-//= require jquery-migrate-1.2.1.min
-//= require jquery.autocomplete
+//= require jquery-1.12.4
+//= require jquery-migrate-1.2.1.min.js
+//= require jquery.autocomplete-1.1/jquery.autocomplete.js
 //= require jquery-ui/jquery-ui-1.9.2.custom.min
-//= require html5
-//= require bootstrap.min
-//= require bootstrap-combobox/bootstrap-combobox
+//= require bootstrap.min.js
+// require html5
+// require bootstrap.min
+// require bootstrap-combobox/bootstrap-combobox
 //= require knockoutjs/knockout-3.3.0.min
 //= require knockoutjs/knockout-sortable.min
 //= require knockoutjs/knockout.mapping-latest

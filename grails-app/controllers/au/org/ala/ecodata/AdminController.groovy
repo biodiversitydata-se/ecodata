@@ -86,8 +86,8 @@ class AdminController {
     // content-type. The JSON conversion is handled in the filter. This allows
     // for universal JSONP support.
     def asJson = { model ->
-        response.setContentType("application/json; charset=\"UTF-8\"")
-        model
+        //response.setContentType("application/json; charset=\"UTF-8\"")
+        render model as JSON
     }
 
     @AlaSecured("ROLE_ADMIN")
@@ -563,7 +563,7 @@ class AdminController {
     @AlaSecured("ROLE_ADMIN")
     def updateActivitiesModel() {
         def model = request.JSON
-        log.debug model
+        log.debug "${model}"
         metadataService.updateActivitiesModel(model)
         flash.message = "Activity model updated."
         def result = model
@@ -573,7 +573,7 @@ class AdminController {
     @AlaSecured("ROLE_ADMIN")
     def updateProgramsModel() {
         def model = request.JSON
-        log.debug model
+        log.debug "${model}"
         metadataService.updateProgramsModel(model)
         flash.message = "Programs model updated."
         def result = model

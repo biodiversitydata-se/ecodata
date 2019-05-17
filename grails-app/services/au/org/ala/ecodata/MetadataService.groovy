@@ -8,7 +8,7 @@ import grails.validation.ValidationException
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import org.apache.poi.ss.util.CellReference
-import org.grails.plugins.csv.CSVMapReader
+import grails.plugins.csv.CSVMapReader
 
 import java.text.SimpleDateFormat
 import java.util.zip.ZipEntry
@@ -117,7 +117,9 @@ class MetadataService {
     Map getOutputNameAndDataModelForAnActivityName(name) {
         def outputList = activitiesModel().activities.find { it.name == name }?.outputs
         if (outputList && outputList.size() > 0) {
-            return activitiesModel().outputs.grep { it.name in outputList }?.collectEntries { [(it.name): getOutputDataModel(it.template)] }
+            return activitiesModel().outputs.grep { it.name in outputList }?.collectEntries {
+                [(it.name): getOutputDataModel(it.template)]
+            }
         }
         return null
     }
