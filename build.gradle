@@ -17,7 +17,8 @@ buildscript {
 }
 
 plugins {
- //  id "com.gorylenko.gradle-git.properties" version '1.4.17'
+//   id "com.gorylenko.gradle-git.properties" version '1.4.17'
+    id "com.gorylenko.gradle-git-properties" version "2.0.0"
 }
 
 version "2.0-SNAPSHOT"
@@ -151,11 +152,22 @@ dependencies {
     testCompile "org.grails:grails-test-mixins:3.3.0"
 }
 
+springBoot {
+    buildInfo()
+    layout = WAR
+}
+
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always', '-Xmx8000m')
     addResources = true
-    String springProfilesActive = 'spring.profiles.active'
-    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+    System.properties.each { k,v->
+        if(!systemProperties[k]) {
+            systemProperties[k] = v
+            println "$k = $v"
+        }
+    }
+  //  String springProfilesActive = 'spring.profiles.active'
+  //  systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
 
 
