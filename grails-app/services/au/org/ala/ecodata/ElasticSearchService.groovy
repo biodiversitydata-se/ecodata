@@ -203,6 +203,7 @@ class ElasticSearchService {
 
         // Remove the mongo id if it exists.
         doc.remove("_id")
+        doc.remove("id")
 
         // hand-coded copy fields with different analysers
         doc.docType = getDocType(doc)
