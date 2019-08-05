@@ -47,8 +47,8 @@ class DocumentService {
         if (document?.type == Document.DOCUMENT_TYPE_IMAGE) {
             mapOfProperties.thumbnailUrl = document.thumbnailUrl
         }
-        //mapOfProperties.findAll {k,v -> v != null}
-        GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties.findAll {k,v -> v != null}
+        //GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def get(id, levelOfDetail = []) {

@@ -528,7 +528,8 @@ if (!ala.baseURL) {
     ala.baseURL = "https://www.ala.org.au"
 }
 if (!collectory.baseURL) {
-    collectory.baseURL = "https://collectory-dev.ala.org.au/"
+    //collectory.baseURL = "https://collectory-dev.ala.org.au/"
+    collectory.baseURL = "https://collections-test.ala.org.au/"
     collectory.dataProviderUid.merit = 'dp245'
     collectory.dataProviderUid.biocollect = 'dp244'
     collectory.collectoryIntegrationEnabled = false

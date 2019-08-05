@@ -1,11 +1,12 @@
 package au.org.ala.ecodata
 
+import grails.testing.mixin.integration.Integration
 import spock.lang.Specification
 
 import static au.org.ala.ecodata.Status.ACTIVE
 import static au.org.ala.ecodata.Status.DELETED
 
-
+@Integration
 class ProjectActivityServiceIntegrationSpec extends Specification {
     ProjectActivityService projectActivityService
 
@@ -22,7 +23,9 @@ class ProjectActivityServiceIntegrationSpec extends Specification {
         ProjectActivity activity = createHierarchy()
 
         when:
-        projectActivityService.delete(activity.projectActivityId, false)
+        ProjectActivity.withTransaction {
+            projectActivityService.delete(activity.projectActivityId, false)
+        }
 
         then:
         Project.count() == 1
@@ -42,7 +45,9 @@ class ProjectActivityServiceIntegrationSpec extends Specification {
         ProjectActivity activity = createHierarchy()
 
         when:
-        projectActivityService.delete(activity.projectActivityId, true)
+        ProjectActivity.withTransaction {
+            projectActivityService.delete(activity.projectActivityId, true)
+        }
 
         then:
         Project.count() == 1

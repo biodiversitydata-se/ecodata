@@ -13,6 +13,7 @@ class OutputService {
     MetadataService metadataService
     RecordService recordService
     UserService userService
+    CommonService commonService
     DocumentService documentService
     CommentService commentService
     ActivityService activityService
@@ -20,9 +21,9 @@ class OutputService {
     static final ACTIVE = "active"
     static final SCORES = 'scores'
 
-    def getCommonService() {
+  /*  def getCommonService() {
         grailsApplication.mainContext.commonService
-    }
+    }*/
 
     def get(id, levelOfDetail = ['all']) {
         def o = Output.findByOutputId(id)
@@ -114,8 +115,8 @@ class OutputService {
             mapOfProperties.scores = scores
             mapOfProperties.remove 'data'
         }
-        //mapOfProperties.findAll { k, v -> v != null }
-        GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties.findAll { k, v -> v != null }
+        //GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     /**
@@ -142,7 +143,7 @@ class OutputService {
     }
 
     def create(Map props) {
-        assert getCommonService()
+     //   assert getCommonService()
         Activity activity = Activity.findByActivityId(props.activityId)
         if (activity) {
             Output output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''))
@@ -155,7 +156,7 @@ class OutputService {
 
 
                 createOrUpdateRecordsForOutput(activity, output, props)
-                getCommonService().updateProperties(output, props)
+                commonService.updateProperties(output, props)
 
                 return [status: 'ok', outputId: output.outputId]
             } catch (Exception e) {
@@ -224,12 +225,12 @@ class OutputService {
                 props.data = saveImages(props.data, props.name, output.outputId, activity.activityId)
                 props.data = saveAudio(props.data, props.name, output.outputId, activity.activityId)
 
-                getCommonService().updateProperties(output, props)
+                commonService.updateProperties(output, props)
 
                 List statusUpdate = recordService.updateRecordStatusByOutput(outputId, Status.DELETED)
                 if (!statusUpdate) {
                     createOrUpdateRecordsForOutput(activity, output, props)
-                    getCommonService().updateProperties(output, props)
+                    commonService.updateProperties(output, props)
                     result = [status: 'ok']
                 } else {
                     result = [status: 'error', error: "Error updating the record status"]

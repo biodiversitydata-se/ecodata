@@ -81,7 +81,7 @@ class OrganisationService {
             }
             catch (Exception e) {
                 // We don't want this to prevent the organisation from being created.
-                String message = "Failed to establish collectory link for organisation ${organisation.name}"
+                String message = "Failed to establish collectory link for organisation ${organisationProperties.name}"
                 log.error(message, e)
                 emailService.sendEmail(message, "Error: ${e.message}", [grailsApplication.config.ecodata.support.email.address])
             }
@@ -95,7 +95,7 @@ class OrganisationService {
         if (organisation) {
             try {
                 String oldName = organisation.name
-                getCommonService().updateProperties(organisation, props)
+                commonService.updateProperties(organisation, props)
                 if (props.name && (oldName != props.name)) {
                     projectService.updateOrganisationName(organisation.organisationId, props.name)
                 }
@@ -159,8 +159,8 @@ class OrganisationService {
 
         }
 
-       // mapOfProperties.findAll {k,v -> v != null}
-        GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties.findAll {k,v -> v != null}
+       // GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     /**

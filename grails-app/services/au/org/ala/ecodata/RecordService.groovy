@@ -649,8 +649,8 @@ class RecordService {
         //def mapOfProperties = dbo.toMap()
         mapOfProperties.recordNumber = record.getRecordNumber(grailsApplication.config.getProperty('biocollect.activity.sightingsUrl')) //record.recordNumber
         mapOfProperties.remove("_id")
-        GormMongoUtil.deepPrune(mapOfProperties)
-        //mapOfProperties as Record
+        //GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties as Record
     }
 
     /**

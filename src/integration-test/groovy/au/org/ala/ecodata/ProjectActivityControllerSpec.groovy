@@ -2,13 +2,29 @@ package au.org.ala.ecodata
 
 import com.mongodb.BasicDBObject
 import grails.converters.JSON
+import grails.testing.mixin.integration.Integration
+import groovy.json.JsonSlurper
 import spock.lang.Specification
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.context.WebApplicationContext
+import grails.util.GrailsWebMockUtil
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletResponse
 
-
+@Integration
 class ProjectActivityControllerSpec extends Specification {
-    def projectActivityController = new ProjectActivityController()
+
+    @Autowired
+    ProjectActivityController projectActivityController
+
+    @Autowired
+    WebApplicationContext ctx
+   // def projectActivityController = new ProjectActivityController()
 
     def setup() {
+        GrailsMockHttpServletRequest grailsMockHttpServletRequest = new GrailsMockHttpServletRequest()
+        GrailsMockHttpServletResponse grailsMockHttpServletResponse = new GrailsMockHttpServletResponse()
+        GrailsWebMockUtil.bindMockWebRequest(ctx, grailsMockHttpServletRequest, grailsMockHttpServletResponse)
     }
 
     def cleanup() {
@@ -40,7 +56,8 @@ class ProjectActivityControllerSpec extends Specification {
         projectActivityController.request.method = 'POST'
 
         when: "creating a project"
-        def resp = projectActivityController.update('') // Empty or null ID triggers a create
+        projectActivityController.update('') // Empty or null ID triggers a create
+        def resp = extractJson (projectActivityController.response.text)
 
         then: "ensure we get a response including a projectActivityId"
         def projectActivityId = resp.projectActivityId
@@ -51,7 +68,14 @@ class ProjectActivityControllerSpec extends Specification {
         when: "retrieving the new projectActivity"
         projectActivityController.response.reset()
         def savedProjectActivity = []
-        savedProjectActivity.addAll(projectActivityController.getAllByProject(projectActivity.projectId)?.list) // To support JSONP the controller returns a model object, which is transformed to JSON via a filter.
+        def project
+        ProjectActivity.withTransaction {
+            projectActivityController.getAllByProject(projectActivity.projectId)
+        }
+        project = extractJson(projectActivityController.response.text)
+        savedProjectActivity.addAll(project?.list)
+            // To support JSONP the controller returns a model object, which is transformed to JSON via a filter.
+
 
         then: "ensure the properties are the same as the original"
         savedProjectActivity?.size() > 0
@@ -64,4 +88,12 @@ class ProjectActivityControllerSpec extends Specification {
         savedProjectActivity[0].dynamicProperty == projectActivity.dynamicProperty
         savedProjectActivity[0].publicAccess == projectActivity.publicAccess
     }
+
+    def extractJson (String str) {
+        if(str.indexOf('{') > -1 && str.indexOf('}') > -1) {
+            String jsonStr = str.substring(str.indexOf('{'), str.lastIndexOf('}') + 1)
+            new JsonSlurper().parseText(jsonStr)
+        }
+    }
+
 }

@@ -2,7 +2,7 @@ package au.org.ala.ecodata
 
 import grails.testing.mixin.integration.Integration
 import org.grails.datastore.mapping.engine.event.PostInsertEvent
-
+import org.springframework.beans.factory.annotation.Autowired
 
 
 /**
@@ -12,6 +12,7 @@ import org.grails.datastore.mapping.engine.event.PostInsertEvent
 class AuditServiceSpec extends IntegrationTestHelper {
 
     def auditService
+    //@Autowired
     def grailsApplication
     def userService // The original user service
     def userServiceStub = Stub(UserService) // A stub we are using to help test.
@@ -36,11 +37,16 @@ class AuditServiceSpec extends IntegrationTestHelper {
         userServiceStub.getCurrentUserDetails() >> {[userId:userId]}
 
         when: "a new project is created"
-        auditService.logGormEvent(event)
-        auditService.flushMessageQueue()
+        AuditMessage.withTransaction {
+            auditService.logGormEvent(event)
+            auditService.flushMessageQueue()
+        }
 
         then: "the details of the create operation should be audited correctly"
-        def auditMessage = AuditMessage.findByProjectId(project.projectId)
+        def auditMessage
+        AuditMessage.withTransaction {
+            auditMessage = AuditMessage.findByProjectId(project.projectId)
+        }
         auditMessage != null
         auditMessage.eventType == AuditEventType.Insert
         auditMessage.entityType == Project.class.name
@@ -48,6 +54,7 @@ class AuditServiceSpec extends IntegrationTestHelper {
         auditMessage.date != null
         auditMessage.entity.projectId == project.projectId
         auditMessage.entity.name == project.name
+
     }
 
     def "Audit messages without a user should be logged with an anonymous userId"() {
@@ -57,11 +64,16 @@ class AuditServiceSpec extends IntegrationTestHelper {
         def event = new PostInsertEvent(datastore, project)
 
         when: "a new project is created without the user being identifiable"
-        auditService.logGormEvent(event)
-        auditService.flushMessageQueue()
+        AuditMessage.withTransaction {
+            auditService.logGormEvent(event)
+            auditService.flushMessageQueue()
+        }
 
         then: "the event should be audited against an anonymous userId"
-        def auditMessage = AuditMessage.findByProjectId(project.projectId)
+        def auditMessage
+        AuditMessage.withTransaction {
+            auditMessage = AuditMessage.findByProjectId(project.projectId)
+        }
         auditMessage != null
         auditMessage.eventType == AuditEventType.Insert
         auditMessage.entityType == Project.class.name
@@ -69,6 +81,7 @@ class AuditServiceSpec extends IntegrationTestHelper {
         auditMessage.date != null
         auditMessage.entity.projectId == project.projectId
         auditMessage.entity.name == project.name
+
     }
 
     def "Project permission changes should be audited against the correct project"() {
@@ -81,11 +94,16 @@ class AuditServiceSpec extends IntegrationTestHelper {
         userServiceStub.getCurrentUserDetails() >> {[userId:operatingUser]}
 
         when:
-        auditService.logGormEvent(event)
-        auditService.flushMessageQueue()
+        AuditMessage.withTransaction {
+            auditService.logGormEvent(event)
+            auditService.flushMessageQueue()
+        }
 
         then:
-        def auditMessage = AuditMessage.findByProjectId(projectId)
+        def auditMessage
+        AuditMessage.withTransaction {
+            auditMessage = AuditMessage.findByProjectId(projectId)
+        }
         auditMessage != null
         auditMessage.eventType == AuditEventType.Insert
         auditMessage.entityType == UserPermission.class.name
@@ -95,6 +113,7 @@ class AuditServiceSpec extends IntegrationTestHelper {
         auditMessage.entity.userId == userToAddToProject
         auditMessage.entity.accessLevel == AccessLevel.admin.name()
         auditMessage.entity.entityId == projectId
+
     }
 
 

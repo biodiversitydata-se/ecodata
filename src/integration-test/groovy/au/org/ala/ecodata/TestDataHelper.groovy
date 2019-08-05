@@ -16,13 +16,17 @@ class TestDataHelper {
     /** Builds an Organisation without a organisationId */
     static Organisation buildNewOrganisation(Map props = [:]) {
 
-        Map mandatoryProps = [name:"Organisation ${organisationCount}"]
+        //props as JSON
+        def org = new Organisation (props)
+        org['dynamicProperty'] = 'dynamicProperty'
+        org
+     //   Map mandatoryProps = [name:"Organisation ${organisationCount}"]
 
-        // Allow properties to be overridden
-        mandatoryProps.putAll(props)
-        organisationCount++
+    //    // Allow properties to be overridden
+     //   mandatoryProps.putAll(props)
+     //   organisationCount++
 
-        return new Organisation(mandatoryProps)
+     //   return new Organisation(mandatoryProps)
     }
 
     static projectCount = 1

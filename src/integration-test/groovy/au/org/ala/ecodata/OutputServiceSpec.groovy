@@ -1,9 +1,11 @@
 package au.org.ala.ecodata
 
+import grails.testing.mixin.integration.Integration
 import spock.lang.Specification
 
 import static au.org.ala.ecodata.Status.DELETED
 
+@Integration
 class OutputServiceSpec extends Specification {
 
     OutputService outputService
@@ -37,14 +39,20 @@ class OutputServiceSpec extends Specification {
         activity.save(flush: true, failOnError: true)
 
         when:
-        def response = outputService.create(activityId: activityId, data: [prop2: 'prop2'])
+        def response
+        Output.withTransaction {
+            response = outputService.create(activityId: activityId, data: [prop2: 'prop2'])
+        }
         def outputId = response.outputId
         then:
         outputId != null
         response.status == 'ok'
 
         when: "retrieving the saved output"
-        Output savedOutput = Output.findByOutputId(outputId)
+        Output savedOutput
+        Output.withTransaction {
+            savedOutput = Output.findByOutputId(outputId)
+        }
 
         then:
         savedOutput.outputId == outputId
@@ -544,7 +552,9 @@ class OutputServiceSpec extends Specification {
         Output output = createHierarchy()
 
         when:
-        outputService.delete(output.outputId, true)
+        Output.withTransaction {
+            outputService.delete(output.outputId, true)
+        }
 
         then:
         Document.count() == 0

@@ -129,6 +129,7 @@ class ElasticSearchService {
         }
 
         addCustomFields(docMap)
+        //def docJson = groovy.json.JsonOutput.toJson(docMap)
         def docJson = docMap as JSON
 
         try {
@@ -136,7 +137,7 @@ class ElasticSearchService {
             builder.setSource(docJson.toString(false)).execute().actionGet()
 
         } catch (Exception e) {
-            log.error "Error indexing document: ${docJson.toString(true)}\nError: ${e}", e
+            log.error "Error indexing document: ${docJson.toString(true)}\nError: ${e}", e.toString()
            // throw e
 /*            String subject = "Indexing failed on server ${grailsApplication.config.grails.serverURL}"
             String body = "Type: "+getDocType(doc)+"\n"
@@ -270,7 +271,7 @@ class ElasticSearchService {
     def addMappings(index) {
         Map parsedJson = getMapping()
 
-        def mappingsDoc = (parsedJson as JSON).toString()
+        def mappingsDoc = (parsedJson as JSON).toString() //groovy.json.JsonOutput.toJson(parsedJson).toString() //(parsedJson as JSON).toString()
 
         def indexes = (index) ? [index] : [DEFAULT_INDEX, HOMEPAGE_INDEX, PROJECT_ACTIVITY_INDEX]
         indexes.each {
@@ -679,6 +680,7 @@ class ElasticSearchService {
 
         // homepage index (doing some manual batching due to memory constraints)
         log.info "Indexing all MERIT and NON-MERIT projects in generic HOMEPAGE index"
+
         Project.withNewSession {
             def batchParams = [offset: 0, max: 50, limit: 200]
             def projects = Project.findAllByStatusInList([ACTIVE, COMPLETED], batchParams)
@@ -693,9 +695,9 @@ class ElasticSearchService {
                         log.error("Unable to index project:  " + project?.projectId, e)
                     }
                 }
-
                 batchParams.offset = batchParams.offset + batchParams.max
                 projects = Project.findAllByStatusInList([ACTIVE, COMPLETED], batchParams)
+
             }
         }
 
@@ -714,7 +716,7 @@ class ElasticSearchService {
                 count++
                 if (count % 1000 == 0) {
                     session.clear()
-                    log.debug("Indexed "+count+" sites")
+                    log.info("Indexed "+count+" sites")
                 }
             }
         }
@@ -734,7 +736,7 @@ class ElasticSearchService {
                 count++
                 if (count % 1000 == 0) {
                     session.clear()
-                    log.debug("Indexed " + count + " activities")
+                    log.info("Indexed " + count + " activities")
                 }
             }
         }

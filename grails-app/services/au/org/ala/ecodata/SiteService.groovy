@@ -30,10 +30,10 @@ class SiteService {
     ProjectActivityService projectActivityService
     SpatialService spatialService
 
-    def getCommonService() {
+   /* def getCommonService() {
         grailsApplication.mainContext.commonService
     }
-
+*/
     /**
      * Returns all sites in the system in a list.
      * @param includeDeleted true if deleted sites should be returned.
@@ -140,11 +140,12 @@ class SiteService {
             }
         }
 
-       // mapOfProperties.findAll {k,v -> v != null}
+        mapOfProperties.findAll {k,v -> v != null}
 
        // mapOfProperties as Site
-        def validMap = GormMongoUtil.deepPrune(mapOfProperties)
-        return validMap
+  //      def validMap = GormMongoUtil.deepPrune(mapOfProperties)
+   //     return validMap
+//        return validMap
     }
 
     Map toGeoJson(Map site) {
@@ -181,7 +182,7 @@ class SiteService {
     }
 
     def create(props) {
-        assert getCommonService()
+      //  assert getCommonService()
         def site = new Site(siteId: Identifiers.getNew(true,''))
         try {
             site.save(failOnError: true)
@@ -235,7 +236,8 @@ class SiteService {
                         site = Site.findBySiteId(site.siteId)
                         addSpatialPortalPID(props, userId)
                         populateLocationMetadataForSite(props)
-                        getCommonService().updateProperties(site, props)
+                        //getCommonService().updateProperties(site, props)
+                        commonService.updateProperties(site, props)
                     }
                 }
             }
@@ -243,7 +245,8 @@ class SiteService {
                 populateLocationMetadataForSite(props)
             }
         }
-        getCommonService().updateProperties(site, props)
+        //getCommonService().updateProperties(site, props)
+        commonService.updateProperties(site, props)
     }
 
 

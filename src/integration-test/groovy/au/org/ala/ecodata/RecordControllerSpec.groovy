@@ -1,19 +1,38 @@
 package au.org.ala.ecodata
 
+import grails.testing.mixin.integration.Integration
+import groovy.json.JsonSlurper
 import org.apache.http.HttpStatus
 
 import static au.org.ala.ecodata.Status.*
 import spock.lang.Specification
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.context.WebApplicationContext
+import grails.util.GrailsWebMockUtil
+import org.grails.plugins.testing.GrailsMockHttpServletRequest
+import org.grails.plugins.testing.GrailsMockHttpServletResponse
 
+@Integration
 class RecordControllerSpec extends Specification {
 
-    RecordController recordController = new RecordController()
+    @Autowired
+    RecordController recordController
+
+    @Autowired
+    WebApplicationContext ctx
+
+    //RecordController recordController = new RecordController()
     PermissionService permissionService
     UserService userService
 
     def grailsApplication
 
     def setup() {
+
+        GrailsMockHttpServletRequest grailsMockHttpServletRequest = new GrailsMockHttpServletRequest()
+        GrailsMockHttpServletResponse grailsMockHttpServletResponse = new GrailsMockHttpServletResponse()
+        GrailsWebMockUtil.bindMockWebRequest(ctx, grailsMockHttpServletRequest, grailsMockHttpServletResponse)
+
         userService = Mock(UserService)
         recordController.userService = userService
         userService.getCurrentUserDetails() >> [:]
@@ -37,7 +56,9 @@ class RecordControllerSpec extends Specification {
         when:
         recordController.params.userId = "user1"
         recordController.params.id = "1234"
-        recordController.get()
+        Record.withTransaction {
+            recordController.get()
+        }
 
         then:
         recordController.response.status == HttpStatus.SC_UNAUTHORIZED
@@ -52,7 +73,9 @@ class RecordControllerSpec extends Specification {
 
         when:
         recordController.params.id = "1234"
-        recordController.get()
+        Record.withTransaction {
+            recordController.get()
+        }
 
         then:
         recordController.response.status == HttpStatus.SC_UNAUTHORIZED
@@ -70,11 +93,14 @@ class RecordControllerSpec extends Specification {
         when:
         recordController.params.userId = "user1"
         recordController.params.id = "1234"
-        recordController.get()
+        Record.withTransaction {
+            recordController.get()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
         recordController.response.status == HttpStatus.SC_OK
-        recordController.response.json.occurrenceID == "1234"
+        resp.occurrenceID == "1234"
     }
 
     def "get should return the record if a user is requesting an embargoed record for a project they submitted, even if they are not a project admin or editor"() {
@@ -90,11 +116,14 @@ class RecordControllerSpec extends Specification {
         when:
         recordController.params.userId = "user1"
         recordController.params.id = "1234"
-        recordController.get()
+        Record.withTransaction {
+            recordController.get()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
         recordController.response.status == HttpStatus.SC_OK
-        recordController.response.json.occurrenceID == "1234"
+        resp.occurrenceID == "1234"
     }
 
     def "get should return the record if the user is an ALA Admin"() {
@@ -108,11 +137,14 @@ class RecordControllerSpec extends Specification {
         when:
         recordController.params.userId = "user1"
         recordController.params.id = "1234"
-        recordController.get()
+        Record.withTransaction {
+            recordController.get()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
         recordController.response.status == HttpStatus.SC_OK
-        recordController.response.json.occurrenceID == "1234"
+        resp.occurrenceID == "1234"
     }
 
     def "count should not include DELETED records"() {
@@ -124,10 +156,13 @@ class RecordControllerSpec extends Specification {
         new Record(userId: "id3", status: DELETED).save(flush: true, failOnError: true)
 
         when:
-        recordController.count()
+        Record.withTransaction {
+            recordController.count()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
-        recordController.response.json.count == 3
+        resp.count == 3
     }
 
     def "list should not include DELETED records"() {
@@ -139,10 +174,13 @@ class RecordControllerSpec extends Specification {
         new Record(userId: "id3", status: DELETED).save(flush: true, failOnError: true)
 
         when:
-        recordController.list()
+        Record.withTransaction {
+            recordController.list()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
-        recordController.response.json.total == 3
+        resp.total == 3
     }
 
     def "list should not include embargoed records unless the embargo date has passed when there is no userid"() {
@@ -158,11 +196,14 @@ class RecordControllerSpec extends Specification {
         new Record(projectId: "project1", status: ACTIVE, userId: "123", projectActivityId: createProjectActivity("pa4", "project1", future.getTime())).save(flush: true, failOnError: true)
 
         when: "the list is requested without a specific user id"
-        recordController.list()
+        Record.withTransaction {
+            recordController.list()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "only the records with a future or null embargo date should be returned"
-        recordController.response.json.total == 3
-        recordController.response.json.list[0] != null
+        resp.total == 3
+        resp.list[0] != null
     }
 
     def "list should include embargoed records when there is a userid and the record belongs to a project where the user is a member"() {
@@ -182,11 +223,14 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.list()
+        Record.withTransaction {
+            recordController.list()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "all records belonging to project(s) where the user is a member should be returned, even if it has a future embargo date"
-        recordController.response.json.total == 2
-        recordController.response.json.list[0].size() > 0
+        resp.total == 2
+        resp.list[0].size() > 0
     }
 
     def "list should include embargoed records when there is a userid and the user is an ALA Admin"() {
@@ -207,11 +251,14 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.list()
+        Record.withTransaction {
+            recordController.list()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "all records should be returned, even if it has a future embargo date"
-        recordController.response.json.total == 5
-        recordController.response.json.list[0].size() > 0
+        resp.total == 5
+        resp.list[0].size() > 0
     }
 
     def "listUncertainIdentifications should not include DELETED records"() {
@@ -227,10 +274,13 @@ class RecordControllerSpec extends Specification {
         record3.save(failOnError: true, flush: true)
 
         when:
-        recordController.listUncertainIdentifications()
+        Record.withTransaction {
+            recordController.listUncertainIdentifications()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then:
-        recordController.response.json.size() == 2
+        resp.size() == 2
     }
 
     def "listUncertainIdentifications should not include embargoed records unless the embargo date has passed when there is no userid"() {
@@ -254,10 +304,13 @@ class RecordControllerSpec extends Specification {
         record4.save(flush: true, failOnError: true)
 
         when: "the list is requested without a specific user id"
-        recordController.listUncertainIdentifications()
+        Record.withTransaction {
+            recordController.listUncertainIdentifications()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "only the records with a future or null embargo date should be returned"
-        recordController.response.json.size() == 3
+        resp.size() == 3
     }
 
     def "listUncertainIdentifications should include embargoed records when there is a userid and the record belongs to a project where the user is a member"() {
@@ -284,10 +337,13 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.listUncertainIdentifications()
+        Record.withTransaction {
+            recordController.listUncertainIdentifications()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "all records belonging to project(s) where the user is a member should be returned, even if it has a future embargo date"
-        recordController.response.json.size() == 2
+        resp.size() == 2
     }
 
     def "listUncertainIdentifications should include embargoed records when there is a userid and the user is an ALA Admin"() {
@@ -315,10 +371,13 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.listUncertainIdentifications()
+        Record.withTransaction {
+            recordController.listUncertainIdentifications()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "all records should be returned, even if it has a future embargo date"
-        recordController.response.json.size() == 4
+        resp.size() == 4
     }
 
     def "listRecordWithImages should not include DELETED records"() {
@@ -334,10 +393,13 @@ class RecordControllerSpec extends Specification {
         record3.save(failOnError: true, flush: true)
 
         when:
-        recordController.listRecordWithImages()
+        Record.withTransaction {
+            recordController.listRecordWithImages()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then:
-        recordController.response.json.size() == 2
+        resp.size() == 2
     }
 
     def "listRecordWithImages should not include embargoed records unless the embargo date has passed when there is no userid"() {
@@ -361,10 +423,13 @@ class RecordControllerSpec extends Specification {
         record4.save(flush: true, failOnError: true)
 
         when: "the list is requested without a specific user id"
-        recordController.listRecordWithImages()
+        Record.withTransaction {
+            recordController.listRecordWithImages()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "only the records with a future or null embargo date should be returned"
-        recordController.response.json.size() == 3
+        resp.size() == 3
     }
 
     def "listRecordWithImages should include embargoed records when there is a userid and the record belongs to a project where the user is a member"() {
@@ -391,10 +456,13 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.listRecordWithImages()
+        Record.withTransaction {
+            recordController.listRecordWithImages()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "all records belonging to project(s) where the user is a member should be returned, even if it has a future embargo date"
-        recordController.response.json.size() == 2
+        resp.size() == 2
     }
 
     def "listRecordWithImages should include embargoed records when there is a userid and the user is an ALA Admin"() {
@@ -422,10 +490,13 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested by a specific user "
         recordController.params.userId = "user1"
-        recordController.listRecordWithImages()
+        Record.withTransaction {
+            recordController.listRecordWithImages()
+        }
+        def resp = extractListStr(recordController.response.text)
 
         then: "all records belonging should be returned, even if it has a future embargo date"
-        recordController.response.json.size() == 4
+        resp.size() == 4
     }
 
     def "listForUser should not include DELETED records"() {
@@ -437,10 +508,13 @@ class RecordControllerSpec extends Specification {
 
         when:
         recordController.params.id = "id1"
-        recordController.listForUser()
+        Record.withTransaction {
+            recordController.listForUser()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
-        recordController.response.json.total == 2
+        resp.total == 2
     }
 
     def "listForProject should not include DELETED records"() {
@@ -452,10 +526,13 @@ class RecordControllerSpec extends Specification {
 
         when:
         recordController.params.id = "project1"
-        recordController.listForProject()
+        Record.withTransaction {
+            recordController.listForProject()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then:
-        recordController.response.json.total == 2
+        resp.total == 2
     }
 
     def "listForProject should not include embargoed records unless the embargo date has passed when there is no userid"() {
@@ -472,10 +549,13 @@ class RecordControllerSpec extends Specification {
 
         when: "the list is requested without a specific user id"
         recordController.params.id = "project1"
-        recordController.listForProject()
+        Record.withTransaction {
+            recordController.listForProject()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "only the records with a future or null embargo date should be returned"
-        recordController.response.json.total == 3
+        resp.total == 3
     }
 
     def "listForProject should include embargoed records when there is a userid and the user is a member of the parent project"() {
@@ -495,11 +575,14 @@ class RecordControllerSpec extends Specification {
         when: "the list is requested by a user who is a member of the project"
         recordController.params.id = "project1"
         recordController.params.userId = "user1"
-        recordController.listForProject()
+        Record.withTransaction {
+            recordController.listForProject()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "all records, including the one with the future embargo date, should be returned"
-        recordController.response.json.total == 4
-        recordController.response.json.list.size() > 0
+        resp.total == 4
+        resp.list.size() > 0
     }
 
     def "listForProject should include embargoed records when there is a userid and the user submitted the record"() {
@@ -518,11 +601,14 @@ class RecordControllerSpec extends Specification {
         when: "the list is requested by a user who is a member of the project"
         recordController.params.id = "project1"
         recordController.params.userId = "user1"
-        recordController.listForProject()
+        Record.withTransaction {
+            recordController.listForProject()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "all records, including the one with the future embargo date, should be returned"
-        recordController.response.json.total == 1
-        recordController.response.json.list.size() > 0
+        resp.total == 1
+        resp.list.size() > 0
     }
 
     def "listForProject should include embargoed records when there is a userid and the user is an ALA Admin"() {
@@ -542,11 +628,14 @@ class RecordControllerSpec extends Specification {
         when: "the list is requested by a user who is an ALA Admin"
         recordController.params.id = "project1"
         recordController.params.userId = "user1"
-        recordController.listForProject()
+        Record.withTransaction {
+            recordController.listForProject()
+        }
+        def resp = extractJson(recordController.response.text)
 
         then: "all records, including the one with the future embargo date, should be returned"
-        recordController.response.json.total == 4
-        recordController.response.json.list.size() > 0
+        resp.total == 4
+        resp.list.size() > 0
     }
 
     private static String createProjectActivity(String id, String projectId, Date embargoDate) {
@@ -560,5 +649,17 @@ class RecordControllerSpec extends Specification {
                 visibility: new VisibilityConstraint(embargoUntil: embargoDate)).save(failOnError: true, flush: true)
 
         pa.projectActivityId
+    }
+
+    private extractJson (String str) {
+        if(str.indexOf('{') > -1 && str.indexOf('}') > -1) {
+            String jsonStr = str.substring(str.indexOf('{'), str.lastIndexOf('}') + 1)
+            new JsonSlurper().parseText(jsonStr)
+        }
+    }
+
+    private List extractListStr (String str) {
+        return new JsonSlurper().parseText(str)
+
     }
 }

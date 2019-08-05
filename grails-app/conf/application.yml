@@ -167,63 +167,6 @@ security:
         authenticateOnlyIfLoggedInPattern:
         uriExclusionFilterPattern: '/images.*,/css.*,/js.*,/less.*'
 
-#environments:
-#    development:
-#        grails:
-#            config:
-#                locations:
-#                    - file:///data/ecodata/config/ecodata-config.properties
-#                    - file:///data/ecodata/config/ecodata-config.yml
-#                    - file:///data/ecodata/config/ecodata-config.groovy
-#                    - file:///data/ecodata/config/layers-config.groovy
-
-#elasticsearch:
-#    location: "/data/volunteer/elasticsearch"
-
-
-
-#environments:
-#    development:
-#        grails:
-#            serverURL: http://devt.ala.org.au:8080/digivol
-#            mail:
-#                disabled: true
-#                host: localhost
-#                port: 1025
-#                #overrideAddress: your.email@here.com
-#        server:
-#            url: http://devt.ala.org.au
-#            contextPath: /digivol
-#        security:
-#            cas:
-#                appServerName: http://devt.ala.org.au:8080
-#    test:
-#        grails:
-#            serverURL: http://volunteer-dev.ala.org.au
-#        server:
-#            url: http://volunteer-dev.ala.org.au
-#        security:
-#            cas:
-#                appServerName: http://volunteer-dev.ala.org.au
-#        images:
-#            home: /data/volunteer-portal
-#            urlPrefix: data/volunteer-portal/
-#        ala:
-#            image:
-#                service:
-#                    url: http://images.ala.org.au
-#    production:
-#        grails:
-#            serverURL: http://volunteer.ala.org.au
-#            mail:
-#                host: localhost
-#                port: 25
-#        server:
-#            url: http://volunteer.ala.org.au
-#        security:
-#            cas:
-#                appServerName: http://volunteer.ala.org.au
-
 #Fix grails taglib <g:paginate/> to work with bootstrap css.
 grails:
     plugins:
@@ -254,10 +197,7 @@ environments:
 
 grails:
     mongodb:
-        engine: mapping
+        codecs: au.org.ala.ecodata.customcodec.AccessLevelCodec
+        engine: codec
 
-#grails:
-#    hibernate:
-#        cache:
-#            queries: false
 

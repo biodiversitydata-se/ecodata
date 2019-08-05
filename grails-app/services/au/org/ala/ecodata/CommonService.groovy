@@ -90,8 +90,8 @@ class CommonService {
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
-       // mapOfProperties.findAll {k,v -> v != null && v != ""}
-        GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties.findAll {k,v -> v != null && v != ""}
+       // GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def checkApiKey(key) {

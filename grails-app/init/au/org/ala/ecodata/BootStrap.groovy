@@ -1,3 +1,5 @@
+package au.org.ala.ecodata
+
 import au.org.ala.ecodata.AccessLevel
 import au.org.ala.ecodata.AuditEventType
 import au.org.ala.ecodata.GormEventListener
@@ -12,6 +14,7 @@ import org.bson.types.ObjectId
 import grails.core.ApplicationAttributes
 import org.grails.web.json.JSONObject
 import org.grails.datastore.mapping.core.Datastore
+import org.springframework.web.context.WebApplicationContext
 
 import javax.imageio.ImageIO
 
@@ -23,8 +26,10 @@ class BootStrap {
     def hubService
 
     def init = { servletContext ->
+
         // Add custom GORM event listener for ES indexing
-        def ctx = servletContext.getAttribute(ApplicationAttributes.APPLICATION_CONTEXT)
+       // def ctx = servletContext.getAttribute(ApplicationAttributes.APPLICATION_CONTEXT)
+        def ctx = servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)
         ctx.getBeansOfType(Datastore).values().each { Datastore d ->
             log.info "Adding listener for datastore: ${d}"
             ctx.addApplicationListener new GormEventListener(d, elasticSearchService, auditService)
@@ -36,6 +41,7 @@ class BootStrap {
             elasticSearchService.indexAll()
         }
 
+  /*
         // Allow groovy JSONObject$NULL to be saved (as null) to mongodb
         BSON.addEncodingHook(JSONObject.NULL.class, new Transformer() {
             public Object transform(Object o) {
@@ -49,7 +55,7 @@ class BootStrap {
             Object transform(Object o) {
                 return o?o.toString():null
             }
-        })
+        }) */
 
         /**
          * Custom JSON serializer for {@link AccessLevel} enum
@@ -74,7 +80,7 @@ class BootStrap {
             return eventType.toString()
         }
 
-        JSON.registerObjectMarshaller(JSONNull, {return ""})
+      //  JSON.registerObjectMarshaller(JSONNull, {return ""})
 
         // Setup the default ALA hub if necessary as BioCollect won't load without it.
         Hub alaHub = Hub.findByUrlPath('ala')
