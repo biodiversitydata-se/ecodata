@@ -34,7 +34,10 @@ class ActivityServiceIntegrationSpec extends Specification {
         //activityController.request.json = (activity as JSON).toString()
 
         when: "creating the activity"
-        def response = activityService.create(activity)
+        def response
+        Activity.withTransaction {
+            response = activityService.create(activity)
+        }
         //message = [message: 'created', activityId: result.activityId]
         //activityController.update('')
         // def response = extractJson(activityController.response.text)
