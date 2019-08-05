@@ -92,7 +92,8 @@ class ActivityService {
 
        // collection.setDBDecoderFactory
         BasicDBObject query = new BasicDBObject('status', ACTIVE)
-       // query.append('activityId', 'b97f76f1-3918-41b1-868d-1d419cc6b9d6')
+     //   query.append("activityId", "19b0b4db-5b74-4907-b14b-dccc3bac0f07")
+        //query.append('activityId', 'd6d2f4b6-1479-4647-ac94-e48d91651b6b')
         //Activity.setMapping()
         def results = collection.find(query).batchSize(100)
 
@@ -252,8 +253,8 @@ class ActivityService {
             }
         }
 
-       // mapOfProperties.findAll {k,v -> v != null}
-        GormMongoUtil.deepPrune(mapOfProperties)
+        mapOfProperties.findAll {k,v -> v != null}
+       // GormMongoUtil.deepPrune(mapOfProperties)
     }
 
     def loadAll(list) {
@@ -274,6 +275,7 @@ class ActivityService {
         Activity activity = new Activity(siteId: props.siteId, activityId: Identifiers.getNew(true, ''))
         try {
             activity.save(failOnError: true)
+            //activity.save(failOnError: true, flush:true)
 
             props.remove('id')
             props.remove('activityId')
