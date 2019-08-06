@@ -30,6 +30,7 @@ class ProjectService {
     SiteService siteService
     DocumentService documentService
     MetadataService metadataService
+    CommonService commonService
     ReportService reportService
     ActivityService activityService
     ProjectActivityService projectActivityService
@@ -40,9 +41,9 @@ class ProjectService {
     ReportingService reportingService
     OrganisationService organisationService
 
-    def getCommonService() {
+  /*  def getCommonService() {
         grailsApplication.mainContext.commonService
-    }
+    }*/
 
     def getBrief(listOfIds, version = null) {
         if (listOfIds) {
@@ -132,7 +133,8 @@ class ProjectService {
     Map toMap(project, levelOfDetail = [], includeDeletedActivities = false, version = null) {
         Map result
 
-        Map mapOfProperties = project instanceof Project ? project.getProperty("dbo").toMap() : project
+        Map mapOfProperties = project instanceof Project ? GormMongoUtil.extractDboProperties(project.getProperty("dbo")) : project //[*:GormMongoUtil.extractDboProperties(project.getProperty("dbo"))] : project
+
         if(levelOfDetail instanceof  List){
             levelOfDetail = levelOfDetail[0]
         }
@@ -206,6 +208,7 @@ class ProjectService {
             }
 
             result = mapOfProperties.findAll { k, v -> v != null }
+            //result = GormMongoUtil.deepPrune(mapOfProperties)
 
             // look up current associated organisation details
             result.associatedOrgs?.each {
@@ -230,8 +233,8 @@ class ProjectService {
      * @return map of properties
      */
     def toRichMap(prj) {
-        def dbo = prj.getProperty("dbo")
-        def mapOfProperties = dbo.toMap()
+        def mapOfProperties = prj.getProperty("dbo")
+        //def mapOfProperties = dbo.toMap()
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties["status"] = mapOfProperties["status"]?.capitalize();
@@ -249,7 +252,7 @@ class ProjectService {
     }
 
     def create(props, boolean collectoryLink = true, boolean overrideUpdateDate = false) {
-        assert getCommonService()
+      //  assert getCommonService()
         try {
             if (props.projectId && Project.findByProjectId(props.projectId)) {
                 // clear session to avoid exception when GORM tries to autoflush the changes
@@ -270,7 +273,7 @@ class ProjectService {
                 establishCollectoryLinkForProject(project, props)
             }
 
-            getCommonService().updateProperties(project, props, overrideUpdateDate)
+            commonService.updateProperties(project, props, overrideUpdateDate)
             return [status: 'ok', projectId: project.projectId]
         } catch (Exception e) {
             // clear session to avoid exception when GORM tries to autoflush the changes
@@ -312,7 +315,7 @@ class ProjectService {
                 collectoryProps << collectoryService.createDataResource(props)
 
                 Project.withSession {
-                    getCommonService().updateProperties(project, collectoryProps)
+                    commonService.updateProperties(project, collectoryProps)
                 }
             }.onComplete {
                 log.info("Collectory link established for project ${project.name} (id = ${project.projectId})")
@@ -351,7 +354,7 @@ class ProjectService {
         if (project) {
             props = prepareProject(props)
             try {
-                getCommonService().updateProperties(project, props)
+                commonService.updateProperties(project, props)
                 updateCollectoryLinkForProject(project, props)
                 return [status: 'ok']
             } catch (Exception e) {
@@ -701,7 +704,7 @@ class ProjectService {
         String imageUrl = transformedProp.remove('image')
         String attribution = transformedProp.remove('attribution')
         String projectId = project.projectId
-        getCommonService().updateProperties(project, transformedProp, true)
+        commonService.updateProperties(project, transformedProp, true)
         updateSciStarterLogo(imageUrl, attribution, projectId)
     }
 
@@ -776,7 +779,7 @@ class ProjectService {
     Map updateSciStarterLogo(String imageUrl, String attribution, String projectId) {
         Document doc = Document.findByProjectIdAndIsPrimaryProjectImageAndRole(projectId, true, "logo")
         if (doc) {
-            getCommonService().updateProperties(doc, [
+            commonService.updateProperties(doc, [
                     "externalUrl"                         : imageUrl,
                     "attribution"                         : attribution
             ])
