@@ -1,192 +1,169 @@
 package au.org.ala.ecodata
 
+import grails.converters.JSON
+import grails.testing.gorm.DomainUnitTest
 import grails.testing.services.ServiceUnitTest
-import grails.web.servlet.mvc.GrailsParameterMap
+import grails.testing.web.controllers.ControllerUnitTest
+import org.grails.web.converters.marshaller.json.CollectionMarshaller
+import org.grails.web.converters.marshaller.json.MapMarshaller
+
+/*import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
+import grails.test.mixin.TestMixin
+import grails.test.mixin.web.ControllerUnitTestMixin*/
+import org.junit.Before
 import spock.lang.Specification
 
-import javax.servlet.http.HttpServletRequest
 /**
- * Created by sat01a on 24/11/15.
+ * Tests the ElasticSearchService
  */
-class ElasticSearchServiceSpec extends Specification implements ServiceUnitTest<ElasticSearchService> {
-    PermissionService permissionService = Stub(PermissionService)
-    ProgramService programService = Stub(ProgramService)
+/*@TestFor(ElasticSearchService)
+@TestMixin(ControllerUnitTestMixin) // Used to register JSON converters.
+@Mock(ActivityForm)*/
+class ElasticSearchServiceSpec extends Specification implements ServiceUnitTest<ElasticSearchService>, DomainUnitTest<ActivityForm> {
 
-    def setup() {
-        service.permissionService = permissionService
-        service.programService = programService
+    private static final String PROGRAM_1 = "Program1"
+    private static final String SUB_PROGRAM_1 = "SubProgram1"
+
+    private static final String PROGRAM_2 = "Program2"
+    private static final String SUB_PROGRAM_2 = "SubProgram2"
+    private static final String SUB_PROGRAM_3 = "SubProgram3"
+
+    private static final String THEME1 = "Theme1"
+    private static final String THEME2 = "Theme2"
+
+    private static final String INDEX_NAME = "test"
+
+
+    private int activityId = 0
+    private int projectId = 0
+    private int siteId = 0
+
+
+   // @Before
+    void setup() {
+
+        JSON.registerObjectMarshaller(new MapMarshaller())
+        JSON.registerObjectMarshaller(new CollectionMarshaller())
+
+        CacheService cacheService = new CacheService()
+        MetadataService metadataService = new MetadataService()
+        metadataService.cacheService = cacheService
+        service.cacheService = cacheService
+        service.metadataService = metadataService
+        grailsApplication.config.app.facets.geographic.contextual.state='cl927'
+        service.initialize()
+        service.deleteIndex("search") // The elastic search service relies on the search index, this actually forces it to be created.
+        service.deleteIndex(INDEX_NAME) // this actually deletes and recreates the index.
+
+        def project1 = createProject(PROGRAM_1, SUB_PROGRAM_1)
+        def project2 = createProject(PROGRAM_2, SUB_PROGRAM_2)
+        def project3 = createProject(PROGRAM_2, SUB_PROGRAM_3)
+        [project1, project2, project3].each {
+            service.indexDoc(it, INDEX_NAME)
+        }
+
+        def site1 = createSite("NSW", "NRM1")
+        def site2 = createSite("NSW", "NRM2")
+        def site3 = createSite("ACT", "NRM3")
+        def site4 = createSite("WA", "NRM4")
+        def site5 = createSite("QLD", "NRM5")
+        def site6 = createSite("VIC", "NRM6")
+
+        def activity1 = createActivity(project1, site1, null, null, THEME1)
+        def activity2 = createActivity(project2, site2, null, null, THEME1)
+        def activity3 = createActivity(project1, site2, null, null, THEME2)
+
+        def activity4 = createActivity(project1, site3, null, null, THEME1)
+
+
+        def activity5 = createActivity(project2, site4, null, null, THEME1)
+        def activity6 = createActivity(project3, site4, null, null, THEME1)
+        def activity7 = createActivity(project3, site4, null, null, THEME1)
+        def activity8 = createActivity(project3, site5, null, null, THEME1)
+        def activity9 = createActivity(project3, site6, null, null, THEME1)
+        def activity10 = createActivity(project3, null, null, null, THEME2)
+
+        [activity1, activity2, activity3, activity4, activity5, activity6, activity7, activity8, activity9, activity10].each  {
+            service.indexDoc(it, INDEX_NAME)
+        }
+
+        // Ensure results are available for searching
+        service.client.admin().indices().prepareFlush().execute().actionGet();
+
     }
 
-    def cleanup() {
-    }
+    /**
+     * Tests the facet fields are indexed correctly for activities - this is used in particular by the reporting subsystem.
+     */
+    public void testActivitySearch() {
 
-    void "View type : Invalid - Build a query that returns only non-embargoed records"() {
         when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "", 'projectId': "", 'view': "", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
+        def activityFilters = ["mainThemeFacet:${THEME1}"]
+        def results = service.searchActivities(activityFilters, [offset:0, max:10], null, INDEX_NAME)
 
         then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
-    }
+        results.hits.totalHits == 8
 
-    void "View type: 'myrecords' and empty userId - Build a query that should return only non-embargoed records"() {
         when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "", 'projectId': "", 'view': "myrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
+        activityFilters = ["mainThemeFacet:${THEME1}", "associatedProgramFacet:${PROGRAM_1}"]
+        results = service.searchActivities(activityFilters, [offset:0, max:10], null, INDEX_NAME)
+        println results
 
         then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
-    }
+        results.hits.totalHits == 2
 
-    void "View type: 'myrecords' and valid userId - Build a query that returns all records associated to the user."() {
         when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "8997", 'projectId': "", 'view': "myrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
+        activityFilters = ["stateFacet:ACT"]
+        results = service.searchActivities(activityFilters, [offset:0, max:10], null, INDEX_NAME)
 
         then:
-        map.query == "(docType:activity AND userId:" + map.userId + ")"
-    }
+        assert results.hits.totalHits == 1
 
-    void "View type: 'project' - if ala admin or project member >> show all records associated to the project"() {
         when:
-        permissionService.isUserAlaAdmin(_) >> true
-        permissionService.isUserAdminForProject(_, _) >> true
-        permissionService.isUserEditorForProject(_, _) >> true
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "8997", 'projectId': "abc", 'view': "project", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
+        activityFilters = ["mainThemeFacet:${THEME1}", "associatedProgramFacet:${PROGRAM_1}", "stateFacet:ACT"]
+        results = service.searchActivities(activityFilters, [offset:0, max:10], null, INDEX_NAME)
 
         then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ')'
-    }
+        assert results.hits.totalHits == 1
 
-    void "View type: 'project'- if logged in user >> show non embargoed records + records created by user"() {
         when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "889", 'projectId': "abc", 'view': "project", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
+        activityFilters = ["mainThemeFacet:${THEME1}", "mainThemeFacet:${THEME2}", "stateFacet:ACT", "stateFacet:NSW"]
+        results = service.searchActivities(activityFilters, [offset:0, max:10], null, INDEX_NAME)
 
         then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND (projectActivity.embargoed:false OR userId:' + map.userId + '))'
+        assert results.hits.totalHits == 4
+
+
+    }
+
+    /**
+     * Tests that the home page facets work correctly with activity based facets (in particular, the reporting theme).
+     */
+    public void testReportingThemeHomepageSearch() {
+
+    }
+
+    /**
+     * Creates a minimal version of an Activity that has just the attributes we will be searching.
+     */
+    private Map createActivity(project, site, startDate, endDate, theme, status = 'published') {
+        def activity = [:]
+
+        activity.putAll(project)
+        activity.sites = site?[site]:[]
+        activity.putAll([activityId:'activity'+(++activityId), mainTheme:theme, startDate:startDate, endDate:endDate, publicationStatus:status, className:Activity.class.name])
+
+        activity
+    }
+
+    private Map createSite(state, nrm) {
+        [siteId:'site'+(++siteId), extent:[geometry:[state:state, nrm:nrm]], className:Site.class.name]
+    }
+
+    private Map createProject(program, subProgram) {
+        [projectId:'project'+(++projectId), associatedProgram:program, associatedSubProgram:subProgram, className:Project.class.name]
     }
 
 
-    void "View type: 'project'- if unauthenticated user and valid project >> show non embargoed records."() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "", 'projectId': "abc", 'view': "project", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND projectActivity.embargoed:false)'
-    }
-
-    void "View type: 'allrecords' - logged in users and ala admin >> show all records across the projects"() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> true
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "1234", 'projectId': "", 'view': "allrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == '(docType:activity)'
-    }
-
-    void "View type: 'allrecords' - logged in users and not ala admin >> show embargoed records that user own or been a member of the projects"() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-        permissionService.getProjectsForUser('1234', AccessLevel.admin, AccessLevel.editor) >> ['abc', 'cde']
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "1234", 'projectId': "", 'view': "allrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == '((docType:activity) AND ((projectActivity.projectId:abc OR projectActivity.projectId:cde) OR (projectActivity.embargoed:false OR userId:' + map.userId + ')))'
-    }
-
-    void "View type: 'allrecords', logged in users and not ala admin >> show embargoed records that user own "() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-        permissionService.getProjectsForUser('1234', AccessLevel.admin, AccessLevel.editor) >> []
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "1234", 'projectId': "", 'view': "allrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == '((docType:activity) AND (projectActivity.embargoed:false OR userId:' + map.userId + '))'
-    }
-
-    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records across the projects."() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-        permissionService.getProjectsForUser(_, _) >> []
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "", 'projectId': "", 'view': "allrecords", 'query': ""]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
-    }
-
-    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records across the projects and attach the searchTerm"() {
-        when:
-        permissionService.isUserAlaAdmin(_) >> false
-        permissionService.isUserAdminForProject(_, _) >> false
-        permissionService.isUserEditorForProject(_, _) >> false
-        permissionService.getProjectsForUser(_, _) >> []
-
-        GrailsParameterMap map = new GrailsParameterMap([getParameterMap: { ->
-            ['userId': "", 'projectId': "", 'view': "allrecords", 'query': "", 'searchTerm': "Test"]
-        }] as HttpServletRequest)
-        service.buildProjectActivityQuery(map)
-
-        then:
-        map.query == 'Test AND (docType:activity AND projectActivity.embargoed:false)'
-    }
 }

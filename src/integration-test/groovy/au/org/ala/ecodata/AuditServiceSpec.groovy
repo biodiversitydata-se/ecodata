@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Spec for the AuditService.
  */
-@Integration
+//@Integration
 class AuditServiceSpec extends IntegrationTestHelper {
 
     def auditService
@@ -116,6 +116,59 @@ class AuditServiceSpec extends IntegrationTestHelper {
 
     }
 
+    def "Project sites should be returned in the project audit messages"() {
+        setup:
+        userServiceStub.getCurrentUserDetails() >> {[userId:'1234']}
 
+        Project p = new Project(projectId:'p1', name:'test')
+        p.save(flush:true)
+
+        Site s = new Site(siteId:'s1', name:'test site')
+        s.projects << 'p1'
+        s.save(flush:true)
+        AuditMessage.withTransaction {
+            auditService.flushMessageQueue()
+        }
+
+        when:
+        List messages
+        AuditMessage.withTransaction {
+            messages = auditService.getAllMessagesForProject('p1')
+        }
+
+        then:
+        messages.size() == 2
+        messages.find {it.entityId == 'p1'} != null
+        messages.find {it.entityId == 's1'} != null
+
+    }
+
+    def "Project sites should be returned in the project audit messages via the paginated query"() {
+        setup:
+        userServiceStub.getCurrentUserDetails() >> {[userId:'1234']}
+        userServiceStub.getUserForUserId(_) >> [displayName:'test']
+
+        Project p = new Project(projectId:'p1', name:'test')
+        p.save(flush:true)
+
+        Site s = new Site(siteId:'s1', name:'test site')
+        s.projects << 'p1'
+        s.save(flush:true)
+        AuditMessage.withTransaction {
+            auditService.flushMessageQueue()
+        }
+
+        when:
+        Map result
+        AuditMessage.withTransaction {
+            result = auditService.getAuditMessagesForProjectPerPage('p1', 0, 100, 'date', 'desc', null)
+        }
+
+        then:
+        result.count == 2
+        result.data.find {it.entityId == 'p1'} != null
+        result.data.find {it.entityId == 's1'} != null
+
+    }
 
 }

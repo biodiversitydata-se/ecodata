@@ -2,7 +2,7 @@ package au.org.ala.ecodata
 
 import grails.testing.mixin.integration.Integration
 
-@Integration
+//@Integration
 class OrganisationServiceIntegrationSpec extends IntegrationTestHelper {
 
     def organisationService

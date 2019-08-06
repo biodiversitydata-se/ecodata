@@ -1,13 +1,10 @@
 package au.org.ala.ecodata
 
 import au.org.ala.ecodata.Activity
-import grails.test.mongodb.MongoSpec
-import grails.testing.gorm.DataTest
 import grails.testing.mixin.integration.Integration
 import grails.testing.services.ServiceUnitTest
 import grails.core.GrailsApplication
 import spock.lang.Specification
-import grails.testing.gorm.DomainUnitTest
 import spock.lang.Unroll
 
 import java.text.DateFormat

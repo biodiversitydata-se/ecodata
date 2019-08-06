@@ -9,9 +9,13 @@ import spock.lang.Specification
 class PermissionsControllerSpec extends Specification implements ControllerUnitTest<PermissionsController>, DataTest {
     PermissionService permissionService = Mock(PermissionService)
 
+    Class[] getDomainClassesToMock() {
+        [Program, Hub]
+    }
+
     def setup() {
-        mockDomain Program
-        mockDomain Hub
+      //  mockDomain Program
+     //   mockDomain Hub
         controller.permissionService = permissionService
     }
 

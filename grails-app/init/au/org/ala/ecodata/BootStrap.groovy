@@ -1,10 +1,12 @@
 package au.org.ala.ecodata
 
 import au.org.ala.ecodata.AccessLevel
+import au.org.ala.ecodata.ActivityForm
 import au.org.ala.ecodata.AuditEventType
 import au.org.ala.ecodata.GormEventListener
 import au.org.ala.ecodata.Hub
 import au.org.ala.ecodata.Program
+import au.org.ala.ecodata.data_migration.ActivityFormMigrator
 import grails.converters.JSON
 import groovy.json.JsonSlurper
 import net.sf.json.JSONNull
@@ -103,6 +105,13 @@ class BootStrap {
         }
 
         ImageIO.scanForPlugins()
+
+
+        // Data migration of activities-model.json
+        int formCount = ActivityForm.count()
+        if (formCount == 0) {
+            new ActivityFormMigrator(grailsApplication.config.app.external.model.dir).migrateActivitiesModel()
+        }
     }
 
     def destroy = {
