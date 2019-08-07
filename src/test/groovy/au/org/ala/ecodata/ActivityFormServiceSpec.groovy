@@ -1,16 +1,15 @@
 package au.org.ala.ecodata
 
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
+import grails.testing.gorm.DomainUnitTest
+import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-@TestFor(ActivityFormService)
-@Mock(ActivityForm)
-class ActivityFormServiceSpec extends Specification {
+class ActivityFormServiceSpec extends Specification implements ServiceUnitTest<ActivityFormService>, DomainUnitTest<ActivityForm> {
 
     MetadataService metadataService = Mock(MetadataService)
     void setup() {
         service.metadataService = metadataService
+
     }
 
     def "Activity forms cannot be saved without the mandatory fields"() {

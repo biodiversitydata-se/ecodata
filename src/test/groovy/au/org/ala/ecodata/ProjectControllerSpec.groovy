@@ -1,12 +1,10 @@
 package au.org.ala.ecodata
 
-import grails.test.mixin.Mock
-import grails.test.mixin.TestFor
+import grails.testing.gorm.DomainUnitTest
+import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 
-@TestFor(ProjectController)
-@Mock(Project)
-class ProjectControllerSpec extends Specification {
+class ProjectControllerSpec extends Specification implements ControllerUnitTest<ProjectController>, DomainUnitTest<Project>{
 
     ProjectService projectService
 
@@ -26,13 +24,13 @@ class ProjectControllerSpec extends Specification {
         controller.get(projectId)
 
         then:
-        1 * projectService.toMap(p, [], false, null)
+        1 * projectService.toMap(p, [], false, null) >> [projectId:projectId, name:"Project 1"]
 
         when:
         params.view = 'all'
         controller.get(projectId)
 
         then:
-        1 * projectService.toMap(p, ProjectService.ALL, false, null)
+        1 * projectService.toMap(p, ProjectService.ALL, false, null) >> [projectId:projectId, name:"Project 1", activities: [activityId: "activityId1"]]
     }
 }
