@@ -1,10 +1,13 @@
 package au.org.ala.ecodata
 
+import grails.transaction.Rollback
+
 import static au.org.ala.ecodata.Status.DELETED
 import spock.lang.Specification
 import grails.testing.mixin.integration.Integration
 
 @Integration
+//@Rollback
 class ActivityServiceIntegrationSpec extends Specification {
     ActivityService activityService
 

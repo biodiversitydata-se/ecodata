@@ -1,23 +1,24 @@
 package au.org.ala.ecodata
 
 import com.mongodb.BasicDBObject
+import grails.gorm.transactions.Rollback
+import grails.testing.mixin.integration.Integration
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Integration tests for the ActivityFormService
  */
+@Integration
+@Rollback
 class ActivityFormServiceIntegrationSpec extends IntegrationTestHelper {
 
-    @Autowired
+   // @Autowired
     ActivityFormService activityFormService
-
-    def setupSpec() {
-        ActivityForm.collection.remove(new BasicDBObject())
-    }
 
     private List forms
 
     def setup() {
+        ActivityForm.collection.remove(new BasicDBObject())
         // Create some activity forms to test with.
         forms = [[name:'test', formVersions:[2,1]], [name:'test 2', formVersions:[1]], [name:'test 3', formVersions:[1]], [name:'test 4', formVersions:[4,3,2,1]]]
         forms.each { Map form ->

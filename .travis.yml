@@ -7,7 +7,7 @@ branches:
   only:
   - master
   - dev
-  - grails_3.3.10
+  - grails-3.3.10
 
 services:
   - mongodb

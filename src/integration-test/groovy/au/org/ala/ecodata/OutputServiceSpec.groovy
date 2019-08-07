@@ -1,6 +1,7 @@
 package au.org.ala.ecodata
 
 import grails.testing.mixin.integration.Integration
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 
 import static au.org.ala.ecodata.Status.DELETED
@@ -8,8 +9,13 @@ import static au.org.ala.ecodata.Status.DELETED
 @Integration
 class OutputServiceSpec extends Specification {
 
+    @Autowired
     OutputService outputService
+
+    @Autowired
     MetadataService metadataService
+
+    @Autowired
     RecordService recordService
     def grailsApplication
 

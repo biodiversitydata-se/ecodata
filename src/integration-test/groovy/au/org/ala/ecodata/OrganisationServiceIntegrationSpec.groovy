@@ -1,8 +1,10 @@
 package au.org.ala.ecodata
 
+import grails.gorm.transactions.Rollback
 import grails.testing.mixin.integration.Integration
 
-//@Integration
+@Integration
+@Rollback
 class OrganisationServiceIntegrationSpec extends IntegrationTestHelper {
 
     def organisationService

@@ -3,36 +3,38 @@ package au.org.ala.ecodata
 import au.org.ala.ecodata.data_migration.ActivityFormMigrator
 import com.mongodb.BasicDBObject
 import grails.converters.JSON
+import grails.testing.mixin.integration.Integration
+//import grails.transaction.Rollback
+import grails.gorm.transactions.*
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Shared
+
 
 /**
  * Dual purpose - actually performs the data migration and also ensures the existing API returns the same
  * data as it did before the migration.
  */
+@Integration
+@Rollback
 class ActivityFormMigrationSpec extends IntegrationTestHelper {
 
     @Autowired
     MetadataService metadataService
 
-    @Shared
     ActivityFormMigrator activityFormMigrator
-    def setupSpec() {
-        ActivityForm.collection.remove(new BasicDBObject())
-        // Migrate the activities-model into the database
-        String modelsFolder = getClass().getResource("/resources/models").getFile()
-        activityFormMigrator = new ActivityFormMigrator(modelsFolder)
-        activityFormMigrator.migrateActivitiesModel()
-    }
 
     def setup() {
+        ActivityForm.collection.remove(new BasicDBObject())
+        String modelsFolder = new File("src/integration-test/resources/models").toString()
+        activityFormMigrator = new ActivityFormMigrator(modelsFolder)
+        activityFormMigrator.migrateActivitiesModel()
         metadataService.cacheService.clear()
     }
 
-    def cleanupSpec() {
+    def cleanup() {
         // The collection is deliberately left in the database at the end of the test so we can use it to
         // dump and load into our target environments.
-        //ActivityForm.collection.remove(new BasicDBObject())
+
     }
 
     private def outputModelTemplateAsJSON(String templateDir) {
@@ -151,7 +153,7 @@ class ActivityFormMigrationSpec extends IntegrationTestHelper {
     private void outputEqual(Map output, Map expectedOutput) {
         assert output.name == expectedOutput.name
         assert output.template == expectedOutput.template
-        assert output.title == (expectedOutput.title ?: null)
+        assert output.title == expectedOutput.title
     }
 
     private void templatesEqual(def template, def expectedTemplate) {

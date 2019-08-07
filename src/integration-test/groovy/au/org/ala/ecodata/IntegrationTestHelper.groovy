@@ -2,13 +2,11 @@ package au.org.ala.ecodata
 
 import com.mongodb.BasicDBObject
 import grails.converters.JSON
-import grails.testing.mixin.integration.Integration
 import spock.lang.Specification
 
 /**
  * Helper base class for integration tests.  Cleans up the database after every test by default.
  */
-//@Integration
 class IntegrationTestHelper extends Specification {
 
     boolean deleteOnCleanup = true

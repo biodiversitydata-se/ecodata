@@ -11,8 +11,10 @@ import org.springframework.web.context.WebApplicationContext
 import grails.util.GrailsWebMockUtil
 import org.grails.plugins.testing.GrailsMockHttpServletRequest
 import org.grails.plugins.testing.GrailsMockHttpServletResponse
+//import grails.gorm.transactions.*
 
 @Integration
+//@Rollback
 class RecordControllerSpec extends Specification {
 
     @Autowired

@@ -1,12 +1,15 @@
 package au.org.ala.ecodata
 
 import grails.testing.mixin.integration.Integration
+//import grails.transaction.Rollback
+import grails.gorm.transactions.*
 import org.grails.datastore.mapping.engine.event.PostInsertEvent
 
 /**
  * Spec for the AuditService.
  */
-//@Integration
+@Integration
+@Rollback
 class AuditServiceSpec extends IntegrationTestHelper {
 
     def auditService

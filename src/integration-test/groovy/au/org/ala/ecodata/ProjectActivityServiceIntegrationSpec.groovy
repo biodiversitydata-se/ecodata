@@ -5,8 +5,10 @@ import spock.lang.Specification
 
 import static au.org.ala.ecodata.Status.ACTIVE
 import static au.org.ala.ecodata.Status.DELETED
+import grails.gorm.transactions.*
 
 @Integration
+@Rollback
 class ProjectActivityServiceIntegrationSpec extends Specification {
     ProjectActivityService projectActivityService
 
