@@ -22,7 +22,7 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-def targetDir = BuildSettings.TARGET_DIR
+def targetDir = new File ("/data/ecodata/logs/").toString() // BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir != null) {
     appender("FULL_STACKTRACE", FileAppender) {
         file = "${targetDir}/stacktrace.log"
@@ -32,6 +32,17 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+}
+
+if (targetDir != null) {
+    appender("ES-INDEXING", FileAppender) {
+        file = "${targetDir}/elasticsearch-indexing.log"
+        append = false
+        encoder(PatternLayoutEncoder) {
+            pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n"
+        }
+    }
+    logger("EsIndexing", INFO, ['ES-INDEXING'], false)
 }
 root(ERROR, ['STDOUT'])
 
@@ -56,6 +67,10 @@ final info  = [
         'grails.mongodb',
         'org.quartz',
         'org.springframework'
+]
+
+final esInfo  = [
+        'au.org.ala.ecodata.ElasticSearchService'
 ]
 
 final debug = [
@@ -83,3 +98,4 @@ for (def name : warn) logger(name, WARN)
 for (def name: info) logger(name, INFO)
 for (def name: debug) logger(name, DEBUG)
 for (def name: trace) logger(name, TRACE)
+for (def name: esInfo) logger(name, INFO, ["ES-INDEXING"])
