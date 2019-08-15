@@ -22,7 +22,7 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-def targetDir = new File ("/data/ecodata/logs/").toString() // BuildSettings.TARGET_DIR
+def targetDir = new File ("/data/ecodata/logs/").toString() ?: BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir != null) {
     appender("FULL_STACKTRACE", FileAppender) {
         file = "${targetDir}/stacktrace.log"
