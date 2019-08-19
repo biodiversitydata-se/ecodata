@@ -4,7 +4,7 @@
 //= require jquery-ui/jquery-ui-1.9.2.custom.min
 // require html5
 //= require bootstrap.min
-//= require bootstrap-combobox/bootstrap-combobox
+// require bootstrap-combobox/bootstrap-combobox
 //= require knockoutjs/knockout-3.3.0.min
 //= require knockoutjs/knockout-sortable.min
 //= require knockoutjs/knockout.mapping-latest
