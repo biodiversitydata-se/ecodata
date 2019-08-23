@@ -616,7 +616,7 @@ environments {
         grails.hostname = "devt.ala.org.au"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
-        grails.serverURL = "http://devt.ala.org.au:8080/ecodata"
+        grails.serverURL = "http://devt.ala.org.au:8080"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         grails.mail.host="localhost"
         grails.mail.port=1025

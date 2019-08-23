@@ -60,6 +60,14 @@ class Document {//implements GrailsConfigurationAware{
     Boolean isSciStarter = false
     String hosted
     String identifier
+    /** The original content type of the uploaded document */
+    String contentType
+    /** Probably should be implemented as a label - used to tag this document to a report in MERIT*/
+    String stage
+    /** the size of the attachment associated with this document */
+    Long filesize
+    /** Flag to indicate that this document shouldn't be updated once created */
+    boolean readOnly = false
 
     boolean thirdPartyConsentDeclarationMade = false
     String thirdPartyConsentDeclarationText
@@ -167,5 +175,8 @@ class Document {//implements GrailsConfigurationAware{
         isSciStarter nullable: true
         hosted nullable: true
         identifier nullable: true
+        contentType nullable: true
+        stage nullable: true
+        filesize nullable: true
     }
 }
