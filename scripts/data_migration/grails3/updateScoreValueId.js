@@ -39,4 +39,6 @@ var recursiveSearch = function(collection) {
 
     });
 };
+
+print ("######## updateScoreValueId.js");
 recursiveSearch('score');

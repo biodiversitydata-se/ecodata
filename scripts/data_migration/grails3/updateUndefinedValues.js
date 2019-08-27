@@ -54,8 +54,15 @@ var recursiveSearch = function(collection) {
     });
 }
 
-//recursiveSearch('output');
+print ("######## updateUndefinedValues.js ##### Update Output collection ########" );
+recursiveSearch('output');
+
+print ("######## updateUndefinedValues.js ##### Update Site collection ########" );
 recursiveSearch('site');
-//recursiveSearch('hub');
-//recursiveSearch('score');
+
+print ("######## updateUndefinedValues.js ##### Update Hub collection ########" );
+recursiveSearch('hub');
+
+print ("######## updateUndefinedValues.js ##### Update Score collection ########" );
+recursiveSearch('score');
 
