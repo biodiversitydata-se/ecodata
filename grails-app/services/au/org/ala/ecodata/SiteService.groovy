@@ -264,6 +264,8 @@ class SiteService {
         props.remove('asyncUpdate')
 
         assignPOIIds(props)
+        assignTransectPartIds(props)
+
         // If the site location is being updated, refresh the location metadata.
         if (forceRefresh || hasGeometryChanged(toMap(site), props)) {
             if (asyncUpdate){
@@ -382,6 +384,18 @@ class SiteService {
         site.poi?.each { poi ->
             if (!poi.poiId) {
                 poi.poiId = Identifiers.getNew(true, '')
+            }
+        }
+    }
+
+    /**
+     * Goes through the transect parts assigned to a a site and assigns GUIDs to any new parts.
+     * @param site the site to check the transect parts of.
+     */
+    def assignTransectPartIds(site) {
+        site.transectParts?.each { part ->
+            if (!part.transectPartId) {
+                part.transectPartId = Identifiers.getNew(true, '')
             }
         }
     }
