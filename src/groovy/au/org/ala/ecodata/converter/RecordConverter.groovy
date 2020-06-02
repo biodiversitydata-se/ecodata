@@ -101,6 +101,14 @@ class RecordConverter {
             List<Map> recordFieldSets = converter.convert(data, dataModel)
             Map speciesRecord = overrideFieldValues(baseRecord, recordFieldSets[0])
 
+            // For each record we want to override the locationID and locationName with the poiID and name
+            def pois = site.poi
+            def poiName = it.locationID
+            def poiID = pois.find { it["name"] == poiName }?.poiId
+            it.locationName = poiName
+            it.locationID = poiID
+            Map rowRecord = overrideFieldValues(baseRecord, it)
+
             // We want to create a record in the DB only if species information is present
             if(speciesRecord.outputSpeciesId) {
                 records << speciesRecord
