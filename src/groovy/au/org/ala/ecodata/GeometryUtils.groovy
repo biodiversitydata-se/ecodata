@@ -188,6 +188,16 @@ class GeometryUtils {
         utmGeom.area
     }
 
+    static Geometry centroid(Geometry geometries) {
+        log.debug("from:" + geometries)
+        log.debug("class" + geometries.getClass())
+        geometries.getCentroid()
+    }
+
+    static double lineStringLength(Geometry lineString) {
+        lineString.getLength()
+    }
+
     static Geometry wgs84ToUtm(Geometry wgs84Geom) {
         CoordinateReferenceSystem utm = CRS.decode("AUTO2:42001,"+wgs84Geom.centroid.x+","+wgs84Geom.centroid.y, true)
         MathTransform toMetres = CRS.findMathTransform(sourceCRS, utm)
@@ -301,5 +311,6 @@ class GeometryUtils {
             feature.properties[(property)] = value
         }
     }
+
 
 }
