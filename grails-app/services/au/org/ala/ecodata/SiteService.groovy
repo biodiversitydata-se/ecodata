@@ -264,15 +264,15 @@ class SiteService {
         props.remove('asyncUpdate')
 
         assignPOIIds(props)
-        assignTransectPartIds(props)
-
-        // if (props.transectParts.size() != 0) {
-        //     populateLocationMetadataForSiteSystematic(props)
-        // }
-
+        
+        if (props.transectParts.size() != 0) {
+            // different procedure for systematic sites
+            assignTransectPartIds(props)
+            getSegmentLength(props.transectParts)
+            setCentroidAsExtent(props)  
+        }
         // If the site location is being updated, refresh the location metadata.
         if (forceRefresh || hasGeometryChanged(toMap(site), props)) {
-            log.debug("props are class: ${props.getClass()}")
             if (asyncUpdate){
                 String userId = props.remove('userId')
                 task {
@@ -398,9 +398,9 @@ class SiteService {
      * @param site the site to check the transect parts of.
      */
     def assignTransectPartIds(site) {
-        site.transectParts?.each { part ->
-            if (!part.transectPartId) {
-                part.transectPartId = Identifiers.getNew(true, '')
+        site.transectParts?.each { 
+            if (!it.transectPartId) {
+                it.transectPartId = Identifiers.getNew(true, '')
             }
         }
     }
@@ -591,34 +591,6 @@ class SiteService {
         result
     }
 
-    Map centroidFromTransectAsExtent(site) {
-
-        // check if site is updated or created
-        // if created then take all transect parts, get convex hull, calculate centroid
-        // result should be an object with type and coordinates
-        // save within extent.geometry
-        def geometry = site?.extent?.geometry
-        def transectParts = site?.transectParts
-
-        if (!geometry) {
-            log.error("Invalid site: ${site.siteId} missing geometry")
-            return
-        }
-        def result = null
-        // the function should take any number of features of any geometric type 
-        // the result should always return a point 
-
-        result = [
-            type: 'Point', 
-            coordinates: [121.9921875, -30.439202087235582], 
-            decimalLongitude: '121.9921875', 
-            decimalLatitude: '-30.439202087235582',
-            centre: '[121.9921875, -30.439202087235582]'
-            ]
-        site.extent.geometry = result
-        result
-    }
-
     Boolean isValidPolygon (List coordinates){
         Boolean valid = false
         Integer depth = 0
@@ -683,48 +655,9 @@ class SiteService {
 
     def populateLocationMetadataForSite(Map site) {
         def siteGeom = null
-        // different procedure for systematic sites
-        // log.debug(" class of extent ${site.extent.getClass()}") //json object
-        // log.debug(" class of transectParts ${site.transectParts.getClass()}") //json array
+        siteGeom = geometryAsGeoJson(site)
 
-        if (site.transectParts.size() != 0) {
-            // Geometry[] all = new Geometry[site.transectParts.size()]
-            site.transectParts.eachWithIndex { it, index ->
-                log.debug("index ${index}")
-                // log.debug("class of it : ${it.getClass()}") // json object
-                // get length for segment
-                if (it.geometry.type == 'LineString'){
-                    GeometryJSON gjson = new GeometryJSON()
-                    Geometry geom = gjson.read((it.geometry as JSON).toString())
-                    it.length = GeometryUtils.lineStringLength(geom)
-                    log.debug("linestring${index} ${it}")
-                }
-                // get transect part to calculate centroid for entire transect
-                GeometryJSON gjson2 = new GeometryJSON()
-                Geometry geom2 = gjson2.read((it.geometry as JSON).toString())
-                log.debug("calculate all")
-                Geometry centroid = GeometryUtils.centroid(geom2)
-                log.debug("cetroid class ${centroid.getClass()}")
-                // all[index] = geom2
-            }
-            // console.log("all")
-            // GeometryCollection geometries = new GeometryCollection(all)
-            // def centroid = GeometryUtils.centroid(geometries)
-            // log.debug("centroid ${centroid}")
-            siteGeom = centroidFromTransectAsExtent(site)
-
-//   for (int i = 0 ; i < coord.length ; i++) {
-//     Coordinate[] c = new Coordinate[] { coord[i] };
-//     CoordinateArraySequence cs = new CoordinateArraySequence(c);
-//     geometries[i] = new Point(cs, gc.getFactory());
-//   }
-
-        } else {
-            siteGeom = geometryAsGeoJson(site)
-        }
         if (siteGeom) {
-                        log.debug("sitegeom is true")
-                        log.debug("sitegeom is ${siteGeom.getClass()}") //linkedhashmap
 
             GeometryJSON gjson = new GeometryJSON()
             Geometry geom = gjson.read((siteGeom as JSON).toString())
@@ -735,7 +668,6 @@ class SiteService {
                 site.extent.geometry = [:]
             }
             if (geom) {
-                log.debug("geom" + geom)
                 def centroid = [Double.toString(geom.centroid.x), Double.toString(geom.centroid.y)]
                 site.extent.geometry.centre = centroid
 
@@ -745,10 +677,39 @@ class SiteService {
                 log.error("No geometry for site: ${site.siteId}")
             }
             site.extent.geometry += lookupGeographicFacetsForSite(site)
-            log.debug("geometry extent" + site.extent.geometry)
-
         }
-        log.debug("sitegeom is false")
+    }
+
+    def getSegmentLength(transectParts){
+        transectParts.each { 
+            if (it.geometry.type == 'LineString'){
+                GeometryJSON gjson = new GeometryJSON()
+                Geometry geom = gjson.read((it.geometry as JSON).toString())
+                it.length = GeometryUtils.lineStringLength(geom)
+            }
+            else {
+                it.length = '0'
+            }
+        }
+    }
+
+    def setCentroidAsExtent(site) {
+        def geometry = site?.extent?.geometry
+
+        if (!geometry) {
+            log.error("Invalid site: ${site.siteId} missing geometry")
+            return
+        }
+        def extentCentroid = GeometryUtils.centroid(site.transectParts)
+        def x = extentCentroid.getX()
+        def y = extentCentroid.getY() 
+
+        def result = [type: 'Point', coordinates: [x, y], 
+            decimalLongitude: Double.toString(x), 
+            decimalLatitude: Double.toString(y),
+            centre: [Double.toString(x), Double.toString(y)]
+        ]
+        site.extent.geometry = result
     }
 
     /**
