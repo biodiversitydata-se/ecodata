@@ -188,12 +188,28 @@ class GeometryUtils {
         utmGeom.area
     }
 
-    static Geometry centroid(Geometry geometries) {
-        log.debug("from:" + geometries)
-        log.debug("class" + geometries.getClass())
-        geometries.getCentroid()
-    }
+    /**
+     * Calculates the centroid of a group of features
+     * @param json json array with multiple geometries as in transect parts
+     * @return Point centroid 
+     */
+    static Geometry centroid(List json) {
 
+        Geometry[] geometries = new Geometry[json.size()]
+        json.eachWithIndex { it, i ->
+            GeometryJSON gjson = new GeometryJSON()
+            Geometry geom = gjson.read((it.geometry as JSON).toString())
+            geometries[i] = geom
+        }
+        GeometryCollection gc = new GeometryCollection(geometries, geometryFactory)
+        return gc.getCentroid()
+    }
+    
+    /**
+     * Calculates the length of a LineString
+     * @param Geometry lineString 
+     * @return double length of the lineString in ??? - TODO
+     */
     static double lineStringLength(Geometry lineString) {
         lineString.getLength()
     }
