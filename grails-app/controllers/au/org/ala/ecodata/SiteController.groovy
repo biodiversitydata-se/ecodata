@@ -119,7 +119,6 @@ class SiteController {
     @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        log.debug props
         def result
         def message
         if (id) {
@@ -149,6 +148,24 @@ class SiteController {
         def result = siteService.updatePoi(id, props)
         if (result.status == 'ok') {
             def message = [message:'ok', poiId: result.poiId]
+            asJson(message)
+        }
+        else {
+            render status:400, text:result.error
+        }
+    }
+
+    @RequireApiKey
+    def createOrUpdateTransectPart(String id) {
+        def props = request.JSON
+
+        if (!id) {
+            render status:400, text:'Site ID is mandatory'
+            return
+        }
+        def result = siteService.updateTransectPart(id, props)
+        if (result.status == 'ok') {
+            def message = [message:'ok', transectPartId: result.transectPartId]
             asJson(message)
         }
         else {
