@@ -265,9 +265,10 @@ class SiteService {
 
         assignPOIIds(props)
         
-        if (props.transectParts.size() != 0) {
+        if (props?.transectParts?.size() > 0) {
             // different procedure for systematic sites
             assignTransectPartIds(props)
+            log.debug("get segment extent")
             getSegmentLength(props.transectParts)
             setCentroidAsExtent(props)  
         }
@@ -681,6 +682,7 @@ class SiteService {
     }
 
     def getSegmentLength(transectParts){
+        log.debug("transect parts: ${transectParts}")
         transectParts.each { 
             if (it.geometry.type == 'LineString'){
                 GeometryJSON gjson = new GeometryJSON()
@@ -688,7 +690,7 @@ class SiteService {
                 it.length = GeometryUtils.lineStringLength(geom)
             }
             else {
-                it.length = '0'
+                it.length = null
             }
         }
     }
@@ -700,16 +702,19 @@ class SiteService {
             log.error("Invalid site: ${site.siteId} missing geometry")
             return
         }
+        log.debug("set extent")
         def extentCentroid = GeometryUtils.centroid(site.transectParts)
+        log.debug("extentCentroid ${extentCentroid}")
         def x = extentCentroid.getX()
         def y = extentCentroid.getY() 
 
         def result = [type: 'Point', coordinates: [x, y], 
-            decimalLongitude: Double.toString(x), 
-            decimalLatitude: Double.toString(y),
+            decimalLongitude: x, 
+            decimalLatitude: y,
             centre: [Double.toString(x), Double.toString(y)]
         ]
         site.extent.geometry = result
+        site.extent.source = 'Point'
     }
 
     /**
