@@ -194,20 +194,20 @@ class GeometryUtils {
      * @return Point centroid 
      */
     static Geometry centroid(List json) {
-        log.debug("json ${json}")
         Geometry[] geometries = new Geometry[json.size()]
         json.eachWithIndex { it, i ->
-            log.debug("feature: ${it}, index ${i}")
-            log.debug("geometry class: ${it.geometry.getClass()}, coordinate class: ${it.geometry.coordinates.getClass()}, class of 0 coord: ${it.geometry.coordinates[0].getClass()}")
-            GeometryJSON gjson = new GeometryJSON()
-            Geometry geom = gjson.read((it.geometry as JSON).toString())
-            log.debug("geom: ${geom}")
-
-            geometries[i] = geom
+            if (it.geometry.type != 'Point'){
+                GeometryJSON gjson = new GeometryJSON()
+                Geometry geom = gjson.read((it.geometry as JSON).toString())
+                geometries[i] = geom
+            } else {
+                // if feature is a point then cannot be cast to string
+                Point point = geometryFactory.createPoint(new Coordinate (it.geometry.coordinates[0], it.geometry.coordinates[1]))
+                geometries[i] = point
+            }  
         }
-        log.debug("gc to be created from: ${geometries}")
         GeometryCollection gc = new GeometryCollection(geometries, geometryFactory)
-        log.debug("gc ${gc}")
+        log.debug("geomcollection to get centroid from ${gc}")
         return gc.getCentroid()
     }
     
