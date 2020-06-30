@@ -268,7 +268,6 @@ class SiteService {
         if (props?.transectParts?.size() > 0) {
             // different procedure for systematic sites
             assignTransectPartIds(props)
-            log.debug("get segment extent")
             getSegmentLength(props.transectParts)
             setCentroidAsExtent(props)  
         }
@@ -472,7 +471,7 @@ class SiteService {
         }
         Map transectParts = site.transectParts?.find{it.transectPartId == props.transectPartId}
         if (!transectParts) {
-            return [status:'error', error:"No POI exists with poiId=${props.poiId}"]
+            return [status:'error', error:"No transect part exists with Id=${props.transectPartId}"]
         }
         transectParts.putAll(props)
 
@@ -681,8 +680,13 @@ class SiteService {
         }
     }
 
+    /**
+     * For systematic monitoring 
+     * Calculates length of saved polyline
+     * @param transectParts
+     * @return transectPart.length
+     */
     def getSegmentLength(transectParts){
-        log.debug("transect parts: ${transectParts}")
         transectParts.each { 
             if (it.geometry.type == 'LineString'){
                 GeometryJSON gjson = new GeometryJSON()
@@ -695,6 +699,13 @@ class SiteService {
         }
     }
 
+    /**
+     * For systematic monitoring 
+     * calculates centroid of all features drawn and saved as transect parts
+     * assign the calculated centroid as site.extent 
+     * @param site
+     * @return
+     */
     def setCentroidAsExtent(site) {
         def geometry = site?.extent?.geometry
 
@@ -702,9 +713,7 @@ class SiteService {
             log.error("Invalid site: ${site.siteId} missing geometry")
             return
         }
-        log.debug("set extent")
         def extentCentroid = GeometryUtils.centroid(site.transectParts)
-        log.debug("extentCentroid ${extentCentroid}")
         def x = extentCentroid.getX()
         def y = extentCentroid.getY() 
 
