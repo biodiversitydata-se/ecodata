@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.MetadataServiceSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:48" hostname="canmove-dev" time="0.005">
+  <properties/>
+  <testcase name="getGeographicFacetConfig should correctly identify the facet name for a field id and whether it is grouped" classname="au.org.ala.ecodata.MetadataServiceSpec" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

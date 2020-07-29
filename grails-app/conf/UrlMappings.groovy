@@ -98,6 +98,11 @@ class UrlMappings {
             action = [POST:'createOrUpdatePoi']
         }
 
+        "/ws/site/$id/transectPart" {
+            controller = 'site'
+            action = [POST:'createOrUpdateTransectPart']
+        }
+
         "/ws/site/$id/poi/$poiId" {
             controller = 'site'
             action = [DELETE:'deletePoi']

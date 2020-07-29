@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.reporting.ReportGroupsSpec" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:46" hostname="canmove-dev" time="0.06">
+  <properties/>
+  <testcase name="grouping on a single property returns the value of the property as the group" classname="au.org.ala.ecodata.reporting.ReportGroupsSpec" time="0.002"/>
+  <testcase name="grouping on a missing property should return null" classname="au.org.ala.ecodata.reporting.ReportGroupsSpec" time="0.0"/>
+  <testcase name="groups can be defined as half open buckets #data" classname="au.org.ala.ecodata.reporting.ReportGroupsSpec" time="0.011"/>
+  <testcase name="the grouping mechanism can be used to produce a single score by filtering on a single group value #value" classname="au.org.ala.ecodata.reporting.ReportGroupsSpec" time="0.001"/>
+  <testcase name="the grouping mechanism can be used to group scores by date range" classname="au.org.ala.ecodata.reporting.ReportGroupsSpec" time="0.046"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

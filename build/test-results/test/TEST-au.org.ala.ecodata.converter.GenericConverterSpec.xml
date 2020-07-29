@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.converter.GenericConverterSpec" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:33" hostname="canmove-dev" time="0.013">
+  <properties/>
+  <testcase name="convert should return a single record" classname="au.org.ala.ecodata.converter.GenericConverterSpec" time="0.001"/>
+  <testcase name="convert should return latitude and longitude from location values" classname="au.org.ala.ecodata.converter.GenericConverterSpec" time="0.004"/>
+  <testcase name="convert should return latitude and longitude from decimal values" classname="au.org.ala.ecodata.converter.GenericConverterSpec" time="0.001"/>
+  <testcase name="convert should handle numeric values of locationLatitude and locationLongitude" classname="au.org.ala.ecodata.converter.GenericConverterSpec" time="0.006"/>
+  <testcase name="convert should handle integer values of locationLatitude and locationLongitude" classname="au.org.ala.ecodata.converter.GenericConverterSpec" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

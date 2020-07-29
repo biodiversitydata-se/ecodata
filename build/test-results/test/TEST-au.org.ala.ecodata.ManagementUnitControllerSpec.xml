@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ManagementUnitControllerSpec" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:55" hostname="canmove-dev" time="0.295">
+  <properties/>
+  <testcase name="find a management unit" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.121"/>
+  <testcase name="A user can retrieve a list of MUs they have a role assigned to" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.099"/>
+  <testcase name="The management unit controller can request a geojson FeatureCollection containing all of the management unit sites" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.014"/>
+  <testcase name="The management unit controller can request a geojson FeatureCollection containing sites for specific management units" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.018"/>
+  <testcase name="Not supplying an id to the update method will create a management unit" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.028"/>
+  <testcase name="Extra properties supplied to the controller should not bound to the domain object" classname="au.org.ala.ecodata.ManagementUnitControllerSpec" time="0.014"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:55.726  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@188080f0: startup date [Wed Feb 05 12:09:55 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:55.899  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:55.899  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:55.899  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+name, Test
+description, Test description
+url, https://www.mu.org
+startDate, 2019-01-01T00:00:00Z
+endDate, 2023-06-30T14:00:00Z
+priorities, [[category:Threatened species, priority:Hibiscus brennanii]]
+outcomes, [[outcome:outcome 1, priorities:[category:Threatened species]]]
+managementUnitSiteId, site1
+config, [config1:1, config2:2]
+name, Test
+description, Test description
+url, https://www.mu.org
+startDate, 2019-01-01T00:00:00Z
+endDate, 2023-06-30T14:00:00Z
+priorities, [[category:Threatened species, priority:Hibiscus brennanii]]
+outcomes, [[outcome:outcome 1, priorities:[category:Threatened species]]]
+managementUnitSiteId, site1
+config, [config1:1, config2:2]
+2020-02-05 12:09:56.293  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@188080f0: startup date [Wed Feb 05 12:09:55 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

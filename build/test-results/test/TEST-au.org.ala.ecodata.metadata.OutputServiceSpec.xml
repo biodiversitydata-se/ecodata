@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.metadata.OutputServiceSpec" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:10" hostname="canmove-dev" time="0.314">
+  <properties/>
+  <testcase name="create output should not create a record even if the output data model has record = true as there is no species info" classname="au.org.ala.ecodata.metadata.OutputServiceSpec" time="0.108"/>
+  <testcase name="create output should create a record if the output data model has record = false" classname="au.org.ala.ecodata.metadata.OutputServiceSpec" time="0.161"/>
+  <testcase name="create output should NOT create a record if the output data model does not have the 'record' attribute" classname="au.org.ala.ecodata.metadata.OutputServiceSpec" time="0.02"/>
+  <testcase name="create output should create records for each list item if the output data model has record = true, data type = list and species information is present" classname="au.org.ala.ecodata.metadata.OutputServiceSpec" time="0.025"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:10:09.998  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4be7eb9c: startup date [Wed Feb 05 12:10:09 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:10.167  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:10:10.167  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:10.168  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:10.318 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type singleSighting with class name au.org.ala.ecodata.converter.SingleSightingConverter, using generic converter
+2020-02-05 12:10:10.534  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@4be7eb9c: startup date [Wed Feb 05 12:10:09 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.EmbargoUtilSpec" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:37" hostname="canmove-dev" time="0.04">
+  <properties/>
+  <testcase name="EmbargoOption NONE should result in a null embargoUntil date" classname="au.org.ala.ecodata.EmbargoUtilSpec" time="0.023"/>
+  <testcase name="EmbargoOption DAYS should add the number of days to the current date" classname="au.org.ala.ecodata.EmbargoUtilSpec" time="0.013"/>
+  <testcase name="EmbargoOption DATE should return the requested embargoUntil date" classname="au.org.ala.ecodata.EmbargoUtilSpec" time="0.003"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:37.035  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@10459ca1: startup date [Wed Feb 05 12:09:37 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:37.218  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:37.219  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:37.219  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[ecodata] Logging to /tmp
+2020-02-05 12:09:37.770  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@10459ca1: startup date [Wed Feb 05 12:09:37 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

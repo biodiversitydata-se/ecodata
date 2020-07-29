@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ElasticSearchIndexServiceSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ElasticSearchIndexServiceSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ElasticSearchIndexServiceSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">12</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">2.415s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">View type : Invalid - Build a query that returns only non-embargoed records</td>
+<td>0.554s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'allrecords' - logged in users and ala admin &gt;&gt; show all records across the projects</td>
+<td>0.166s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'allrecords' - logged in users and not ala admin &gt;&gt; show embargoed records that user own or been a member of the projects</td>
+<td>0.142s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'allrecords' - unauthenticated user &gt;&gt; show only embargoed records across the projects and attach the searchTerm</td>
+<td>0.149s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'allrecords' - unauthenticated user &gt;&gt; show only embargoed records across the projects.</td>
+<td>0.168s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'allrecords', logged in users and not ala admin &gt;&gt; show embargoed records that user own </td>
+<td>0.217s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'myrecords' and empty userId - Build a query that should return only non-embargoed records</td>
+<td>0.185s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'myrecords' and valid userId - Build a query that returns all records associated to the user.</td>
+<td>0.169s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'project' - if ala admin or project member &gt;&gt; show all records associated to the project</td>
+<td>0.170s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'project'- if logged in user &gt;&gt; show non embargoed records + records created by user</td>
+<td>0.190s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">View type: 'project'- if unauthenticated user and valid project &gt;&gt; show non embargoed records.</td>
+<td>0.142s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">the include and exclude parameters are optional</td>
+<td>0.163s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[ecodata] Logging to /tmp
+2020-02-05 12:10:00.987  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@35d1d2bb: startup date [Wed Feb 05 12:10:00 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:01.173  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:10:01.173  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:01.173  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:01.226  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:01.374  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:01.585  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:01.745  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:01.946  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.094  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.258  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.404  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.575  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.797  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:02.942  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:03.086  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:03.217  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@35d1d2bb: startup date [Wed Feb 05 12:10:00 UTC 2020]; root of context hierarchy
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.CollectoryServiceSpec" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:59" hostname="canmove-dev" time="0.477">
+  <properties/>
+  <testcase name="new organisations will be registered with the collectory" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.459"/>
+  <testcase name="new projects will be registered with the collectory" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.005"/>
+  <testcase name="updates will be treated as creates if the project does not have a dataResourceId" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.002"/>
+  <testcase name="updates can be performed when a project is edited" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.001"/>
+  <testcase name="MERIT projects will use the MERIT data provider" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.001"/>
+  <testcase name="updates won't be sent if only hiddenJSON data has changed" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.002"/>
+  <testcase name="the institution id will be mapped if an associated organisation has one" classname="au.org.ala.ecodata.CollectoryServiceSpec" time="0.006"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:59.646  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5d10605e: startup date [Wed Feb 05 12:09:59 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:59.860  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:59.860  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:59.860  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:59.934  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@5d10605e: startup date [Wed Feb 05 12:09:59 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

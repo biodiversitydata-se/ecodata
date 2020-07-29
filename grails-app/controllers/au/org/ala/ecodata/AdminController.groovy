@@ -173,7 +173,7 @@ class AdminController {
         render "Indexing done"
     }
 
-    @RequireApiKey
+    /*@RequireApiKey*/
     def clearMetadataCache() {
         // clear any cached external config
         cacheService.clear()

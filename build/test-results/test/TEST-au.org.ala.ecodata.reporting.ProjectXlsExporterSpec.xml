@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.reporting.ProjectXlsExporterSpec" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:45" hostname="canmove-dev" time="1.558">
+  <properties/>
+  <testcase name="project details can be exported" classname="au.org.ala.ecodata.reporting.ProjectXlsExporterSpec" time="1.157"/>
+  <testcase name="RLP Merit Baseline exported to XSLS" classname="au.org.ala.ecodata.reporting.ProjectXlsExporterSpec" time="0.401"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:44.865  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@503a9c91: startup date [Wed Feb 05 12:09:44 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:45.043  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:45.044  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:45.044  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:46.694  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@503a9c91: startup date [Wed Feb 05 12:09:44 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ProjectActivityControllerSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ProjectActivityControllerSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ProjectActivityControllerSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.074s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">test create project activity</td>
+<td>0.074s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2020-02-05 12:10:44.755  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.ProjectActivityControllerSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:44.760  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:44.762  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@694f172f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@759b55e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@764bc377, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@2f6f278b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3e08bb26, org.springframework.test.context.transaction.TransactionalTestExecutionListener@74311afc, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5c493f76, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@a4c180b]
+2020-02-05 12:10:44.781 DEBUG --- [    Test worker] a.o.a.ecodata.ProjectActivityController  : [dataQualityAssuranceMethods:[dataownercurated], visibility:[embargoOption:NONE, alaAdminEnforcedEmbargo:true], endDate:2015-06-17T14:00:00Z, publicAccess:true, description:Test description, dataAccessMethods:[na], dynamicProperty:dynamicProperty, methodType:opportunistic, isDataManagementPolicyDocumented:false, spatialAccuracy:low, name:Test Project Activity, nonTaxonomicAccuracy:low, temporalAccuracy:low, projectId:test-project-id, commentsAllowed:true, startDate:2015-06-17T14:00:00Z, speciesIdentification:low, status:active]
+2020-02-05 12:10:44.787 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dataQualityAssuranceMethods to [dataownercurated]
+2020-02-05 12:10:44.787 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating visibility to [embargoOption:NONE, alaAdminEnforcedEmbargo:true]
+2020-02-05 12:10:44.788 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating endDate to 2015-06-17T14:00:00Z
+2020-02-05 12:10:44.794 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating publicAccess to true
+2020-02-05 12:10:44.794 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to Test description
+2020-02-05 12:10:44.794 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dataAccessMethods to [na]
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dynamicProperty to dynamicProperty
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating methodType to opportunistic
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating isDataManagementPolicyDocumented to false
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating spatialAccuracy to low
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Test Project Activity
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating nonTaxonomicAccuracy to low
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating temporalAccuracy to low
+2020-02-05 12:10:44.795 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating commentsAllowed to true
+2020-02-05 12:10:44.796 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating startDate to 2015-06-17T14:00:00Z
+2020-02-05 12:10:44.796 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating speciesIdentification to low
+2020-02-05 12:10:44.796 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to active
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

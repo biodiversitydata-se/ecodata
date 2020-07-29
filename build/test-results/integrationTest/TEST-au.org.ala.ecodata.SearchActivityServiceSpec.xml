@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.SearchActivityServiceSpec" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:44" hostname="canmove-dev" time="0.732">
+  <properties/>
+  <testcase name="activities can be searched for without supplying dates - failed ones[0]" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.089"/>
+  <testcase name="activities can be searched for without supplying dates - failed ones[1]" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.045"/>
+  <testcase name="activities can be searched for without supplying dates - failed ones[2]" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.045"/>
+  <testcase name="activities can be searched for without supplying dates - failed ones[3]" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.042"/>
+  <testcase name="activities can be searched by start date 2014/01/01" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.055"/>
+  <testcase name="activities can be searched by start date 2014/01/02" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.045"/>
+  <testcase name="activities can be searched by start date 2016/01/02" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.041"/>
+  <testcase name="activities can be searched by start date 2014/01/02" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.046"/>
+  <testcase name="activities can be searched by start date 2014/01/02" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.044"/>
+  <testcase name="activities can be searched by end date" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.177"/>
+  <testcase name="activities can be searched by start and end date" classname="au.org.ala.ecodata.SearchActivityServiceSpec" time="0.092"/>
+  <system-out><![CDATA[2020-02-05 12:10:44.857  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.SearchActivityServiceSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:44.863  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:44.865  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@4d434ada, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4a1e1472, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@36aba78a, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@17fc13c7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@403e8e78, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7ab9bf89, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@11c5d0a3, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@66d08b77]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

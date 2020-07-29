@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.reporting.PropertyAccessorSpec" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:44" hostname="canmove-dev" time="0.012">
+  <properties/>
+  <testcase name="the PropertyAccessor can unroll a list" classname="au.org.ala.ecodata.reporting.PropertyAccessorSpec" time="0.01"/>
+  <testcase name="the PropertyAccessor can unroll a nested list" classname="au.org.ala.ecodata.reporting.PropertyAccessorSpec" time="0.001"/>
+  <testcase name="the PropertyAccessor can unroll lists nested inside lists" classname="au.org.ala.ecodata.reporting.PropertyAccessorSpec" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

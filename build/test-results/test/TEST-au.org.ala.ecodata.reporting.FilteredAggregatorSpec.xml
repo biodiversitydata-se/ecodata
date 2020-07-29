@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.reporting.FilteredAggregatorSpec" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:44" hostname="canmove-dev" time="0.151">
+  <properties/>
+  <testcase name="a single result can be produced from the sum of filtered data" classname="au.org.ala.ecodata.reporting.FilteredAggregatorSpec" time="0.113"/>
+  <testcase name="multiple sub-aggregations can be produced from filtered data" classname="au.org.ala.ecodata.reporting.FilteredAggregatorSpec" time="0.024"/>
+  <testcase name="filters can be configured to exclude a value rather than select a value" classname="au.org.ala.ecodata.reporting.FilteredAggregatorSpec" time="0.013"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

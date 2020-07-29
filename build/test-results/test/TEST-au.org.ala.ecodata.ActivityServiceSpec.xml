@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ActivityServiceSpec" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:57" hostname="canmove-dev" time="0.131">
+  <properties/>
+  <testcase name="when an activity is cancelled or deferred, existing Output data should be deleted" classname="au.org.ala.ecodata.ActivityServiceSpec" time="0.122"/>
+  <testcase name="when an activity type is changed, existing Output data should be deleted" classname="au.org.ala.ecodata.ActivityServiceSpec" time="0.009"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:56.887  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@72793b8b: startup date [Wed Feb 05 12:09:56 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:57.091  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:57.092  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:57.092  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[ecodata] Logging to /tmp
+2020-02-05 12:09:57.579 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating progress to planned
+2020-02-05 12:09:57.623 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating progress to started
+2020-02-05 12:09:57.632 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating progress to finished
+2020-02-05 12:09:57.640 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating progress to deferred
+2020-02-05 12:09:57.651 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating progress to cancelled
+2020-02-05 12:09:57.661 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating type to Type 2
+2020-02-05 12:09:57.665  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@72793b8b: startup date [Wed Feb 05 12:09:56 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

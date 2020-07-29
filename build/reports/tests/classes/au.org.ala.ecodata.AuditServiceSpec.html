@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.AuditServiceSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.AuditServiceSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; AuditServiceSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">5</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">22.853s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">Audit messages without a user should be logged with an anonymous userId</td>
+<td>0.029s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">New projects should be audited</td>
+<td>22.574s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Project permission changes should be audited against the correct project</td>
+<td>0.056s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Project sites should be returned in the project audit messages</td>
+<td>0.121s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Project sites should be returned in the project audit messages via the paginated query</td>
+<td>0.073s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>12:10:16,509 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.groovy] at [file:/home/radar/ecodata/build/resources/integrationTest/logback.groovy]
+12:10:16,510 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.groovy] occurs multiple times on the classpath.
+12:10:16,510 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.groovy] occurs at [file:/home/radar/ecodata/build/resources/main/logback.groovy]
+12:10:16,510 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.groovy] occurs at [file:/home/radar/ecodata/build/resources/integrationTest/logback.groovy]
+12:10:17,795 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - registering conversion word clr with class [org.springframework.boot.logging.logback.ColorConverter]
+12:10:17,806 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - registering conversion word wex with class [org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter]
+12:10:17,815 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+12:10:17,818 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Naming appender as [STDOUT]
+12:10:17,931 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - About to instantiate appender of type [ch.qos.logback.core.FileAppender]
+12:10:17,931 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Naming appender as [ES-INDEXING]
+12:10:17,934 |-INFO in ch.qos.logback.core.FileAppender[ES-INDEXING] - File property is set to [. /logs/elasticsearch-indexing.log]
+12:10:17,938 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [EsIndexing] to INFO
+12:10:17,946 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Attaching appender named [ES-INDEXING] to Logger[EsIndexing]
+12:10:17,950 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [ROOT] to ERROR
+12:10:17,950 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Attaching appender named [STDOUT] to Logger[ROOT]
+12:10:17,950 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [au.org.ala.cas.client] to WARN
+12:10:17,950 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [au.org.ala.cas.util] to WARN
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [org.apache.coyote.http11.Http11Processor] to WARN
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [asset.pipeline] to INFO
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.app] to INFO
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.plugins.mail] to INFO
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.plugins.quartz] to INFO
+12:10:17,951 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.mongodb] to INFO
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [org.quartz] to INFO
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [org.springframework] to INFO
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.mongodb] to DEBUG
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [grails.gorm] to DEBUG
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [au.org.ala.ecodata] to DEBUG
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Setting level of logger [au.org.ala.ecodata.ElasticSearchService] to INFO
+12:10:17,952 |-INFO in ch.qos.logback.classic.gaffer.ConfigurationDelegate@21b1cdf4 - Attaching appender named [ES-INDEXING] to Logger[au.org.ala.ecodata.ElasticSearchService]
+
+2020-02-05 12:10:18.186  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.AuditServiceSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:18.238  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:18.257  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@600e3d38, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@56914539, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@6f9ffe5f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@3f23c84, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1284263f, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4ee001db, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@5e1d635e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@4c997205]
+[ecodata] Logging to /tmp
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::       (v1.5.22.RELEASE)
+
+2020-02-05 12:10:19.715  INFO --- [    Test worker] au.org.ala.ecodata.AuditServiceSpec      : Starting AuditServiceSpec on canmove-dev with PID 11368 (/home/radar/ecodata/build/classes/integrationTest started by radar in /home/radar/ecodata)
+2020-02-05 12:10:19.715 DEBUG --- [    Test worker] au.org.ala.ecodata.AuditServiceSpec      : Running with Spring Boot v1.5.22.RELEASE, Spring v4.3.25.RELEASE
+2020-02-05 12:10:19.715  INFO --- [    Test worker] au.org.ala.ecodata.AuditServiceSpec      : The following profiles are active: test
+2020-02-05 12:10:19.757  INFO --- [    Test worker] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@126ae516: startup date [Wed Feb 05 12:10:19 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:24.519  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/HttpEncodingAutoConfiguration.class]] with [Generic bean: class [org.springframework.boot.web.servlet.FilterRegistrationBean]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.520  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'propertySourcesPlaceholderConfigurer' with a different definition: replacing [Root bean: class [org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=propertySourcesPlaceholderConfigurer; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/context/PropertyPlaceholderAutoConfiguration.class]] with [Generic bean: class [org.grails.spring.context.support.GrailsPlaceholderConfigurer]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.521  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'multipartConfigElement' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration; factoryMethodName=multipartConfigElement; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.class]] with [Generic bean: class [javax.servlet.MultipartConfigElement]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.521  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'multipartResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration; factoryMethodName=multipartResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/MultipartAutoConfiguration.class]] with [Generic bean: class [org.springframework.web.multipart.support.StandardServletMultipartResolver]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.522  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'mongo' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration; factoryMethodName=mongo; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.class]] with [Generic bean: class [null]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=mongoDatastore; factoryMethodName=getMongoClient; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.523  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dispatcherServlet' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration$DispatcherServletConfiguration; factoryMethodName=dispatcherServlet; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/DispatcherServletAutoConfiguration$DispatcherServletConfiguration.class]] with [Generic bean: class [org.grails.web.servlet.mvc.GrailsDispatcherServlet]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:24.523  INFO --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'dispatcherServletRegistration' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration; factoryMethodName=dispatcherServletRegistration; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration.class]] with [Generic bean: class [org.springframework.boot.web.servlet.ServletRegistrationBean]; scope=singleton; abstract=false; lazyInit=false; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null]
+2020-02-05 12:10:25.319  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'au.org.ala.ecodata.FlushAuditMessageQueueJobClass' of type [org.springframework.beans.factory.config.MethodInvokingFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.325  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'au.org.ala.ecodata.TempFileCleanupJobClass' of type [org.springframework.beans.factory.config.MethodInvokingFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.330  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'classLoader' of type [org.springframework.beans.factory.config.MethodInvokingFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.331  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'au.org.ala.ecodata.ConnectionPoolStatsJobClass' of type [org.springframework.beans.factory.config.MethodInvokingFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.341  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'grailsPromiseFactory' of type [org.grails.plugins.web.async.spring.PromiseFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.364  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'grailsPromiseFactory' of type [org.grails.async.factory.future.CachedThreadPoolPromiseFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.374  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'grailsEventBus' of type [org.grails.events.bus.spring.EventBusFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.374  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'grailsEventBus' of type [org.grails.events.bus.ExecutorEventBus] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:25.385  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'mongoConnectionSourceFactory' of type [org.grails.datastore.mapping.mongo.connections.MongoConnectionSourceFactory] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:27.116  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'messageSource' of type [org.grails.spring.context.support.PluginAwareResourceBundleMessageSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:27.124  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'mongoDatastore' of type [org.grails.datastore.mapping.mongo.MongoDatastore] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:27.798  INFO --- [    Test worker] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 0 (http)
+2020-02-05 12:10:27.997  INFO --- [ost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 8244 ms
+2020-02-05 12:10:28.312  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'metricsFilter' to: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'grailsCorsFilter' to: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'Cas Single Sign Out Filter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'CAS Authentication Filter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'CAS Validation Filter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'CAS HttpServletRequest Wrapper Filter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'grailsWebRequestFilter' to urls: [/*]
+2020-02-05 12:10:28.313  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2020-02-05 12:10:28.314  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'assetPipelineFilter' to urls: [/assets/*]
+2020-02-05 12:10:28.314  INFO --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2020-02-05 12:10:28.314  INFO --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'grailsDispatcherServlet' to [/]
+2020-02-05 12:10:28.315  INFO --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'groovyPagesServlet' to [*.gsp]
+2020-02-05 12:10:30.492  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:10:33.722  INFO --- [    Test worker] a.o.ala.ecodata.SensitiveSpeciesService  : Initializing species service
+2020-02-05 12:10:33.722  INFO --- [    Test worker] a.o.ala.ecodata.SensitiveSpeciesService  : Loading sensitive data.
+2020-02-05 12:10:33.724 ERROR --- [    Test worker] a.o.ala.ecodata.SensitiveSpeciesService  : Sensitive species file ([:]) not found.
+2020-02-05 12:10:33.781  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error],produces=[text/html]}&quot; onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-02-05 12:10:33.783  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error]}&quot; onto public org.springframework.http.ResponseEntity&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt; org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-02-05 12:10:33.863  INFO --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-02-05 12:10:33.863  INFO --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/static/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2020-02-05 12:10:33.925  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@126ae516: startup date [Wed Feb 05 12:10:19 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:34.716  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/metrics/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2020-02-05 12:10:34.716  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/metrics || /metrics.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.717  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/info || /info.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.717  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/trace || /trace.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.718  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}&quot; onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+2020-02-05 12:10:34.719  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/dump || /dump.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.720  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/env/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2020-02-05 12:10:34.720  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/env || /env.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.723  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/loggers/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get(java.lang.String)
+2020-02-05 12:10:34.724  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/loggers/{name:.*}],methods=[POST],consumes=[application/vnd.spring-boot.actuator.v1+json || application/json],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set(java.lang.String,java.util.Map&lt;java.lang.String, java.lang.String&gt;)
+2020-02-05 12:10:34.724  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/loggers || /loggers.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.725  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/auditevents || /auditevents.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType(java.lang.String,java.util.Date,java.lang.String)
+2020-02-05 12:10:34.726  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/health || /health.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,java.security.Principal)
+2020-02-05 12:10:34.727  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/mappings || /mappings.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.727  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/beans || /beans.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.727  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:34.728  INFO --- [    Test worker] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped &quot;{[/configprops || /configprops.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}&quot; onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2020-02-05 12:10:35.287  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error],produces=[text/html]}&quot; onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2020-02-05 12:10:35.288  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error]}&quot; onto public org.springframework.http.ResponseEntity&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt; org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2020-02-05 12:10:35.300  INFO --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@126ae516: startup date [Wed Feb 05 12:10:19 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:35.406  INFO --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2020-02-05 12:10:35.424  INFO --- [    Test worker] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2020-02-05 12:10:35.425  INFO --- [    Test worker] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.2.3 created.
+2020-02-05 12:10:35.426  INFO --- [    Test worker] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2020-02-05 12:10:35.426  INFO --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.2.3) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2020-02-05 12:10:35.427  INFO --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2020-02-05 12:10:35.427  INFO --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.2.3
+2020-02-05 12:10:35.427  INFO --- [    Test worker] org.quartz.core.QuartzScheduler          : JobFactory set to: grails.plugins.quartz.GrailsJobFactory@37923876
+2020-02-05 12:10:37.358  INFO --- [    Test worker] au.org.ala.ecodata.BootStrap             : Adding listener for datastore: org.grails.datastore.mapping.mongo.MongoDatastore@1975d8e9
+2020-02-05 12:10:38.416 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating adminFacets to []
+2020-02-05 12:10:38.419 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating availableFacets to [status, organisationFacet]
+2020-02-05 12:10:38.419 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating availableMapFacets to [status, organisationFacet]
+2020-02-05 12:10:38.419 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating bannerUrl to 
+2020-02-05 12:10:38.425 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating content to [hideBreadCrumbs:false, hideCancelButtonOnForm:false, showNote:false, hideProjectAndSurvey:false, industries:false, isContainer:false, recordNote:]
+2020-02-05 12:10:38.425 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating customBreadCrumbs to []
+2020-02-05 12:10:38.426 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating defaultFacetQuery to [isCitizenScience:true]
+2020-02-05 12:10:38.426 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating defaultProgram to Citizen Science Projects
+2020-02-05 12:10:38.437 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating homePageControllerAndAction to [controller:project, action:citizenScience]
+2020-02-05 12:10:38.437 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating logoUrl to 
+2020-02-05 12:10:38.437 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating pages to [allRecords:[facets:[[isNotHistogram:true, helpText:Name of the project, facetTermType:Default, formattedName:Project (projectNameFacet), name:projectNameFacet, interval:10, state:Expanded, title:Project], [isNotHistogram:true, helpText:Name of survey, facetTermType:Default, formattedName:Survey name (projectActivityNameFacet), name:projectActivityNameFacet, interval:10, state:Expanded, title:Survey name], [isNotHistogram:true, helpText:Organisations either running projects or associated with projects (eg. as partners)., facetTermType:Default, formattedName:Organisation (organisationNameFacet), name:organisationNameFacet, interval:10, state:Expanded, title:Organisation], [isNotHistogram:true, helpText:Sighting's scientific name, facetTermType:Default, formattedName:Species name (recordNameFacet), name:recordNameFacet, interval:10, state:Expanded, title:Species name], [isNotHistogram:true, helpText:User who created the record, facetTermType:Default, formattedName:Owner (userId), name:userId, interval:10, state:Expanded, title:Owner], [isNotHistogram:true, helpText:Month the sighting was observed, facetTermType:Default, formattedName:Month (surveyMonthFacet), name:surveyMonthFacet, interval:10, state:Expanded, title:Month], [isNotHistogram:true, helpText:Year the sighting was observed, facetTermType:Default, formattedName:Year (surveyYearFacet), name:surveyYearFacet, interval:10, state:Expanded, title:Year]]], userProjectActivityRecords:[facets:[]], myRecords:[facets:[]], project:[facets:[]], projectFinder:[facets:[[isNotHistogram:true, helpText:Active projects are still running, whereas 'completed' projects have ended and are no longer 'active', facetTermType:Default, formattedName:Status (status), name:status, interval:10, state:Collapsed, title:Status], [isNotHistogram:true, helpText:Classifications for citizen science projects to assist decision making for participation, facetTermType:Default, formattedName:Tags (tags), name:tags, interval:10, state:Expanded, title:Tags], [isNotHistogram:true, helpText:A general level of difficulty for citizen science participation, facetTermType:Default, formattedName:Difficulty (difficulty), name:difficulty, interval:10, state:Expanded, title:Difficulty], [isNotHistogram:true, helpText:Categories of science which survey-based projects are addressing., facetTermType:Default, formattedName:Science Type (scienceType), name:scienceType, interval:10, state:Collapsed, title:Science Type], [isNotHistogram:true, helpText:Countries in which people can participate in the project., facetTermType:Default, formattedName:Countries (countries), name:countries, interval:10, state:Collapsed, title:Countries], [isNotHistogram:true, helpText:The continental regions in which projects occur according to the United Nations regional classification scheme., facetTermType:Default, formattedName:UN Regions (uNRegions), name:uNRegions, interval:10, state:Collapsed, title:UN Regions], [isNotHistogram:true, helpText:The project catalogue system in which the project is registered., facetTermType:Default, formattedName:Source System (origin), name:origin, interval:10, state:Collapsed, title:Source System], [isNotHistogram:true, helpText:Name of the project, facetTermType:Default, formattedName:Contributing Data to ALA (isExternal), name:isExternal, interval:10, state:Collapsed, title:Contributing Data to ALA]]], projectRecords:[facets:[]], myProjectRecords:[facets:[]]]
+2020-02-05 12:10:38.438 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating quickLinks to []
+2020-02-05 12:10:38.438 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating skin to ala2
+2020-02-05 12:10:38.438 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to active
+2020-02-05 12:10:38.438 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating supportedPrograms to [Citizen Science Projects, None]
+2020-02-05 12:10:38.439 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating templateConfiguration to [footer:[links:[], socials:[], type:], header:[links:[], type:], banner:[transitionSpeed:4000, images:[]], styles:[bannerBackgroundColor:#323334, titleTextColor:#5f5d60, bodyBackgroundColor:#ffffff, facetBackgroundColor:#f5f5f5, defaultButtonTextColor:#000, defaultButtonColorActive:#fff, tileBackgroundColor:#f5f5f5, defaultButtonBackgroundColor:#f5f5f5, menuTextColor:#efefef, primaryButtonBackgroundColor:#009080, defaultButtonBackgroundColorActive:#000, wellBackgroundColor:#f5f5f5, navBackgroundColor:#e5e6e7, headerBannerBackgroundColor:#ffffff, hrefColor:#009080, footerBackgroundColor:#323334, breadCrumbBackGroundColour:, navTextColor:#5f5d60, primaryButtonTextColor:#fff, insetTextColor:, menuBackgroundColor:#009080, footerTextColor:#efefef, bodyTextColor:#637073, socialTextColor:#000, insetBackgroundColor:], homePage:[homePageConfig:projectfinder, buttonsConfig:[buttons:[], numberOfColumns:3], projectFinderConfig:[defaultView:grid, showProjectRegionSwitch:false]]]
+2020-02-05 12:10:38.439 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating title to BioCollect
+2020-02-05 12:10:38.690  INFO --- [    Test worker] au.org.ala.ecodata.BootStrap             : Creating individual sightings project
+No template found: Debris Removal Debris Removal Details debrisRemovalDetails
+Cannot find output Photo Points for activity Conservation Grazing Management
+Cannot find output Photo Points for activity Fire Management
+Cannot find output Photo Points for activity Pest Animal Survey
+Cannot find output Photo Points for activity Pest Management
+No template found: Plant Propagation Plant Propagation - Batch Test plantPropagation-BatchTest
+Cannot find output Photo Points for activity Plant Survival Survey
+Cannot find output Photo Points for activity Revegetation
+Cannot find output Photo Points for activity Site Preparation
+Cannot find output Photo Points for activity Weed Mapping &amp; Monitoring
+Cannot find output Photo Points for activity Weed Treatment
+Cannot find output Photo Points for activity Vegetation Assessment - Commonwealth government methodology
+No template found: Vegetation Assessment - BioMetric (NSW) Floristic Composition tasVegFloristicComposition
+No template found: Vegetation Assessment - Native Vegetation Condition Assessment and Monitoring (WA) Floristic Composition tasVegFloristicComposition
+Cannot find output Photo Points for activity Site assessment
+Cannot find output Bushland Condition - Site Health Summary for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 3 - Structural Diversity for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 4 - Regeneration for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 5 - Tree and Shrub Health for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 6 - Tree Habitat for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 7 - Feral Animals for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 8 - Total Grazing Pressure for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 9 - Animal Species for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Indicator 10 - Bushland Degradation Risk for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Benchmarks - SA for activity Vegetation Assessment - Bushland Condition Monitoring (SA)
+Cannot find output Photo Points for activity General Weed Monitoring
+Cannot find output Photo Points for activity General Weed Treatment
+No template found: Fauna survey - trap and transect Fauna Survey - Trap and Transect faunaSurveyTrapTransect
+No template found: Floristic survey - plot and transect Floristic Survey - Plot and Transect surveyFloraPlotTransect
+No template found: Community Participation and Engagement - with map Community Participation and Engagement - with map communityParticipationAndEngagement-withMap
+No template found: Debris removal - with map Debris removal - with map debrisRemoval-withMap
+No template found: Disease Management - with map Disease Management - with map diseaseManagement-withMap
+No template found: Erosion Management - with map Erosion Management - with map erosionManagement-withMap
+No template found: Fencing - with map Fencing - with map fencing-withMap
+No template found: Conservation Grazing Management - with map Conservation Grazing Management - with map conservationGrazingManagement-withMap
+No template found: Ecological Fire Management - with map Ecological Fire Management - with map ecologicalFireManagement-withMap
+No template found: Heritage Conservation - with map Heritage Conservation - with map heritageConservation-withMap
+No template found: Management Plan Development - with map Management Plan Development - with map managementPlanDevelopment-withMap
+No template found: Conservation Actions for Species and Communities - with map Conservation Actions for Species and Communities - with map conservationActionsForSpeciesAndCommunities-withMap
+No template found: Pest Animal Survey - with map Pest Animal Survey - with map pestAnimalSurvey-withMap
+No template found: Pest Management - with map Pest Management - with map pestManagement-withMap
+No template found: Plant Propagation - with map Plant Propagation - Batch Test plantPropagation-BatchTest
+No template found: Plant Propagation - with map Plant Propagation - with map plantPropagation-withMap
+No template found: Plant Survival Survey - with map Plant Survival Survey - with map plantSurvivalSurvey-withMap
+No template found: Public Access and Infrastructure - with map Public Access and Infrastructure - with map publicAccessAndInfrastructure-withMap
+No template found: Research - with map Research - with map research-withMap
+No template found: Revegetation - with map Revegetation - with map revegetation-withMap
+No template found: Seed Collection - with map Seed collection - with map seedCollection-withMap
+No template found: Seed Collection - with map Seed Collection - with map seedCollection-withMap
+No template found: Site Monitoring Plan - with map Site Monitoring Plan - with map siteMonitoringPlan-withMap
+No template found: Site Preparation - with map Site Preparation - with map sitePreparation-withMap
+No template found: Water Management - with map Water Management - with map waterManagement-withMap
+No template found: Water Quality Survey - with map Water Quality Survey - with map waterQualitySurvey-withMap
+No template found: Weed Mapping and Monitoring - with map Weed Mapping and Monitoring - with map weedMappingAndMonitoring-withMap
+No template found: Weed Treatment - with map Weed Treatment - with map weedTreatment-withMap
+No template found: Works Planning and Risk - with map Works Planning and Risk - with map worksPlanningAndRisk-withMap
+No template found: Post Revegetation Site Management - with map Post Revegetation Site Management - with map postRevegetationSiteManagement_withMap
+No template found: Aerial fauna survey - distance sampler method Aerial fauna survey - distance sampler method aerialFaunaSurveyDistanceSamplerMethod
+No template found: VNPA ReefWatch Survey Great Victorian Fish Count gvfcSurveyForm
+No template found: Post Biodiversity-works Site Monitoring Methodology Post Biodiversity-works Site Monitoring Methodology postBiodiversity-worksSiteMonitoringMethodology
+No template found: Koala Count - South Australia Koala Count - South Australia koalaCount-SouthAustralia
+No template found: Sea Search - Seagrass Bed Monitoring Seagrass Bed Monitoring seagrassBedMonitoring
+No template found: Sea Search - Intertidal Reef Survey Intertidal Reef Survey intertidalReefSurvey
+No template found: Sea Search - Fixed Photo Points Sea Search - Fixed Photo Points seaSearch-FixedPhotoPoints-Header
+No template found: General Seed Collection Activity General Seed Collection Recording Form generalSeedCollectionEvent
+No template found: General Fauna Sightings v1 General Fauna Sightings v1 generalFaunaSightingsV1
+No template found: Habitat Condition Assessment Tool Habitat Condition Assessment habitatConditionAssessment
+No template found: Local Species Inventory Local Species Inventory localSpeciesInventory
+No template found: CRISP - Project Assessment CRISP - Project Assessment - Step 1. Pre-screen CRISP-ProjectAssessment-Step1Pre-screen
+No template found: CRISP - Project Assessment CRISP - Project Assessment - Step 2. Determine Exposure CRISP-ProjectAssessment-Step2DetermineExposure
+No template found: CRISP - Project Assessment CRISP - Audit - First Pass Scan CRISP-Audit-FirstPassScan
+No template found: CRISP - Audit CRISP - Audit - First Pass Scan CRISP-Audit-FirstPassScan
+No template found: ESP SMU Reporting ESP Control of Agrochemicals espControlOfAgroChemicals
+No template found: Seedbank - Accession of new stock Seedbank - Accession of new stock seedbank-AccessionOfNewStock
+No template found: Weed Biological Control - Agent Record - Target species with canes Weed Biological Control - Agent Record for target species with canes weedBiologicalControlAgentRecord-TargetWithCanes
+No template found: Weed Biological Control - Agent Record - Insect agents Weed Biological Control - Agent Record for target species - Insect agents weedBiologicalControl-AgentRecordForTargetSpecies-insectAgents
+No template found: Weed Biological Control - Agent Record - Non cane rust and fungi agents Weed Biological Control - Agent Record - Non cane rust and fungi agents weedBiologicalControl-agentRecord-nonCaneRustAndFungiAgents
+No template found: Froglet Calls Froglet calls frogletCalls
+No template found: Ecological Condition Score Moderation Ecological Condition Score Moderation ecologicalConditionScoreModeration
+No template found: Mapping Butterflies and Host Vines Mapping Butterflies and Host Vines mappingButterfliesAndHostVines
+No template found: Echidna CSI Echidna CSI echidnaCSI
+No template found: Bird Survey - SAMD Bird Survey - SAMD birdSurvey-SAMD
+No template found: Bat Survey - SAMD Bat Survey - SAMD batSurvey-SAMD
+No template found: CLC 2Ha Track Plot CLC 2Ha Track Plot clc2HaTrackPlot
+No template found: Echidna CSI - Sample collection Echidna CSI - Sample collection echidnaCSI-sampleCollection
+No template found: EHP Incentives EHP - Incentives ehpIncentives
+No template found: EHP Products EHP - Products ehpProducts
+No template found: EHP - Works EHP - Works ehpWorks
+No template found: EHP - Events EHP - Events ehpEvents
+No template found: Sea Search - Seagrass Boundary Monitoring Sea Search - Seagrass Boundary Monitoring seaSearch-seagrassBoundaryMonitoring
+No template found: Regional Funding Final Report KEQ Regional Funding Final Report KEQ regionalFundingFinalReportKEQ
+No template found: Nest Box Establishment Nest Box Establishment nestBoxEstablishment
+No template found: Nest Box Survey nestBoxSurvey nestBoxSurvey
+No template found: Nest Box Maintenance nestBoxMaintenance nestBoxMaintenance
+No template found: Wild Macadamia Survey Wild Macadamia Survey wildMacadamiaSurvey
+No template found: Sea Search - Image Library Sea Search - Image Library seaSearch_ImageLibrary
+No template found: Ray and Sharks Survey Ray and Sharks rayAndSharks
+No template found: APN Feral Pig Shooting APN Feral Pig Shooting apnFeralPigShooting
+Cannot find output Reef 2050 Action Reporting 2018 for activity Reef 2050 Plan Action Reporting 2018
+No template found: MagicalLandSightings MagicalLandSightings magicalLandSightings
+2020-02-05 12:10:39.808  INFO --- [    Test worker] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 43897 (http)
+2020-02-05 12:10:39.815  INFO --- [    Test worker] au.org.ala.ecodata.AuditServiceSpec      : Started AuditServiceSpec in 21.181 seconds (JVM running for 24.186)
+Grails application running at http://localhost:43897 in environment: test
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -546,11 +546,13 @@ if (!collectory.baseURL) {
     collectory.dataProviderUid.biocollect = 'dp244'
     collectory.collectoryIntegrationEnabled = false
 }
+/*
 if (!headerAndFooter.baseURL) {
     headerAndFooter.baseURL = "http://www2.ala.org.au/commonui"
 }
+*/
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://auth.ala.org.au/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://auth.bioatlas.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'http://biocache.ala.org.au/ws'
@@ -568,13 +570,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://auth.ala.org.au/userdetails/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://auth.bioatlas.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "http://auth.ala.org.au/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "http://auth.bioatlas.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://auth.ala.org.au/userdetails/ws/admin'
+    userDetails.admin.url = 'https://auth.bioatlas.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
@@ -623,11 +625,11 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.hostname = "devt.ala.org.au"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
         app.external.model.dir = "./models/"
-        grails.serverURL = "http://devt.ala.org.au:8080/ecodata"
+        grails.serverURL = "http://canmove-dev.ekol.lu.se:8080/ecodata"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         grails.mail.host="localhost"
         grails.mail.port=1025
@@ -643,7 +645,7 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.hostname = "devt.ala.org.au"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         // Only for travis CI, they must be overriden by ecodata-config.properties
         serverName = "http://${grails.hostname}:8080"
         grails.app.context = "ecodata"
@@ -1171,10 +1173,11 @@ biocollect.projectActivityDataURL="${biocollect.baseURL}/bioActivity/projectReco
 
 security {
     cas {
-        appServerName = 'http://devt.ala.org.au:8087' // or similar, up to the request path part
-        // service = 'http://devt.ala.org.au:8080' // optional, if set it will always be used as the return path from CAS
+        appServerName = 'http://canmove-dev.ekol.lu.se:8087' // or similar, up to the request path part
+        // service = 'http://canmove-dev.ekol.lu.se:8080' // optional, if set it will always be used as the return path from CAS
         uriFilterPattern = '/admin.*,/activityForm/(?!get).*'
         uriExclusionFilterPattern = '/assets/.*,/images/.*,/css/.*,/js/.*,/less/.*' // this is the default value
         authenticateOnlyIfLoggedInPattern =  ''
+        loginUrl = 'https://auth.bioatlas.se/cas/login'
     }
 }

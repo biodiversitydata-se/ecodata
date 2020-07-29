@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ManagementUnitControllerSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ManagementUnitControllerSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ManagementUnitControllerSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.294s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">A user can retrieve a list of MUs they have a role assigned to</td>
+<td>0.099s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Extra properties supplied to the controller should not bound to the domain object</td>
+<td>0.014s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Not supplying an id to the update method will create a management unit</td>
+<td>0.028s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">The management unit controller can request a geojson FeatureCollection containing all of the management unit sites</td>
+<td>0.014s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">The management unit controller can request a geojson FeatureCollection containing sites for specific management units</td>
+<td>0.018s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">find a management unit</td>
+<td>0.121s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[ecodata] Logging to /tmp
+2020-02-05 12:09:55.726  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@188080f0: startup date [Wed Feb 05 12:09:55 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:55.899  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:55.899  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:55.899  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+name, Test
+description, Test description
+url, https://www.mu.org
+startDate, 2019-01-01T00:00:00Z
+endDate, 2023-06-30T14:00:00Z
+priorities, [[category:Threatened species, priority:Hibiscus brennanii]]
+outcomes, [[outcome:outcome 1, priorities:[category:Threatened species]]]
+managementUnitSiteId, site1
+config, [config1:1, config2:2]
+name, Test
+description, Test description
+url, https://www.mu.org
+startDate, 2019-01-01T00:00:00Z
+endDate, 2023-06-30T14:00:00Z
+priorities, [[category:Threatened species, priority:Hibiscus brennanii]]
+outcomes, [[outcome:outcome 1, priorities:[category:Threatened species]]]
+managementUnitSiteId, site1
+config, [config1:1, config2:2]
+2020-02-05 12:09:56.293  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@188080f0: startup date [Wed Feb 05 12:09:55 UTC 2020]; root of context hierarchy
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:11 PM</p>
+</div>
+</div>
+</body>
+</html>

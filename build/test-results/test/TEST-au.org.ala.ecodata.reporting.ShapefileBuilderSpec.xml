@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.reporting.ShapefileBuilderSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:46" hostname="canmove-dev" time="1.768">
+  <properties/>
+  <testcase name="it can export projects sites as a shapefile" classname="au.org.ala.ecodata.reporting.ShapefileBuilderSpec" time="1.768"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Feb 05, 2020 12:09:47 PM org.geotools.data.shapefile.dbf.DbaseFileHeader addColumn
+WARNING: FieldName description is longer than 10 characters, truncating to descriptio
+Feb 05, 2020 12:09:47 PM org.geotools.data.shapefile.dbf.DbaseFileHeader addColumn
+WARNING: FieldName dateCreated is longer than 10 characters, truncating to dateCreate
+Feb 05, 2020 12:09:47 PM org.geotools.data.shapefile.dbf.DbaseFileHeader addColumn
+WARNING: FieldName lastUpdated is longer than 10 characters, truncating to lastUpdate
+Feb 05, 2020 12:09:47 PM org.geotools.data.shapefile.dbf.DbaseFileHeader addColumn
+WARNING: FieldName projectName is longer than 10 characters, truncating to projectNam
+Feb 05, 2020 12:09:48 PM org.geotools.data.shapefile.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/tmp/groovy-generated-1486634032233274117-tmpdir/testShapefile.shp by org.geotools.data.shapefile.shp.ShapefileReader
+Feb 05, 2020 12:09:48 PM org.geotools.data.shapefile.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/tmp/groovy-generated-1486634032233274117-tmpdir/testShapefile.shx by org.geotools.data.shapefile.shp.IndexFile
+Feb 05, 2020 12:09:48 PM org.geotools.data.shapefile.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/tmp/groovy-generated-1486634032233274117-tmpdir/testShapefile.dbf by org.geotools.data.shapefile.dbf.DbaseFileReader
+]]></system-err>
+</testsuite>

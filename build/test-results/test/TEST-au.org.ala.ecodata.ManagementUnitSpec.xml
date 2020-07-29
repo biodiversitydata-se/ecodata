@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ManagementUnitSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:49" hostname="canmove-dev" time="0.055">
+  <properties/>
+  <testcase name="GORM test" classname="au.org.ala.ecodata.ManagementUnitSpec" time="0.055"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

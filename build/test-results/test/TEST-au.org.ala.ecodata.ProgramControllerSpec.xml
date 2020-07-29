@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ProgramControllerSpec" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:32" hostname="canmove-dev" time="1.151">
+  <properties/>
+  <testcase name="update requests only respond to PUT and POST requests" classname="au.org.ala.ecodata.ProgramControllerSpec" time="0.923"/>
+  <testcase name="delete requests only respond to DELETE requests" classname="au.org.ala.ecodata.ProgramControllerSpec" time="0.051"/>
+  <testcase name="A user can retrieve a list of programs they have a role assigned to" classname="au.org.ala.ecodata.ProgramControllerSpec" time="0.177"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:29.080  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4e3726cf: startup date [Wed Feb 05 12:09:29 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:30.476  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:30.482  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:30.482  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:33.261  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@4e3726cf: startup date [Wed Feb 05 12:09:29 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

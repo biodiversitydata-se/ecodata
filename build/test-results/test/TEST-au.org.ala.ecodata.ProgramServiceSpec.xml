@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ProgramServiceSpec" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:58" hostname="canmove-dev" time="0.476">
+  <properties/>
+  <testcase name="insert a new program" classname="au.org.ala.ecodata.ProgramServiceSpec" time="0.458"/>
+  <testcase name="update an existing program" classname="au.org.ala.ecodata.ProgramServiceSpec" time="0.018"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+[ecodata] Logging to /tmp
+2020-02-05 12:09:59.182  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@5c50e9b9: startup date [Wed Feb 05 12:09:59 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:59.359  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:59.359  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:59.359  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:59.413 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to test 1
+2020-02-05 12:09:59.414 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to description 1
+2020-02-05 12:09:59.414 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating programId to 852624e2-79ff-4db8-b0a0-8bcfa38e6b33
+2020-02-05 12:09:59.433 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to test 2
+2020-02-05 12:09:59.434 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to description 2
+2020-02-05 12:09:59.443  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@5c50e9b9: startup date [Wed Feb 05 12:09:59 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

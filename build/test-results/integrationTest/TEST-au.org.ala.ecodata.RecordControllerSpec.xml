@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.RecordControllerSpec" tests="24" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:41" hostname="canmove-dev" time="1.76">
+  <properties/>
+  <testcase name="get should return a 401 (SC_UNAUTHORIZED) if a user is requesting an embargoed record for a project they are not a member of" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.301"/>
+  <testcase name="get should return a 401 (SC_UNAUTHORIZED) if there is no userId when requesting an embargoed record" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.051"/>
+  <testcase name="get should return the record if a user is requesting an embargoed record for a project they ARE a member of" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.076"/>
+  <testcase name="get should return the record if a user is requesting an embargoed record for a project they submitted, even if they are not a project admin or editor" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.067"/>
+  <testcase name="get should return the record if the user is an ALA Admin" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.042"/>
+  <testcase name="count should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.051"/>
+  <testcase name="list should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.055"/>
+  <testcase name="list should not include embargoed records unless the embargo date has passed when there is no userid" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.062"/>
+  <testcase name="list should include embargoed records when there is a userid and the record belongs to a project where the user is a member" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.073"/>
+  <testcase name="list should include embargoed records when there is a userid and the user is an ALA Admin" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.079"/>
+  <testcase name="listUncertainIdentifications should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.049"/>
+  <testcase name="listUncertainIdentifications should not include embargoed records unless the embargo date has passed when there is no userid" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.06"/>
+  <testcase name="listUncertainIdentifications should include embargoed records when there is a userid and the record belongs to a project where the user is a member" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.059"/>
+  <testcase name="listUncertainIdentifications should include embargoed records when there is a userid and the user is an ALA Admin" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.061"/>
+  <testcase name="listRecordWithImages should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.048"/>
+  <testcase name="listRecordWithImages should not include embargoed records unless the embargo date has passed when there is no userid" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.087"/>
+  <testcase name="listRecordWithImages should include embargoed records when there is a userid and the record belongs to a project where the user is a member" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.072"/>
+  <testcase name="listRecordWithImages should include embargoed records when there is a userid and the user is an ALA Admin" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.075"/>
+  <testcase name="listForUser should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.056"/>
+  <testcase name="listForProject should not include DELETED records" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.057"/>
+  <testcase name="listForProject should not include embargoed records unless the embargo date has passed when there is no userid" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.072"/>
+  <testcase name="listForProject should include embargoed records when there is a userid and the user is a member of the parent project" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.073"/>
+  <testcase name="listForProject should include embargoed records when there is a userid and the user submitted the record" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.058"/>
+  <testcase name="listForProject should include embargoed records when there is a userid and the user is an ALA Admin" classname="au.org.ala.ecodata.RecordControllerSpec" time="0.072"/>
+  <system-out><![CDATA[2020-02-05 12:10:41.276  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.RecordControllerSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:41.281  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:41.283  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@16ff6071, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@762779a2, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@224719f7, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@2855fae2, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4544fb71, org.springframework.test.context.transaction.TransactionalTestExecutionListener@8637012, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@12f14848, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@1574321e]
+2020-02-05 12:10:41.909 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:41.982 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.055 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.130 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.182 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.249 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.309 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.371 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : list request....
+2020-02-05 12:10:42.697 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for user: id1
+2020-02-05 12:10:42.754 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for project: project1
+2020-02-05 12:10:42.832 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for project: project1
+2020-02-05 12:10:42.906 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for project: project1
+2020-02-05 12:10:42.966 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for project: project1
+2020-02-05 12:10:43.037 DEBUG --- [    Test worker] au.org.ala.ecodata.RecordController      : Retrieving a list for project: project1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

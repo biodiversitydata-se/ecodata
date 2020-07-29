@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.converter.RecordConverterSpec" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:33" hostname="canmove-dev" time="0.292">
+  <properties/>
+  <testcase name="convert should create a single record field set from an output model with 1 single-item data model" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.221"/>
+  <testcase name="convert should create a single record field set with all fields from an output model with 1 single-item data model" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.003"/>
+  <testcase name="convert should create a two record field sets with all fields from an output model with 1 single-item data model and two species fields" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.004"/>
+  <testcase name="convert should create a record field set with multiple fields for each item in an output model with a 'list' data model" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.03"/>
+  <testcase name="convert should create a record field set with multiple fields for each species per item in an output model with a 'list' data model" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.005"/>
+  <testcase name="convert should add all single-item dataModel values to each record field set in an output model with a 'list' data model" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.003"/>
+  <testcase name="convert should populate the record field set with the related object ids" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.02"/>
+  <testcase name="convert should override fields which appear in multiple components" classname="au.org.ala.ecodata.converter.RecordConverterSpec" time="0.005"/>
+  <system-out><![CDATA[2020-02-05 12:09:33.457 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.517 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.518 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.521 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.522 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.544 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.551 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.556 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.557 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.559 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.560 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.561 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.584 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+2020-02-05 12:09:33.585 DEBUG --- [    Test worker] a.o.a.ecodata.converter.RecordConverter  : No specific converter found for output data type text with class name au.org.ala.ecodata.converter.TextConverter, using generic converter
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

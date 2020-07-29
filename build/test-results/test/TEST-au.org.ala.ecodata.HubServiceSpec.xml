@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.HubServiceSpec" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:08" hostname="canmove-dev" time="0.124">
+  <properties/>
+  <testcase name="hubs can be retrieved by their URL path" classname="au.org.ala.ecodata.HubServiceSpec" time="0.033"/>
+  <testcase name="hub permissions will be returned when a hub is queried by URL path" classname="au.org.ala.ecodata.HubServiceSpec" time="0.091"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:10:08.106  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@1518b6be: startup date [Wed Feb 05 12:10:08 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:08.331  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:10:08.332  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:08.332  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[ecodata] Logging to /tmp
+2020-02-05 12:10:08.853  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@1518b6be: startup date [Wed Feb 05 12:10:08 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

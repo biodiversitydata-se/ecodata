@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ProjectControllerIntegrationSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:43" hostname="canmove-dev" time="0.119">
+  <properties/>
+  <testcase name="test create project" classname="au.org.ala.ecodata.ProjectControllerIntegrationSpec" time="0.119"/>
+  <system-out><![CDATA[2020-02-05 12:10:43.443  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.ProjectControllerIntegrationSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:43.449  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:43.451  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@753e745f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@69aba048, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5d7d2343, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@40021943, org.springframework.test.context.support.DirtiesContextTestExecutionListener@46981190, org.springframework.test.context.transaction.TransactionalTestExecutionListener@728540eb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@46d612c3, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@16ced35b]
+2020-02-05 12:10:43.526 DEBUG --- [    Test worker] au.org.ala.ecodata.ProjectController     : [dynamicProperty:dynamicProperty, name:Test Project, description:Test description]
+2020-02-05 12:10:43.536 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dynamicProperty to dynamicProperty
+2020-02-05 12:10:43.537 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Test Project
+2020-02-05 12:10:43.537 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to Test description
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

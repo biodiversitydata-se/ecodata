@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ReportingServiceSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ReportingServiceSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ReportingServiceSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">1.505s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">A report of type adjustment cannot be adjusted</td>
+<td>0.021s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">A report that is already adjusted cannot be adjusted again</td>
+<td>0.017s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">A submitted or approved report should not be able to be updated</td>
+<td>0.019s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Adjusting a report will create a new report of type Adjustment and update the status history of the original report</td>
+<td>0.120s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Resetting a report should fail if the report is submitted or approved</td>
+<td>0.136s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Resetting a single activity report should delete associated output data</td>
+<td>1.192s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[ecodata] Logging to /tmp
+[ecodata] Logging to /tmp
+2020-02-05 12:09:35.677  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6a04dbf3: startup date [Wed Feb 05 12:09:35 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:35.952  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:35.952  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:35.952  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:36.761 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Adjustment: test 1
+2020-02-05 12:09:36.763 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to Adjustment: description 1
+2020-02-05 12:09:36.763 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating fromDate to Wed Feb 05 12:09:36 UTC 2020
+2020-02-05 12:09:36.763 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating toDate to Wed Feb 05 12:09:36 UTC 2020
+2020-02-05 12:09:36.764 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating type to Adjustment
+2020-02-05 12:09:36.764 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating adjustedReportId to 1
+2020-02-05 12:09:36.764 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating category to Adjustments
+2020-02-05 12:09:36.764 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating activityType to test
+2020-02-05 12:09:36.764 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating projectId to null
+2020-02-05 12:09:36.765 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating programId to null
+2020-02-05 12:09:36.765 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating organisationId to null
+2020-02-05 12:09:36.765 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating submissionDate to Wed Feb 05 12:09:36 UTC 2020
+2020-02-05 12:09:36.765 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating reportId to f3554a1c-de58-45c6-9b71-668015611364
+2020-02-05 12:09:36.807  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6a04dbf3: startup date [Wed Feb 05 12:09:35 UTC 2020]; root of context hierarchy
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

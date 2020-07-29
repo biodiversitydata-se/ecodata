@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ReportSpec" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:51" hostname="canmove-dev" time="0.032">
+  <properties/>
+  <testcase name="a new report can be saved if mandatory fields are supplied" classname="au.org.ala.ecodata.ReportSpec" time="0.01"/>
+  <testcase name="when a report is submitted, history should be recorded" classname="au.org.ala.ecodata.ReportSpec" time="0.007"/>
+  <testcase name="when a report is approved, history should be recorded" classname="au.org.ala.ecodata.ReportSpec" time="0.005"/>
+  <testcase name="when a report is returned to a user, history should be recorded" classname="au.org.ala.ecodata.ReportSpec" time="0.006"/>
+  <testcase name="an adjustment report needs to reference another report" classname="au.org.ala.ecodata.ReportSpec" time="0.004"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:50.434  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@2222b6eb: startup date [Wed Feb 05 12:09:50 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:50.610  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:50.611  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:50.611  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[ecodata] Logging to /tmp
+2020-02-05 12:09:51.098  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@2222b6eb: startup date [Wed Feb 05 12:09:50 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

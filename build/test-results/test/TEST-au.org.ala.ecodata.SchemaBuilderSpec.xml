@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.SchemaBuilderSpec" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:48" hostname="canmove-dev" time="0.004">
+  <properties/>
+  <testcase name="testDateProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.001"/>
+  <testcase name="testStringListProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.001"/>
+  <testcase name="testConstrainedTextProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.0"/>
+  <testcase name="testTextProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.001"/>
+  <testcase name="testSpeciesProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.0"/>
+  <testcase name="testNumberProperty" classname="au.org.ala.ecodata.SchemaBuilderSpec" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

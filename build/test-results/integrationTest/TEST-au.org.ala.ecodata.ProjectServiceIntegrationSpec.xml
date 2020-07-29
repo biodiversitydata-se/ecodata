@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ProjectServiceIntegrationSpec" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:45" hostname="canmove-dev" time="0.471">
+  <properties/>
+  <testcase name="deleteProject should soft delete the project and all related records when destroy = false" classname="au.org.ala.ecodata.ProjectServiceIntegrationSpec" time="0.276"/>
+  <testcase name="deleteProject should hard delete the project and all related records when destroy = true" classname="au.org.ala.ecodata.ProjectServiceIntegrationSpec" time="0.195"/>
+  <system-out><![CDATA[2020-02-05 12:10:45.642  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.ProjectServiceIntegrationSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:45.647  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:45.649  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2283b768, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@6c47c8fd, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@14a69cb8, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4a00698a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7507bf55, org.springframework.test.context.transaction.TransactionalTestExecutionListener@27558128, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@7b68a26, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@4e33ff63]
+2020-02-05 12:10:45.782  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc2: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.785 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:45.791  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc1: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.793 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:45.819 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:45.830  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc5: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.846 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:45.850  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc6: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.883  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc4: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.886  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc3: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:45.889 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Deleting the sites for projectID : project1
+2020-02-05 12:10:46.109 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Deleting the sites for projectID : project1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

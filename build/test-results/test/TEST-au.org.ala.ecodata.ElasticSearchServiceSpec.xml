@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.ElasticSearchServiceSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:38" hostname="canmove-dev" time="5.427">
+  <properties/>
+  <testcase name="testActivitySearch" classname="au.org.ala.ecodata.ElasticSearchServiceSpec" time="5.427"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:09:37.983  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@37c204e9: startup date [Wed Feb 05 12:09:37 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:38.163  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:38.164  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:38.164  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:38.366  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:09:41.800  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Setting-up elasticsearch node and client
+2020-02-05 12:09:41.986  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : trying to delete search
+2020-02-05 12:09:42.120  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : The index is removed
+2020-02-05 12:09:42.122  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Creating new index and configuring elastic search custom mapping
+2020-02-05 12:09:42.614  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : trying to delete test
+2020-02-05 12:09:42.715  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : The index is removed
+2020-02-05 12:09:42.715  INFO --- [    Test worker] au.org.ala.ecodata.ElasticSearchService  : Creating new index and configuring elastic search custom mapping
+{
+  "took" : 45,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 2,
+    "max_score" : 1.0,
+    "hits" : [ {
+      "_index" : "test",
+      "_type" : "doc",
+      "_id" : "activity4",
+      "_score" : 1.0,
+      "_source":{"projectId":"project1","associatedProgram":"Program1","associatedSubProgram":"SubProgram1","className":"au.org.ala.ecodata.Activity","sites":[{"siteId":"site3","extent":{"geometry":{"state":"ACT","nrm":"NRM3"}},"className":"au.org.ala.ecodata.Site"}],"activityId":"activity4","mainTheme":"Theme1","startDate":null,"endDate":null,"publicationStatus":"published","docType":"activity","geo":[]}
+    }, {
+      "_index" : "test",
+      "_type" : "doc",
+      "_id" : "activity1",
+      "_score" : 1.0,
+      "_source":{"projectId":"project1","associatedProgram":"Program1","associatedSubProgram":"SubProgram1","className":"au.org.ala.ecodata.Activity","sites":[{"siteId":"site1","extent":{"geometry":{"state":"NSW","nrm":"NRM1"}},"className":"au.org.ala.ecodata.Site"}],"activityId":"activity1","mainTheme":"Theme1","startDate":null,"endDate":null,"publicationStatus":"published","docType":"activity","geo":[]}
+    } ]
+  }
+}
+2020-02-05 12:09:43.664  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@37c204e9: startup date [Wed Feb 05 12:09:37 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

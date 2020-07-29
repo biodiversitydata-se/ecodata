@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ProjectActivityServiceIntegrationSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ProjectActivityServiceIntegrationSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ProjectActivityServiceIntegrationSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.288s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">delete should hard delete the project and all related records when destroy = true</td>
+<td>0.118s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">delete should soft delete the project and all related records when destroy = false</td>
+<td>0.170s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2020-02-05 12:10:50.503  INFO --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [au.org.ala.ecodata.ProjectActivityServiceIntegrationSpec]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-05 12:10:50.507  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener]
+2020-02-05 12:10:50.508  INFO --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@196ec4ba, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@223d8644, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7f0358a7, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@60e2c631, org.springframework.test.context.support.DirtiesContextTestExecutionListener@fc69583, org.springframework.test.context.transaction.TransactionalTestExecutionListener@41073d99, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@24a4837e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@52010a95]
+2020-02-05 12:10:50.630  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc1: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:50.634 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:50.644  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc2: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:50.646 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating status to deleted
+2020-02-05 12:10:50.650  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc5: the file /home/radar/ecodata/./target/uploads/null does not exist.
+2020-02-05 12:10:50.652  WARN --- [    Test worker] au.org.ala.ecodata.DocumentService       : Unable to move file for document doc6: the file /home/radar/ecodata/./target/uploads/null does not exist.
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.SiteServiceSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.SiteServiceSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; SiteServiceSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.712s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">A new site can be created</td>
+<td>0.037s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">A new site should not allow the siteId to be supplied</td>
+<td>0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Any POIs supplied with a new site should be assigned IDs</td>
+<td>0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Duplicate coordinates must be removed</td>
+<td>0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">New sites without a centroid should have one assigned</td>
+<td>0.022s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">The site extent can be converted to geojson</td>
+<td>0.625s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[ecodata] Logging to /tmp
+[ecodata] Logging to /tmp
+2020-02-05 12:09:51.706  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6ce49e72: startup date [Wed Feb 05 12:09:51 UTC 2020]; root of context hierarchy
+2020-02-05 12:09:51.892  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:09:51.893  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:51.893  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:09:52.092 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [1, 2]
+2020-02-05 12:09:52.092 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [3, 4]
+2020-02-05 12:09:52.093 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [5, 6]
+2020-02-05 12:09:52.093 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [1, 2]
+2020-02-05 12:09:52.093 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [3, 4]
+2020-02-05 12:09:52.093 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [5, 6]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [1, 2]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [3, 4]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [5, 6]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [1, 2]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [3, 4]
+2020-02-05 12:09:52.096 DEBUG --- [    Test worker] au.org.ala.ecodata.SiteService           : Duplicate points identified - [5, 6]
+[[[[1, 2], [3, 4], [5, 6], [1, 2]]], [[[1, 2], [3, 4], [5, 6], [1, 2]], [[1, 2], [3, 4], [5, 6], [1, 2]]]]
+2020-02-05 12:09:52.117 ERROR --- [    Test worker] au.org.ala.ecodata.SiteService           : Invalid site: null missing geometry
+2020-02-05 12:09:52.117 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Site 1
+2020-02-05 12:09:52.140 ERROR --- [    Test worker] au.org.ala.ecodata.SiteService           : Invalid site: null missing geometry
+2020-02-05 12:09:52.140 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Site 1
+2020-02-05 12:09:52.149 ERROR --- [    Test worker] au.org.ala.ecodata.SiteService           : Invalid site: null missing geometry
+2020-02-05 12:09:52.150 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Site 1
+2020-02-05 12:09:52.150 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating poi to [[name:poi 1, geometry:[decimalLatitude:-35, decimalLongitude:140], poiId:9b793d0b-7c51-4183-870b-7d5f0a2560b4]]
+2020-02-05 12:09:52.168 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to Site 1
+2020-02-05 12:09:52.168 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating extent to [source:pid, geometry:[type:pid, pid:cl123, centre:[136.5, -34.5], aream2:1.0184354215738785E10, state:state1, test:test]]
+2020-02-05 12:09:52.180  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6ce49e72: startup date [Wed Feb 05 12:09:51 UTC 2020]; root of context hierarchy
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:11 PM</p>
+</div>
+</div>
+</body>
+</html>

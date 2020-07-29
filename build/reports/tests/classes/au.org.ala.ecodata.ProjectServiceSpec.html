@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class au.org.ala.ecodata.ProjectServiceSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class au.org.ala.ecodata.ProjectServiceSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/au.org.ala.ecodata.html">au.org.ala.ecodata</a> &gt; ProjectServiceSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.119s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">test create and update project</td>
+<td>0.078s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">test project validation</td>
+<td>0.041s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>[ecodata] Logging to /tmp
+2020-02-05 12:10:06.570  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6eac653f: startup date [Wed Feb 05 12:10:06 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:06.739  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:10:06.740  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:06.740  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[ecodata] Logging to /tmp
+2020-02-05 12:10:07.257 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to test proj
+2020-02-05 12:10:07.261 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to test proj description
+2020-02-05 12:10:07.261 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dynamicProperty to dynamicProperty
+2020-02-05 12:10:07.269 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating name to test proj
+2020-02-05 12:10:07.270 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating description to test proj updated description
+2020-02-05 12:10:07.270 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating dynamicProperty to dynamicProperty
+2020-02-05 12:10:07.270 DEBUG --- [    Test worker] au.org.ala.ecodata.CommonService         : updating origin to atlasoflivingaustralia
+2020-02-05 12:10:07.314 ERROR --- [    Test worker] au.org.ala.ecodata.ProjectService        : Error creating project - Validation error occurred during call to save():
+- Field error in object 'au.org.ala.ecodata.Project' on field 'name': rejected value [null]; codes [au.org.ala.ecodata.Project.name.nullable.error.au.org.ala.ecodata.Project.name,au.org.ala.ecodata.Project.name.nullable.error.name,au.org.ala.ecodata.Project.name.nullable.error.java.lang.String,au.org.ala.ecodata.Project.name.nullable.error,project.name.nullable.error.au.org.ala.ecodata.Project.name,project.name.nullable.error.name,project.name.nullable.error.java.lang.String,project.name.nullable.error,au.org.ala.ecodata.Project.name.nullable.au.org.ala.ecodata.Project.name,au.org.ala.ecodata.Project.name.nullable.name,au.org.ala.ecodata.Project.name.nullable.java.lang.String,au.org.ala.ecodata.Project.name.nullable,project.name.nullable.au.org.ala.ecodata.Project.name,project.name.nullable.name,project.name.nullable.java.lang.String,project.name.nullable,nullable.au.org.ala.ecodata.Project.name,nullable.name,nullable.java.lang.String,nullable]; arguments [name,class au.org.ala.ecodata.Project]; default message [Property [{0}] of class [{1}] cannot be null]
+
+
+grails.validation.ValidationException: Validation error occurred during call to save():
+- Field error in object 'au.org.ala.ecodata.Project' on field 'name': rejected value [null]; codes [au.org.ala.ecodata.Project.name.nullable.error.au.org.ala.ecodata.Project.name,au.org.ala.ecodata.Project.name.nullable.error.name,au.org.ala.ecodata.Project.name.nullable.error.java.lang.String,au.org.ala.ecodata.Project.name.nullable.error,project.name.nullable.error.au.org.ala.ecodata.Project.name,project.name.nullable.error.name,project.name.nullable.error.java.lang.String,project.name.nullable.error,au.org.ala.ecodata.Project.name.nullable.au.org.ala.ecodata.Project.name,au.org.ala.ecodata.Project.name.nullable.name,au.org.ala.ecodata.Project.name.nullable.java.lang.String,au.org.ala.ecodata.Project.name.nullable,project.name.nullable.au.org.ala.ecodata.Project.name,project.name.nullable.name,project.name.nullable.java.lang.String,project.name.nullable,nullable.au.org.ala.ecodata.Project.name,nullable.name,nullable.java.lang.String,nullable]; arguments [name,class au.org.ala.ecodata.Project]; default message [Property [{0}] of class [{1}] cannot be null]
+
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:83)
+	at org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:77)
+	at groovy.lang.MetaClassImpl.invokeConstructor(MetaClassImpl.java:1725)
+	at groovy.lang.MetaClassImpl.invokeConstructor(MetaClassImpl.java:1549)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeConstructorOf(InvokerHelper.java:978)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.newInstance(DefaultGroovyMethods.java:15861)
+	at org.grails.datastore.gorm.GormInstanceApi.doSave(GormInstanceApi.groovy:353)
+	at org.grails.datastore.gorm.GormInstanceApi.doSave(GormInstanceApi.groovy)
+	at sun.reflect.GeneratedMethodAccessor198.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:98)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1225)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1034)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokePogoMethod(InvokerHelper.java:947)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethod(InvokerHelper.java:930)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethodSafe(InvokerHelper.java:92)
+	at org.grails.datastore.gorm.GormInstanceApi$_save_closure5.doCall(GormInstanceApi.groovy:180)
+	at sun.reflect.GeneratedMethodAccessor197.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:98)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:325)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:264)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1034)
+	at groovy.lang.Closure.call(Closure.java:420)
+	at org.codehaus.groovy.runtime.ConvertedClosure.invokeCustom(ConvertedClosure.java:54)
+	at org.codehaus.groovy.runtime.ConversionHandler.invoke(ConversionHandler.java:124)
+	at com.sun.proxy.$Proxy63.doInSession(Unknown Source)
+	at org.grails.datastore.mapping.core.DatastoreUtils.execute(DatastoreUtils.java:319)
+	at org.grails.datastore.gorm.AbstractDatastoreApi.execute(AbstractDatastoreApi.groovy:40)
+	at org.grails.datastore.gorm.GormInstanceApi.save(GormInstanceApi.groovy:179)
+	at org.grails.datastore.gorm.GormEntity$Trait$Helper.save(GormEntity.groovy:151)
+	at org.grails.datastore.gorm.GormEntity$Trait$Helper$save$1.call(Unknown Source)
+	at au.org.ala.ecodata.Project.save(Project.groovy)
+	at au.org.ala.ecodata.Project.save(Project.groovy)
+	at org.grails.datastore.gorm.GormEntity$save.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.grails.datastore.gorm.GormEntity$save.call(Unknown Source)
+	at au.org.ala.ecodata.ProjectService.create(ProjectService.groovy:286)
+	at au.org.ala.ecodata.ProjectService.create(ProjectService.groovy)
+	at au.org.ala.ecodata.ProjectService$create$1.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:116)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:128)
+	at au.org.ala.ecodata.ProjectServiceSpec.$spock_feature_1_1(ProjectServiceSpec.groovy:90)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.spockframework.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:188)
+	at org.spockframework.runtime.model.MethodInfo.invoke(MethodInfo.java:84)
+	at org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)
+	at org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)
+	at org.spockframework.runtime.BaseSpecRunner.runFeatureMethod(BaseSpecRunner.java:406)
+	at org.spockframework.runtime.BaseSpecRunner.doRunIteration(BaseSpecRunner.java:324)
+	at org.spockframework.runtime.BaseSpecRunner$6.invoke(BaseSpecRunner.java:309)
+	at org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)
+	at org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)
+	at org.spockframework.runtime.BaseSpecRunner.runIteration(BaseSpecRunner.java:288)
+	at org.spockframework.runtime.BaseSpecRunner.initializeAndRunIteration(BaseSpecRunner.java:278)
+	at org.spockframework.runtime.BaseSpecRunner.runSimpleFeature(BaseSpecRunner.java:269)
+	at org.spockframework.runtime.BaseSpecRunner.doRunFeature(BaseSpecRunner.java:263)
+	at org.spockframework.runtime.BaseSpecRunner$5.invoke(BaseSpecRunner.java:246)
+	at org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)
+	at org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)
+	at org.spockframework.runtime.BaseSpecRunner.runFeature(BaseSpecRunner.java:238)
+	at org.spockframework.runtime.BaseSpecRunner.runFeatures(BaseSpecRunner.java:188)
+	at org.spockframework.runtime.BaseSpecRunner.doRunSpec(BaseSpecRunner.java:98)
+	at org.spockframework.runtime.BaseSpecRunner$1.invoke(BaseSpecRunner.java:84)
+	at org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)
+	at org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)
+	at org.spockframework.runtime.BaseSpecRunner.runSpec(BaseSpecRunner.java:76)
+	at org.spockframework.runtime.BaseSpecRunner.run(BaseSpecRunner.java:67)
+	at org.spockframework.runtime.Sputnik.run(Sputnik.java:63)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at sun.reflect.GeneratedMethodAccessor261.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy3.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at sun.reflect.GeneratedMethodAccessor260.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:147)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:129)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+2020-02-05 12:10:07.319  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@6eac653f: startup date [Wed Feb 05 12:10:06 UTC 2020]; root of context hierarchy
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.4.1</a> at Feb 5, 2020 12:10:54 PM</p>
+</div>
+</div>
+</body>
+</html>

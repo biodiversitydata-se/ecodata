@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="au.org.ala.ecodata.SiteControllerSpec" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:10:00" hostname="canmove-dev" time="0.236">
+  <properties/>
+  <testcase name="getImages: when site id is not passed" classname="au.org.ala.ecodata.SiteControllerSpec" time="0.127"/>
+  <testcase name="getImages: when no image is returned" classname="au.org.ala.ecodata.SiteControllerSpec" time="0.092"/>
+  <testcase name="getImages: when mongo throws exception" classname="au.org.ala.ecodata.SiteControllerSpec" time="0.012"/>
+  <testcase name="getImages: when working perfectly" classname="au.org.ala.ecodata.SiteControllerSpec" time="0.005"/>
+  <system-out><![CDATA[[ecodata] Logging to /tmp
+2020-02-05 12:10:00.248  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4b4a02e0: startup date [Wed Feb 05 12:10:00 UTC 2020]; root of context hierarchy
+2020-02-05 12:10:00.452  WARN --- [    Test worker] figurationPropertiesBindingPostProcessor : Multiple PropertySourcesPlaceholderConfigurer beans registered [grailsPlaceholderConfigurer, propertySourcesPlaceholderConfigurer], falling back to Environment
+2020-02-05 12:10:00.453  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.context.support.ConversionServiceFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:00.453  INFO --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'conversionService' of type [org.springframework.core.convert.support.DefaultConversionService] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-05 12:10:00.782  INFO --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@4b4a02e0: startup date [Wed Feb 05 12:10:00 UTC 2020]; root of context hierarchy
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
