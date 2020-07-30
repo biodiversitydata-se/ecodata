@@ -4,6 +4,8 @@ import org.bson.types.ObjectId
 
 class Person {
 
+    ObjectId id
+    String personId
     String personCode
     String firstName
     String lastName
@@ -27,9 +29,6 @@ class Person {
 
     static constraints = {
 
-        personCode nullable: false
-        firstName nullable: false
-        lastName nullable: false
         gender nullable: true
         birthYear nullable: true
         homeNum nullable: true
