@@ -3,6 +3,7 @@ class UrlMappings {
 	static mappings = {
         "/ws/record"(controller: "record"){ action = [GET:"list", POST:"create"] }
         "/ws/record/"(controller: "record"){ action = [GET:"list", POST:"create"] }
+        "/person/"(controller: "person"){ action = [GET:"list", POST:"create"] }
 
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
