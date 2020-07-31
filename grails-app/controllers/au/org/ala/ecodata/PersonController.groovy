@@ -1,83 +1,85 @@
 package au.org.ala.ecodata
 
+import grails.converters.JSON
+
+import com.mongodb.*
+import org.grails.datastore.mapping.mongo.MongoSession
+
+
 class PersonController {
 
     PersonService personService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond personService.list(params), model:[personCount: personService.count()]
+    def index() {
+        log.debug "Total persons = ${Person.count()}"
+        render "${Person.count()} volunteers"
     }
 
-    def show(Long id) {
-        respond personService.get(id)
+    def get(String projectId) {
+
+        log.debug params
+
+        def list = []
+        def persons = Person.list()
+            // Person.findAllByRegisteredOnline('false') // should be findByProject(params.project) or something
+        persons.each { person ->
+            log.debug person.lastName
+            list << person
+        }
+        list.sort {it.lastName}
+        log.debug "list - map of persons" + list
+        def result = [data: list] 
+        render result as JSON
     }
 
     @RequireApiKey
     def create() {
-        respond new Person(params)
+        def props = request.JSON
+        log.debug props
+        personService.create(props);
     }
 
-    @RequireApiKey
-    def save(Person person) {
-        if (person == null) {
-            notFound()
-            return
-        }
-
-        personService.save(person)
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'person.label', default: 'Person'), person.id])
-                redirect person
-            }
-            '*' { respond person, [status: CREATED] }
-        }
-    }
 
     @RequireApiKey
     def edit(Long id) {
-        respond personService.get(id)
+        // respond personService.get(id)
     }
 
-    @RequireApiKey
-    def update(Person person) {
-        if (person == null) {
-            notFound()
-            return
-        }
+    // @RequireApiKey
+    // def update(Person person) {
+    //     if (person == null) {
+    //         notFound()
+    //         return
+    //     }
 
-        personService.save(person)
+    //     personService.save(person)
 
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'person.label', default: 'Person'), person.id])
-                redirect person
-            }
-            '*'{ respond person, [status: OK] }
-        }
-    }
+    //     request.withFormat {
+    //         form multipartForm {
+    //             flash.message = message(code: 'default.updated.message', args: [message(code: 'person.label', default: 'Person'), person.id])
+    //             redirect person
+    //         }
+    //         '*'{ respond person, [status: OK] }
+    //     }
+    // }
 
-    @RequireApiKey
-    def delete(Long id) {
-        if (id == null) {
-            notFound()
-            return
-        }
+    // @RequireApiKey
+    // def delete(Long id) {
+    //     if (id == null) {
+    //         notFound()
+    //         return
+    //     }
 
-        personService.delete(id)
+    //     personService.delete(id)
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'person.label', default: 'Person'), id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
+    //     request.withFormat {
+    //         form multipartForm {
+    //             flash.message = message(code: 'default.deleted.message', args: [message(code: 'person.label', default: 'Person'), id])
+    //             redirect action:"index", method:"GET"
+    //         }
+    //         '*'{ render status: NO_CONTENT }
+    //     }
+    // }
 
 }
