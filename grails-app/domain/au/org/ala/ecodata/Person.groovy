@@ -6,7 +6,7 @@ class Person {
 
     ObjectId id
     String personId
-    String personCode
+    // String personCode substituted by personId to fit biocollect nomenclature
     String firstName
     String lastName
     String gender
