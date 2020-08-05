@@ -11,8 +11,7 @@ class Person {
     String lastName
     String gender
     Integer birthYear
-    String homeNum
-    String workNum
+    String phoneNum
     String mobileNum
     String address1
     String address2
@@ -31,8 +30,7 @@ class Person {
 
         gender nullable: true
         birthYear nullable: true
-        homeNum nullable: true
-        workNum nullable: true
+        phoneNum nullable: true
         mobileNum nullable: true
         address1 nullable: true
         address2 nullable: true
