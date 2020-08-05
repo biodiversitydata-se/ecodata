@@ -7,6 +7,13 @@ import groovy.json.JsonSlurper
 
 class PersonService {
 
+    def grailsApplication
+    
+    def getCommonService() {
+        grailsApplication.mainContext.commonService
+    }
+
+    @RequireApiKey
     def create(Map props) {
         log.debug props
 
@@ -14,7 +21,7 @@ class PersonService {
         try {
             person.save(failOnError: true)
             log.debug "person saved"
-            return [status:'ok']
+            return [status:'created']
         } catch (Exception e) {
             e.printStackTrace()
             // clear session to avoid exception when GORM tries to autoflush the changes
@@ -25,9 +32,33 @@ class PersonService {
         }
     }
 
-    def get(String projectId){
-        log.debug "inside get"
-        log.debug projectId
+    def update(Map props, String id){
+        log.debug "props for an update" + props 
+        Person person = Person.findPersonByPersonId(id)
+        log.debug "person to update is " + person
+        if (person){
+            try {
+                getCommonService().updateProperties(person, props)
+                return [status:'ok']
+            } catch (Exception e) {
+                Person.withSession { session -> session.clear() }
+                def error = "Error updating - ${e.message}"
+                log.error error
+                return [status:'error',error:error]
+            }
+        } else {
+            def error = "Error updating person - no such id ${id}"
+            log.error error
+            return [status:'error',error:error]
+        }
+    }
+
+
+    def get(String id){
+        log.debug "person id in service " + id
+        def person = Person.findByPersonId(id)
+        log.debug "person is" + person
+        person
     }
 
     def list() {
@@ -40,5 +71,18 @@ class PersonService {
         }
         list.sort {it.lastName}
         list
+    }
+
+    Map delete(String id) {
+        log.debug "delete in service"
+        Person person = Person.findByPersonId(id)
+
+        if (person) {
+            // TODO would have to delete the person from other collections - like site? 
+            person.delete(flush: true)
+            [status: 'ok']
+        } else {
+            [status: 'error', error: 'No such id']
+        }
     }
 }

@@ -10,24 +10,24 @@ class PersonController {
 
     PersonService personService
 
-    def index() {
-        log.debug "Total persons = ${Person.count()}"
-        render "${Person.count()} volunteers"
+    def get(String id) {
+        log.debug "person id in controller: " + id
+        def result = personService.get(id)
+        render result as JSON
     }
 
-    def get(String projectId) {
-
+    def list(String projectId) {
+        // log.debug "Total persons = ${Person.count()}"
+        // render "${Person.count()} volunteers"
         log.debug params
 
         def list = []
         def persons = Person.list()
             // Person.findAllByRegisteredOnline('false') // should be findByProject(params.project) or something
         persons.each { person ->
-            log.debug person.lastName
             list << person
         }
         list.sort {it.lastName}
-        log.debug "list - map of persons" + list
         def result = [data: list] 
         render result as JSON
     }
@@ -35,51 +35,39 @@ class PersonController {
     @RequireApiKey
     def create() {
         def props = request.JSON
-        log.debug props
+        log.debug "props" + props
         personService.create(props);
     }
 
 
     @RequireApiKey
-    def edit(Long id) {
-        // respond personService.get(id)
+    def update(String id) {
+        log.debug "updating"
+        log.debug "person id is " + id
+        respond personService.get(id)
     }
 
-    // @RequireApiKey
-    // def update(Person person) {
-    //     if (person == null) {
-    //         notFound()
-    //         return
-    //     }
+    @RequireApiKey
+    def delete(String id) {
+        log.debug "id is " + id
+        Person person = Person.findByPersonId(id)
+        log.debug "person to be deleted is: " + person
+        if (person) {
+            boolean destroy = params.destroy == null ? false : params.destroy.toBoolean()
+            Map result = personService.delete(id)
+            log.debug "result" + result
+            if (!result.error) {
+                render(status: 200, text: 'deleted')
+            }
+            else {
+                response.status = 500
+                render status:500, text:result.error
+            }
+        } else {
+            response.status = 404
+            render status:404, text: 'No such id'
+        }
+    }
 
-    //     personService.save(person)
-
-
-    //     request.withFormat {
-    //         form multipartForm {
-    //             flash.message = message(code: 'default.updated.message', args: [message(code: 'person.label', default: 'Person'), person.id])
-    //             redirect person
-    //         }
-    //         '*'{ respond person, [status: OK] }
-    //     }
-    // }
-
-    // @RequireApiKey
-    // def delete(Long id) {
-    //     if (id == null) {
-    //         notFound()
-    //         return
-    //     }
-
-    //     personService.delete(id)
-
-    //     request.withFormat {
-    //         form multipartForm {
-    //             flash.message = message(code: 'default.deleted.message', args: [message(code: 'person.label', default: 'Person'), id])
-    //             redirect action:"index", method:"GET"
-    //         }
-    //         '*'{ render status: NO_CONTENT }
-    //     }
-    // }
 
 }
