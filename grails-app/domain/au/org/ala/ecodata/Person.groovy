@@ -10,7 +10,7 @@ class Person {
     String firstName
     String lastName
     String gender
-    Integer birthYear
+    String birthDate
     String phoneNum
     String mobileNum
     String address1
@@ -29,7 +29,7 @@ class Person {
     static constraints = {
 
         gender nullable: true
-        birthYear nullable: true
+        birthDate nullable: true
         phoneNum nullable: true
         mobileNum nullable: true
         address1 nullable: true
