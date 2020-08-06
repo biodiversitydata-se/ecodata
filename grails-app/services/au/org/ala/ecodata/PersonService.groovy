@@ -15,12 +15,10 @@ class PersonService {
 
     @RequireApiKey
     def create(Map props) {
-        log.debug props
 
         def person = new Person(props)
         try {
             person.save(failOnError: true)
-            log.debug "person saved"
             return [status:'created']
         } catch (Exception e) {
             e.printStackTrace()
@@ -33,9 +31,7 @@ class PersonService {
     }
 
     def update(Map props, String id){
-        log.debug "props for an update" + props 
-        Person person = Person.findPersonByPersonId(id)
-        log.debug "person to update is " + person
+        Person person = Person.findByPersonId(id)
         if (person){
             try {
                 getCommonService().updateProperties(person, props)
@@ -55,14 +51,11 @@ class PersonService {
 
 
     def get(String id){
-        log.debug "person id in service " + id
         def person = Person.findByPersonId(id)
-        log.debug "person is" + person
         person
     }
 
     def list() {
-        log.debug "inside list"
         def list = []
         def persons = params.includeDeleted ? Person.list() :
             Person.find()  // should be findByProject(params.project) or something
@@ -74,7 +67,6 @@ class PersonService {
     }
 
     Map delete(String id) {
-        log.debug "delete in service"
         Person person = Person.findByPersonId(id)
 
         if (person) {
