@@ -11,7 +11,6 @@ class PersonController {
     PersonService personService
 
     def get(String id) {
-        log.debug "person id in controller: " + id
         def result = personService.get(id)
         render result as JSON
     }
@@ -23,7 +22,7 @@ class PersonController {
 
         def list = []
         def persons = Person.list()
-            // Person.findAllByRegisteredOnline('false') // should be findByProject(params.project) or something
+            // TODO Person.findAllByRegisteredOnline('false') // should be findByProject(params.project) or something
         persons.each { person ->
             list << person
         }
@@ -35,27 +34,22 @@ class PersonController {
     @RequireApiKey
     def create() {
         def props = request.JSON
-        log.debug "props" + props
         personService.create(props);
     }
 
 
     @RequireApiKey
     def update(String id) {
-        log.debug "updating"
-        log.debug "person id is " + id
-        respond personService.get(id)
+        def props = request.JSON
+        personService.update(props, id)
     }
 
     @RequireApiKey
     def delete(String id) {
-        log.debug "id is " + id
         Person person = Person.findByPersonId(id)
-        log.debug "person to be deleted is: " + person
         if (person) {
             boolean destroy = params.destroy == null ? false : params.destroy.toBoolean()
             Map result = personService.delete(id)
-            log.debug "result" + result
             if (!result.error) {
                 render(status: 200, text: 'deleted')
             }
