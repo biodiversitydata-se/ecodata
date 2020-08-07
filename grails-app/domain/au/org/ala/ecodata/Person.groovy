@@ -9,6 +9,7 @@ class Person {
     // String personCode substituted by personId to fit biocollect nomenclature
     String firstName
     String lastName
+    String email 
     String gender
     String birthDate
     String phoneNum
@@ -17,7 +18,6 @@ class Person {
     String address2
     String postCode
     String town
-    String email 
     String extra
     String modTyp
     String eProt
@@ -28,6 +28,7 @@ class Person {
 
     static constraints = {
 
+        email nullable: true
         gender nullable: true
         birthDate nullable: true
         phoneNum nullable: true
@@ -36,14 +37,13 @@ class Person {
         address2 nullable: true
         postCode nullable: true
         town nullable: true
-        email nullable: true
         extra nullable: true, maxSize: 4000
         modTyp nullable: true
         eProt nullable: true
         registeredOnline nullable: true
         currentSites nullable: true
         surveyedSites nullable: true
-        projects nullable: false
+        projects nullable: true
 
     }
 }
