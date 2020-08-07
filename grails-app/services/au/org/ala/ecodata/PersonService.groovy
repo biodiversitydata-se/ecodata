@@ -2,16 +2,12 @@ package au.org.ala.ecodata
 
 import com.mongodb.*
 import org.grails.datastore.mapping.mongo.MongoSession
-import groovy.json.JsonSlurper
 
 
 class PersonService {
 
-    def grailsApplication
-    
-    def getCommonService() {
-        grailsApplication.mainContext.commonService
-    }
+    def grailsApplication, commonService
+
 
     @RequireApiKey
     def create(Map props) {
@@ -19,7 +15,8 @@ class PersonService {
         def person = new Person(props)
         try {
             person.save(failOnError: true)
-            return [status:'created']
+            log.debug "person saved"
+            return [status:'updated', person: props.lastName]
         } catch (Exception e) {
             e.printStackTrace()
             // clear session to avoid exception when GORM tries to autoflush the changes
@@ -30,15 +27,15 @@ class PersonService {
         }
     }
 
-    def update(Map props, String id){
+    def update(Map props, String id, boolean forceRefresh = false){
         Person person = Person.findByPersonId(id)
         if (person){
             try {
-                getCommonService().updateProperties(person, props)
-                return [status:'ok']
+                commonService.updateProperties(person, props)
+                return [status:'updated', person: props.lastName]
             } catch (Exception e) {
                 Person.withSession { session -> session.clear() }
-                def error = "Error updating - ${e.message}"
+                def error = "Error updating person ??? - ${e.message}"
                 log.error error
                 return [status:'error',error:error]
             }
