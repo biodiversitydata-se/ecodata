@@ -24,12 +24,12 @@ check install JAVA
 ```
 java -version
 ```
-(write it in /etc/profile)
+write it in /etc/profile :
 ```
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 ```
 
- SDK (be sore to have instlaled zip and unzip before)
+SDK (be sure to have zip and unzip installed before)
 ```
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
