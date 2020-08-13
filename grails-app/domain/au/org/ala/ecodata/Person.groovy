@@ -2,11 +2,20 @@ package au.org.ala.ecodata
 
 import org.bson.types.ObjectId
 
+/* Class for all participants in the project - they can be:
+- users - registered in CAS 
+- persons - not registered online but submitting their observations to 
+    be entered by users
+Exists to be able to hold contact details and display summaries of activity
+of non-registered members to the admins
+*/
 class Person {
 
     ObjectId id
+    // personId assigned to every person
     String personId
-    // String personCode substituted by personId to fit biocollect nomenclature
+    // personCode assigned to SFT persons
+    String personCode
     String firstName
     String lastName
     String email 
@@ -21,9 +30,10 @@ class Person {
     String extra
     String modTyp
     String eProt
-    String registeredOnline = false
-    List currentSites 
-    List surveyedSites
+    // userId is for registered users only
+    String userId
+    // List bookedSites 
+    // List pastSites
     List projects
 
     static constraints = {
@@ -40,9 +50,9 @@ class Person {
         extra nullable: true, maxSize: 4000
         modTyp nullable: true
         eProt nullable: true
-        registeredOnline nullable: true
-        currentSites nullable: true
-        surveyedSites nullable: true
+        userId nullable: true
+        // bookedSites nullable: true
+        // pastSites nullable: true
         projects nullable: true
 
     }
