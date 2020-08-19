@@ -1,4 +1,4 @@
-package au.org.ala.ecodata
+qpackage au.org.ala.ecodata
 
 import org.bson.types.ObjectId
 
@@ -38,7 +38,6 @@ class Person {
 
     static constraints = {
 
-        personCode nullable: true
         email nullable: true
         gender nullable: true
         birthDate nullable: true

@@ -16,18 +16,16 @@ class PersonController {
     }
 
     def list(String projectId) {
-        // log.debug "Total persons = ${Person.count()}"
-        // render "${Person.count()} volunteers"
-        log.debug params
 
         def list = []
         def persons = Person.list()
-            // TODO Person.findAllByRegisteredOnline('false') // should be findByProject(params.project) or something
+            // TODO should be findByProject(params.project) or something but person doesn't store projectId now
         persons.each { person ->
             list << person
         }
         list.sort {it.lastName}
         def result = [data: list] 
+
         render result as JSON
     }
 
@@ -61,6 +59,15 @@ class PersonController {
             response.status = 404
             render status:404, text: 'No such id'
         }
+    }
+
+    def linkUserToPerson(String id){
+        log.debug "link user with id " + id
+        Person person = Person.findByPersonId(id)
+        log.debug "person to link is: " + person
+        def props = request.JSON
+        log.debug "props " + props
+        personService.update(props, id)
     }
 
 

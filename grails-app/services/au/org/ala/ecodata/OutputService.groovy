@@ -61,6 +61,7 @@ class OutputService {
         Output.findAllByActivityIdAndNameAndStatus(id, name, ACTIVE).collect { toMap(it, levelOfDetail) }
     }
 
+
     Map delete(String id, boolean destroy = false) {
         Output output = Output.findByOutputId(id)
 

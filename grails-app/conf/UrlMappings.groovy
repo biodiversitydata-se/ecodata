@@ -5,7 +5,7 @@ class UrlMappings {
         "/ws/record/"(controller: "record"){ action = [GET:"list", POST:"create"] }
         "/ws/person/"(controller: "person"){ action = [GET:"list", POST:"create"] }
         "/ws/person/$id"(controller: "person"){action = [POST: "update", DELETE: "delete", GET: "get"]}
-
+        "/ws/person/linkUserToPerson/$id"(controller: "person"){action = [POST: "linkUserToPerson"]}
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
         "/ws/record/uncertainIdentifications"(controller: "record"){ action = [GET:"listUncertainIdentifications"] }
@@ -41,7 +41,7 @@ class UrlMappings {
         "/ws/site/getPoiImages"( controller: 'site', action: 'getPoiImages')
 
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
-
+        "/ws/output/getAllForPerson/$id"(controller: "output"){ action = [GET:"getAllForPerson"] }
         "/ws/activitiesForProject/$id" {
             controller = 'activity'
             action = 'activitiesForProject'

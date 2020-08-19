@@ -134,4 +134,23 @@ class OutputController {
         asJson outputs:outputList
     }
 
+    /**
+     * Get map of output name and how many outputs the person submitted.
+     * @param personId
+     *
+     * @return Map [name: count]
+     */
+    def getAllForPerson(String id) {         
+        List surveys = Output.findAllByPersonId(id)
+        List names = []
+        surveys.each { survey ->
+            names.push(survey.name)
+        }
+        def result = [:]
+        // count unique names of output and how many times they occur
+        result = names.countBy {it}
+        log.debug "output count " + result
+        render result as JSON
+    }
+
 }

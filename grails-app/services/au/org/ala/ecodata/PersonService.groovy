@@ -16,7 +16,7 @@ class PersonService {
         try {
             person.save(failOnError: true)
             log.debug "person saved"
-            return [status:'updated', person: props.lastName]
+            // return [status:'updated', person: props.lastName]
         } catch (Exception e) {
             e.printStackTrace()
             // clear session to avoid exception when GORM tries to autoflush the changes
@@ -32,7 +32,7 @@ class PersonService {
         if (person){
             try {
                 commonService.updateProperties(person, props)
-                return [status:'updated', person: props.lastName]
+                // return [status:'updated', person: props.lastName]
             } catch (Exception e) {
                 Person.withSession { session -> session.clear() }
                 def error = "Error updating person ??? - ${e.message}"
@@ -60,6 +60,7 @@ class PersonService {
             list.data << personService.toMap(person)
         }
         list.sort {it.lastName}
+        log.debug "list to populate person table" + list
         list
     }
 
