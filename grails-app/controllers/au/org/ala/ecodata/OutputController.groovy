@@ -140,7 +140,7 @@ class OutputController {
      *
      * @return Map [name: count]
      */
-    def getAllForPerson(String id) {         
+    def countAllForPerson(String id) {         
         List surveys = Output.findAllByPersonId(id)
         List names = []
         surveys.each { survey ->
@@ -150,6 +150,16 @@ class OutputController {
         // count unique names of output and how many times they occur
         result = names.countBy {it}
         log.debug "output count " + result
+        render result as JSON
+    }
+
+    def getAllForPersonBySurveyName(String id){
+        def surveyName = params.surveyName
+        log.debug "survey is " + surveyName 
+        log.debug "personId is " + id 
+
+        List result = Output.findAllByPersonIdAndName(id, surveyName)
+        log.debug "surveys " + result
         render result as JSON
     }
 

@@ -41,7 +41,9 @@ class UrlMappings {
         "/ws/site/getPoiImages"( controller: 'site', action: 'getPoiImages')
 
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
-        "/ws/output/getAllForPerson/$id"(controller: "output"){ action = [GET:"getAllForPerson"] }
+        "/ws/output/countAllForPerson/$id"(controller: "output"){ action = [GET:"countAllForPerson"] }
+        "/ws/output/getAllForPersonBySurveyName/$id"(controller: "output"){ action = [GET:"getAllForPersonBySurveyName"] }
+
         "/ws/activitiesForProject/$id" {
             controller = 'activity'
             action = 'activitiesForProject'
