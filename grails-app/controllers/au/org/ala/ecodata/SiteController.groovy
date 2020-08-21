@@ -335,4 +335,12 @@ class SiteController {
         Map result = [projectId:id, sites: features]
         render result as JSON
     }
+
+    def bookSites (){
+        def props = request.JSON
+        def message = siteService.bookSites(props)
+        Map result = [message: message]
+        log.debug "message" + message
+        render result as JSON
+    }
 }

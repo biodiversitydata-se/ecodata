@@ -986,4 +986,23 @@ class SiteService {
 
         resp
     }
+
+    def bookSites(props){
+        def bookedBy = [bookedBy: props.personId]
+        log.debug "booked: " + bookedBy
+        def message = ""
+        props?.siteNames.each { name ->
+            log.debug "name" + name
+            def site = Site.findByName(name)
+            if (site) {
+                log.debug "site updated " + site
+                updateSite(site, bookedBy, false)
+                message = message + "<li>Site ${name} saved.</li>"
+            } else {
+                message = message + "<li>Site ${name} not recognized. Check name and try again.</li>"
+            }
+        }
+        log.debug message
+        return message     
+    } 
 }
