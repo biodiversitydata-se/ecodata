@@ -6,6 +6,7 @@ class UrlMappings {
         "/ws/person/"(controller: "person"){ action = [GET:"list", POST:"create"] }
         "/ws/person/$id"(controller: "person"){action = [POST: "update", DELETE: "delete", GET: "get"]}
         "/ws/person/linkUserToPerson/$id"(controller: "person"){action = [POST: "linkUserToPerson"]}
+        "/ws/person/searchPerson"(controller: "person"){action = [GET: "searchPerson"]}
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
         "/ws/record/uncertainIdentifications"(controller: "record"){ action = [GET:"listUncertainIdentifications"] }
