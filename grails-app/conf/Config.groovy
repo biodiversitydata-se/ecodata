@@ -698,6 +698,7 @@ environments {
         security.apikey.serviceUrl = "${casBaseUrl}/apikey/ws/check?apikey="
     }
     production {
+        grails.serverURL = "https://ecodata.bioatlas.se"
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
     }
