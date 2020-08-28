@@ -11,12 +11,13 @@ class PersonService {
 
     @RequireApiKey
     def create(Map props) {
+        assert getCommonService()
 
         def person = new Person(props)
         try {
             person.save(failOnError: true)
-            log.debug "person saved"
-            // return [status:'updated', person: props.lastName]
+            log.debug "person saved is " + person.lastName
+            return [status:'ok', personName: person.lastName]
         } catch (Exception e) {
             e.printStackTrace()
             // clear session to avoid exception when GORM tries to autoflush the changes
@@ -32,10 +33,10 @@ class PersonService {
         if (person){
             try {
                 commonService.updateProperties(person, props)
-                // return [status:'updated', person: props.lastName]
+                return [status:'ok', personName: person.lastName]
             } catch (Exception e) {
                 Person.withSession { session -> session.clear() }
-                def error = "Error updating person ??? - ${e.message}"
+                def error = "Error updating person - ${e.message}"
                 log.error error
                 return [status:'error',error:error]
             }
@@ -48,8 +49,15 @@ class PersonService {
 
 
     def get(String id){
-        def person = Person.findByPersonId(id)
-        person
+        try {
+            def person = Person.findByPersonId(id)
+            return person
+        } catch (Exception e) {
+            def error = "Error getting personal details - ${e.message}"
+            log.error error, e
+            return [status: 'error', error: error]
+        }
+        
     }
 
     def list() {
