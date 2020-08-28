@@ -336,11 +336,32 @@ class SiteController {
         render result as JSON
     }
 
+
     def bookSites (){
         def props = request.JSON
+        log.debug "props should contain site names" + props
         def message = siteService.bookSites(props)
         Map result = [message: message]
-        log.debug "message" + message
+        log.debug "message" + result.message
+        render result as JSON
+    }
+
+    def getSitesForUser(String userId){
+        log.debug "id is " + userId
+        Map result = [:]
+        def sites
+        try {
+            sites = Site.findAllByBookedBy(userId)
+        } catch (Exception e){
+            log.debug 'An exception occurred: ' + e.message
+            result = [status: 'error', message: 'Something went wrong']
+        }
+        log.debug "sites "+ sites
+        if (sites){
+            result = [status: 'ok', sites: sites]
+        } else {
+            result = [status: 'ok', message: "You haven't booked any sites yet. Contact the administrator of the project."]
+        }
         render result as JSON
     }
 }
