@@ -41,7 +41,7 @@ class UrlMappings {
         "/ws/site/getImages"( controller: 'site', action: 'getImages')
         "/ws/site/getPoiImages"( controller: 'site', action: 'getPoiImages')
         "/ws/site/bookSites/" (controller: 'site', action: 'bookSites')
-
+        "/ws/site/getSitesForUser/$userId"(controller: 'site', action: 'getSitesForUser')
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
         "/ws/output/countAllForPerson/$id"(controller: "output"){ action = [GET:"countAllForPerson"] }
         "/ws/output/getAllForPersonBySurveyName/$id"(controller: "output"){ action = [GET:"getAllForPersonBySurveyName"] }
