@@ -32,13 +32,13 @@ class Person {
     String eProt
     // userId is for registered users only
     String userId
-    // List bookedSites 
+    String projects
+    List bookedSites 
     // List pastSites
-    List projects
 
     static constraints = {
 
-        personCode nullable: true
+        personCode nullable: false
         email nullable: true
         gender nullable: true
         birthDate nullable: true
@@ -52,7 +52,7 @@ class Person {
         modTyp nullable: true
         eProt nullable: true
         userId nullable: true
-        // bookedSites nullable: true
+        bookedSites nullable: true
         // pastSites nullable: true
         projects nullable: true
 
