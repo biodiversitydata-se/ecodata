@@ -12,7 +12,7 @@ class PersonService {
     @RequireApiKey
     def create(Map props) {
         assert getCommonService()
-
+        props.personId = Identifiers.getNew(true,'')
         def person = new Person(props)
         try {
             person.save(failOnError: true)
