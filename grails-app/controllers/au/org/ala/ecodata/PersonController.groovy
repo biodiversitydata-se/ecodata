@@ -29,7 +29,7 @@ class PersonController {
         render result as JSON
     }
 
-    @RequireApiKey
+    // @RequireApiKey
     def create() {
         def props = request.JSON
         Map result = personService.create(props);
@@ -37,14 +37,14 @@ class PersonController {
     }
 
 
-    @RequireApiKey
+    // @RequireApiKey
     def update(String id) {
         def props = request.JSON
         Map result = personService.update(props, id)
         render result as JSON
     }
 
-    @RequireApiKey
+    // @RequireApiKey
     def delete(String id) {
         Person person = Person.findByPersonId(id)
         if (person) {

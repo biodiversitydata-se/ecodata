@@ -9,7 +9,7 @@ class PersonService {
     def grailsApplication, commonService
 
 
-    @RequireApiKey
+    // @RequireApiKey
     def create(Map props) {
         assert getCommonService()
         props.personId = Identifiers.getNew(true,'')
