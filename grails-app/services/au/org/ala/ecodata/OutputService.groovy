@@ -403,15 +403,22 @@ class OutputService {
         }
     }
 
+    /**
+     * get a list of all outputs recorded by a person under one scheme.
+     * @param id of the person
+     * @param params 
+     * @return list of outputs containing names of sites instead of their Id
+     */
     def getAllForPersonBySurveyName(id, params){
         def surveyName = params.surveyName
         log.debug "getting outputs for survey: " + surveyName 
         List outputs = Output.findAllByPersonIdAndName(id, surveyName)
         List result = []
         outputs.each { output ->
-            def site = siteService.getSiteNameAndCode(output.data.location)
-            def row = ['siteName': site?.name, 'siteCode': site?.name, 'dateCreated': output?.dateCreated]
             // fetch name and code of the site
+            def site = siteService.getSiteNameAndCode(output.data.location)
+            def row = ['siteName': site?.name, 'siteCode': site?.name, 
+                'dateCreated': output?.dateCreated, 'period': output?.period, 'activityId': output?.activityId]
             result << row
         }
         return result
