@@ -1005,4 +1005,10 @@ class SiteService {
         log.debug message
         return message     
     } 
+
+    def getSiteNameAndCode(id){
+        def site = Site.findBySiteId(id)
+        log.debug "site" + site 
+        return site 
+    }
 }

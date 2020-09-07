@@ -154,11 +154,7 @@ class OutputController {
     }
 
     def getAllForPersonBySurveyName(String id){
-        def surveyName = params.surveyName
-        log.debug "survey is " + surveyName 
-        log.debug "personId is " + id 
-
-        List result = Output.findAllByPersonIdAndName(id, surveyName)
+        List result = outputService.getAllForPersonBySurveyName(id, params)
         log.debug "surveys " + result
         render result as JSON
     }

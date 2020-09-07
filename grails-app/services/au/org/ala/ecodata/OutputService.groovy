@@ -17,6 +17,7 @@ class OutputService {
     DocumentService documentService
     CommentService commentService
     ActivityService activityService
+    SiteService siteService
 
     static final ACTIVE = "active"
     static final SCORES = 'scores'
@@ -400,5 +401,19 @@ class OutputService {
         } else {
             return []
         }
+    }
+
+    def getAllForPersonBySurveyName(id, params){
+        def surveyName = params.surveyName
+        log.debug "getting outputs for survey: " + surveyName 
+        List outputs = Output.findAllByPersonIdAndName(id, surveyName)
+        List result = []
+        outputs.each { output ->
+            def site = siteService.getSiteNameAndCode(output.data.location)
+            def row = ['siteName': site?.name, 'siteCode': site?.name, 'dateCreated': output?.dateCreated]
+            // fetch name and code of the site
+            result << row
+        }
+        return result
     }
 }
