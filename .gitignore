@@ -39,3 +39,6 @@
 /.slcache
 
 out
+# compilation files
+/build
+/dump
