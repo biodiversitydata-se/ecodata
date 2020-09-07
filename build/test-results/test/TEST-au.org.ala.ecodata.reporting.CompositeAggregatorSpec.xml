@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="au.org.ala.ecodata.reporting.CompositeAggregatorSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-02-05T12:09:44" hostname="canmove-dev" time="0.014">
-  <properties/>
-  <testcase name="two aggregations can be combined into a single result" classname="au.org.ala.ecodata.reporting.CompositeAggregatorSpec" time="0.014"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -1,6 +1,0 @@
-#Wed, 05 Feb 2020 12:11:19 +0000
-
-info.app.version=2.0-SNAPSHOT
-info.app.name=ecodata
-grails.env=development
-info.app.grailsVersion=3.3.11
