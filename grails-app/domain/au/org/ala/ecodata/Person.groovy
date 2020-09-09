@@ -28,8 +28,6 @@ class Person {
     String postCode
     String town
     String extra
-    String modTyp
-    String eProt
     // userId is for registered users only
     String userId
     String projects
@@ -37,20 +35,19 @@ class Person {
     // List pastSites
 
     static constraints = {
-
-        personCode nullable: false
-        email nullable: true
+        firstName nullable: false
+        lastName nullable: false
+        personCode nullable: true
+        email nullable: false
         gender nullable: true
         birthDate nullable: true
         phoneNum nullable: true
         mobileNum nullable: true
-        address1 nullable: true
+        address1 nullable: false
         address2 nullable: true
-        postCode nullable: true
-        town nullable: true
+        postCode nullable: false
+        town nullable: false
         extra nullable: true, maxSize: 4000
-        modTyp nullable: true
-        eProt nullable: true
         userId nullable: true
         bookedSites nullable: true
         // pastSites nullable: true
