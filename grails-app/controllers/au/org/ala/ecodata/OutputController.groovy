@@ -153,6 +153,15 @@ class OutputController {
         render result as JSON
     }
 
+    /**
+     * Get a list of all outputs recorded by a person under one scheme
+     * and site names where the sightings occurred.
+     *
+     * @param id of the person
+     * @param params containing the name of the survey form
+     * @return list of outputs containing names of sites instead of their Id
+     *          and selected output properties
+     */
     def getAllForPersonBySurveyName(String id){
         List result = outputService.getAllForPersonBySurveyName(id, params)
         log.debug "surveys " + result

@@ -404,10 +404,12 @@ class OutputService {
     }
 
     /**
-     * get a list of all outputs recorded by a person under one scheme.
+     * Get a list of all outputs recorded by a person under one scheme
+     * and site names where the sightings occurred.
      * @param id of the person
-     * @param params 
+     * @param params containing the name of the survey for which outputs are to be found 
      * @return list of outputs containing names of sites instead of their Id
+     *          and selected output properties
      */
     def getAllForPersonBySurveyName(id, params){
         def surveyName = params.surveyName

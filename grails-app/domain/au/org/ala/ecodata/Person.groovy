@@ -2,19 +2,22 @@ package au.org.ala.ecodata
 
 import org.bson.types.ObjectId
 
-/* Class for all participants in the project - they can be:
-- users - registered in CAS 
-- persons - not registered online but submitting their observations to 
-    be entered by users
-Exists to be able to hold contact details and display summaries of activity
-of non-registered members to the admins
+/**
+* For systematic monitoring - volunteer management 
+*
+* Class for all members of a project - they can be:
+* - users - registered in CAS 
+* - persons - not registered online but submitting their observations to 
+*    be entered by users
+* Exists to be able to hold contact details and display to the project admins 
+* summaries of activity of non-registered members
 */
 class Person {
 
     ObjectId id
-    // personId assigned to every person
+    // personId assigned automatically to every person
     String personId
-    // personCode assigned to SFT persons
+    // personCode assigned to SFT persons - DOB
     String personCode
     String firstName
     String lastName
@@ -28,11 +31,10 @@ class Person {
     String postCode
     String town
     String extra
-    // userId is for registered users only
+    // userId is for registered users only, same as in CAS system
     String userId
     String projects
     List bookedSites 
-    // List pastSites
 
     static constraints = {
         firstName nullable: false
@@ -50,8 +52,6 @@ class Person {
         extra nullable: true, maxSize: 4000
         userId nullable: true
         bookedSites nullable: true
-        // pastSites nullable: true
         projects nullable: true
-
     }
 }

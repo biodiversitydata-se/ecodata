@@ -683,8 +683,8 @@ class SiteService {
     /**
      * For systematic monitoring 
      * Calculates length of saved polyline
-     * @param transectParts
-     * @return transectPart.length
+     * @param <List>transectParts
+     * @return transectPart.length in meters
      */
     def getSegmentLength(transectParts){
         transectParts.each { 
@@ -724,6 +724,49 @@ class SiteService {
         ]
         site.extent.geometry = result
         site.extent.source = 'Point'
+    }
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * changes status of site to booked and registers who booked the site
+     * 
+     * @param props - contains ID of the person who requested the site
+     * @return result - status update for the admin
+     */
+    def bookSites(props){
+        def bookedBy = [bookedBy: props.personId]
+        log.debug "booked: " + bookedBy
+
+        def messageSuccess = ""
+        def messageFail = ""
+        props?.siteNames.each { name ->
+            log.debug "name" + name
+            def site = Site.findByName(name)
+            if (site) {
+                log.debug "site updated " + site
+                updateSite(site, bookedBy, false)
+                messageSuccess = messageSuccess + "<li>Site ${name} saved.</li>"
+            } else {
+                messageFail = messageFail + "<li>Site ${name} not recognized. Check name and try again.</li>"
+            }
+        }
+        def result = [messageSuccess, messageFail]
+        log.debug "result " + result
+        return result     
+    } 
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * outputs store site id. When outputs submitted by a person are displayed
+     * the name and code of the site need to be seen by the admin
+     * 
+     * @param id - of the site in the output
+     * @return site
+     */
+    def getSiteNameAndCode(id){
+        def site = Site.findBySiteId(id)
+        log.debug "site" + site 
+        return site 
     }
 
     /**
@@ -985,33 +1028,5 @@ class SiteService {
         }
 
         resp
-    }
-
-    def bookSites(props){
-        def bookedBy = [bookedBy: props.personId]
-        log.debug "booked: " + bookedBy
-
-        def messageSuccess = ""
-        def messageFail = ""
-        props?.siteNames.each { name ->
-            log.debug "name" + name
-            def site = Site.findByName(name)
-            if (site) {
-                log.debug "site updated " + site
-                updateSite(site, bookedBy, false)
-                messageSuccess = messageSuccess + "<li>Site ${name} saved.</li>"
-            } else {
-                messageFail = messageFail + "<li>Site ${name} not recognized. Check name and try again.</li>"
-            }
-        }
-        def result = [messageSuccess, messageFail]
-        log.debug "result " + result
-        return result     
-    } 
-
-    def getSiteNameAndCode(id){
-        def site = Site.findBySiteId(id)
-        log.debug "site" + site 
-        return site 
     }
 }

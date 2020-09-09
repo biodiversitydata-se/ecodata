@@ -3,11 +3,19 @@ package au.org.ala.ecodata
 import com.mongodb.*
 import org.grails.datastore.mapping.mongo.MongoSession
 
+/**
+* For systematic monitoring - volunteer management 
+*/
 
 class PersonService {
 
     def grailsApplication, commonService
 
+    /**
+     * Create a new member of the project (person, not registered online)
+     *
+     * @props map containing personal details entered in a web form
+     */
 
     // @RequireApiKey
     def create(Map props) {
@@ -28,7 +36,13 @@ class PersonService {
         }
     }
 
-    def update(Map props, String id, boolean forceRefresh = false){
+    /**
+     * Update personal details of a member of a project 
+     *
+     * @param id of an existing person
+     * @props map containing personal details entered in a web form
+     */
+    def update(Map props, String id){
         Person person = Person.findByPersonId(id)
         if (person){
             try {
@@ -47,7 +61,12 @@ class PersonService {
         }
     }
 
-
+    /**
+     * Get personal details of a member of a project 
+     *
+     * @param id - of an existing person
+     * @return person - map containing personal details of the member
+     */
     def get(String id){
         try {
             def person = Person.findByPersonId(id)
@@ -60,17 +79,24 @@ class PersonService {
         
     }
 
-    def list() {
-        def list = []
-        def persons = params.includeDeleted ? Person.list() :
-            Person.find()  // should be findByProject(params.project) or something
-        persons.each { person ->
-            list.data << personService.toMap(person)
-        }
-        list.sort {it.lastName}
-        log.debug "list to populate person table" + list
-        list
-    }
+    /**
+     * Get a list of all members of a project 
+     *
+     * @param 
+     * @return <List>persons
+     */
+    // def list() {
+    //     def list = []
+    //     def persons = params.includeDeleted ? Person.list() :
+    //         Person.find()  // should be findByProject(params.project) or something
+    //     persons.each { person ->
+    //         list.data << personService.toMap(person)
+    //     }
+    //     list.sort {it.lastName}
+    //     log.debug "list to populate person table" + list
+    //     list
+    // }
+
 
     Map delete(String id) {
         Person person = Person.findByPersonId(id)
