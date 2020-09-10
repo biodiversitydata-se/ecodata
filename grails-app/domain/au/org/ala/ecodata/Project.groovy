@@ -54,7 +54,7 @@ class Project {
     String projectPlannedOutputType
     String projectPlannedOutputValue
 	Map custom
-	Map risks
+	Risks risks
 	Date dateCreated
     Date lastUpdated
 	String promoteOnHomepage = 'no'
@@ -80,6 +80,7 @@ class Project {
     boolean isBushfire
     String origin = 'atlasoflivingaustralia'
     String baseLayer
+    MapLayersConfiguration mapLayersConfig
 
     boolean alaHarvest = false
     //For embedded table, needs to conversion in controller
@@ -90,7 +91,7 @@ class Project {
     /** The program of work this project is a part of, if any */
     String programId
 
-    static embedded = ['associatedOrganisations','fundings']
+    static embedded = ['associatedOrganisations', 'fundings', 'mapLayersConfig', 'risks']
 
     static transients = ['activities', 'plannedDurationInWeeks', 'actualDurationInWeeks']
 
@@ -196,7 +197,7 @@ class Project {
         baseLayer nullable: true
         isBushfire nullable: true
         bushfireCategories nullable: true
-
+        mapLayersConfig nullable: true
     }
 }
 
