@@ -42,3 +42,6 @@ out
 # compilation files
 /build
 /dump
+
+# new template forms and hub config
+/models
