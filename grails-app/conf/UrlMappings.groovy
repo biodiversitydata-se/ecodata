@@ -7,6 +7,7 @@ class UrlMappings {
         "/ws/person/$id"(controller: "person"){action = [POST: "update", DELETE: "delete", GET: "get"]}
         "/ws/person/linkUserToPerson/$id"(controller: "person"){action = [POST: "linkUserToPerson"]}
         "/ws/person/searchPerson"(controller: "person"){action = [GET: "searchPerson"]}
+        "/ws/person/getDataForPersonHomepage/$id"(controller: "person"){action = [GET: "getDataForPerson"]}
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
         "/ws/record/uncertainIdentifications"(controller: "record"){ action = [GET:"listUncertainIdentifications"] }
@@ -41,7 +42,7 @@ class UrlMappings {
         "/ws/site/getImages"( controller: 'site', action: 'getImages')
         "/ws/site/getPoiImages"( controller: 'site', action: 'getPoiImages')
         "/ws/site/bookSites/" (controller: 'site', action: 'bookSites')
-        "/ws/site/getSitesForUser/$userId"(controller: 'site', action: 'getSitesForUser')
+        "/ws/site/getSitesForPerson/$personId"(controller: 'site', action: 'getSitesForPerson')
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
         "/ws/output/countAllForPerson/$id"(controller: "output"){ action = [GET:"countAllForPerson"] }
         "/ws/output/getAllForPersonBySurveyName/$id"(controller: "output"){ action = [GET:"getAllForPersonBySurveyName"] }

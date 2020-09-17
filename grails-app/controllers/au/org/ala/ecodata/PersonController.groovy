@@ -12,6 +12,9 @@ import org.grails.datastore.mapping.mongo.MongoSession
 class PersonController {
 
     PersonService personService
+    SiteService siteService
+    ProjectActivityService projectActivityService
+    ProjectService projectService
 
     /**
      * Get personal details of a member of a project 
@@ -113,6 +116,38 @@ class PersonController {
     def searchPerson() {
         def searchTerm = params.search
         List result = Person.search(searchTerm)
+        render result as JSON
+    }
+
+    def getDataForPersonHomepage(String id){
+        def person = Person.findByUserId(id)
+        String personStatus = "ok"
+        String personId = person.personId
+        def projects = []
+        def surveys = []
+        def sites = []
+        if (personId == null){
+            personStatus = "You are not registered for any projects. Please contact the project administrator to link your account to a project"
+        } else {
+            sites = siteService.getSitesForPerson(personId)
+            List personProjects = person?.projects
+            personProjects.each { project ->
+                projects << projectService.get(project, 'basic')
+                surveys << projectActivityService.getAllByProject(project, 'docs')
+            }
+        }
+        log.debug "projects" +projects
+        log.debug "surveys " +surveys
+        Map result = [
+            personStatus: personStatus,
+            person: person,
+            siteStatus: sites?.message,
+            sites: sites?.sites,
+            projects: projects,
+            surveys: surveys
+        ]
+
+        log.debug result
         render result as JSON
     }
 

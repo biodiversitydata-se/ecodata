@@ -346,22 +346,9 @@ class SiteController {
         render result as JSON
     }
 
-    def getSitesForUser(String userId){
-        log.debug "id is " + userId
-        Map result = [:]
-        def sites
-        try {
-            sites = Site.findAllByBookedBy(userId)
-        } catch (Exception e){
-            log.debug 'An exception occurred: ' + e.message
-            result = [status: 'error', message: 'Something went wrong']
-        }
-        log.debug "sites "+ sites
-        if (sites){
-            result = [status: 'ok', sites: sites]
-        } else {
-            result = [status: 'ok', message: "You haven't booked any sites yet. Contact the administrator of the project."]
-        }
+    def getSitesForPerson(String personId){
+        log.debug "getting sites for " + personId
+        def result = siteService.getSitesForPerson(personId)
         render result as JSON
     }
 }

@@ -33,7 +33,7 @@ class Person {
     String extra
     // userId is for registered users only, same as in CAS system
     String userId
-    String projects
+    List projects
     List bookedSites 
 
     static constraints = {

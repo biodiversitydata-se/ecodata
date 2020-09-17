@@ -771,6 +771,25 @@ class SiteService {
         return site 
     }
 
+    def getSitesForPerson(String personId){
+        log.debug "id is " + personId
+        Map result = [:]
+        def sites
+        try {
+            sites = Site.findAllByBookedBy(personId)
+        } catch (Exception e){
+            log.debug 'An exception occurred: ' + e.message
+            result = [status: 'error', message: 'Something went wrong']
+        }
+        log.debug "sites "+ sites
+        if (sites){
+            result = [status: 'ok', sites: sites]
+        } else {
+            result = [status: 'ok', message: "You haven't booked any sites yet. Contact the administrator of the project."]
+        }
+        return result
+    }
+
     /**
      * get images for a list of sites. The images are associated with the point of interest of each site.
      * @param ids
