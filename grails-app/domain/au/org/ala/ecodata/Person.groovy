@@ -54,8 +54,4 @@ class Person {
         bookedSites nullable: true
         projects nullable: true
     }
-
-    static mapping = {
-        index firstName: "text", lastName: "text", email: "text"
-    }
 }
