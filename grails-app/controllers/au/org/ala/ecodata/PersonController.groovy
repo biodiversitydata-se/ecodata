@@ -92,21 +92,6 @@ class PersonController {
     }
 
     /**
-     * Link a user registered in CAS to person entered previously by the admin
-     * This is done when an existing person first registers in CAS 
-     *
-     * @param id - of the person to be linked
-     * @return 
-     */
-    def linkUserToPerson(String id){
-        log.debug "link user with id " + id
-        Person person = Person.findByPersonId(id)
-        log.debug "person to link is: " + person
-        def props = request.JSON
-        personService.update(props, id)
-    }
-
-    /**
      * Search for a person by email address and/ or name
      * This is done when an existing person first registers in CAS 
      *
@@ -122,7 +107,7 @@ class PersonController {
     def getDataForPersonHomepage(String id){
         def person = Person.findByUserId(id)
         String personStatus = "ok"
-        String personId = person.personId
+        String personId = person?.personId
         def projects = []
         def surveys = []
         def sites = []
@@ -136,8 +121,7 @@ class PersonController {
                 surveys << projectActivityService.getAllByProject(project, 'docs')
             }
         }
-        log.debug "projects" +projects
-        log.debug "surveys " +surveys
+
         Map result = [
             personStatus: personStatus,
             person: person,

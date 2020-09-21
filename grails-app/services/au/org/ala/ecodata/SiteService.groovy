@@ -772,7 +772,6 @@ class SiteService {
     }
 
     def getSitesForPerson(String personId){
-        log.debug "id is " + personId
         Map result = [:]
         def sites
         try {
