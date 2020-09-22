@@ -112,13 +112,20 @@ class PersonController {
         def surveys = []
         def sites = []
         if (personId == null){
-            personStatus = "You are not registered for any projects. Please contact the project administrator to link your account to a project"
+            personStatus = "Please contact the project administrator to link your account to a project. \
+            No sites or records have been linked to your account"
+            log.debug "This user's account is not linked to a person. The admin has to create a new person and link it to this user's ID"
         } else {
             sites = siteService.getSitesForPerson(personId)
             List personProjects = person?.projects
-            personProjects.each { project ->
-                projects << projectService.get(project, 'basic')
-                surveys << projectActivityService.getAllByProject(project, 'docs')
+            if (!personProjects.isEmpty()){
+                personProjects.each { project ->
+                    projects << projectService.get(project, 'basic')
+                    surveys << projectActivityService.getAllByProject(project, 'docs')
+                }
+            } else {
+                log.debug "This person has no projects assigned."
+                personStatus = "This person has no projects assigned."
             }
         }
 
@@ -130,8 +137,6 @@ class PersonController {
             projects: projects,
             surveys: surveys
         ]
-
-        log.debug result
         render result as JSON
     }
 
