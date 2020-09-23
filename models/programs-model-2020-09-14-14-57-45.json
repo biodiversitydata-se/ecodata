@@ -1,0 +1,38 @@
+{"programs": [
+    {
+        "weekDaysToCompleteReport": 0,
+        "activities": [
+            "Multiple Sightings",
+            "Fauna survey - trap and transect",
+            "2-ha Track Plot Datasheet",
+            "LU test butterly monitoring 1",
+            "Bird Survey - SAMD",
+            "Superb parrot survey activity",
+            "Bird surveys - vinterrutterna",
+            "Bird surveys - vinterrutterna v2",
+            "Bird Surveys - standardrutterna",
+            "Bird Surveys - standardrutterna v2",
+            "LU test bird monitoring 4",
+            "Butterfly Surveys - v1"
+        ],
+        "name": "Lund University Systematic Monitoring Project",
+        "speciesFieldsSettings": null,
+        "subprograms": [],
+        "optionalProjectContent": [
+            "MERI Plan",
+            "Risks and Threats"
+        ],
+        "isMeritProgramme": false
+    },
+    {
+        "weekDaysToCompleteReport": null,
+        "activities": [],
+        "name": "Test model",
+        "speciesFieldsSettings": null,
+        "subprograms": [],
+        "optionalProjectContent": [
+            "MERI Plan",
+            "Risks and Threats"
+        ]
+    }
+]}
