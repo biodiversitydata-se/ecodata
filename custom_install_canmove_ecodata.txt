@@ -1,7 +1,0 @@
-sdk use grails 2.5.6
-grails run-app
-
-
-// edit config ecodata file 
-sudo nano /data/ecodata/config/ecodata-config.properties
-
