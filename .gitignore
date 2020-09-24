@@ -43,3 +43,14 @@ out
 /build
 /dump
 
+# files specific to the instance
+/models
+
+# logs
+./logs
+
+.gradle
+
+
+custom_install_canmove_ecodata.txt
+
