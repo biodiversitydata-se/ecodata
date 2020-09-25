@@ -700,6 +700,7 @@ environments {
     production {
         // added to make it work for production ecodata.bioatlas.se
         grails.serverURL = "https://ecodata.bioatlas.se"
+        app.external.model.dir = "/data/ecodata/models/"     
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
     }
