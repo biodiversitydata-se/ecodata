@@ -548,7 +548,7 @@ if (!collectory.baseURL) {
 }
 /*
 if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = "http://www2.ala.org.au/commonui"
+    headerAndFooter.baseURL = "https://beta.bioatlas.se/static/bs3"
 }
 */
     if (!security.apikey.serviceUrl) {
