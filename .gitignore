@@ -46,9 +46,6 @@ out
 # files specific to the instance
 /models
 
-# logs
-./logs
-
 .gradle
 
 

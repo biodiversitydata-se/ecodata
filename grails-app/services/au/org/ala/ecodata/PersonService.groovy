@@ -79,6 +79,11 @@ class PersonService {
         
     }
 
+    def getPersonId(userId) {
+        def person = Person.findByUserId(userId)
+        return person.personId
+    }
+
     /**
      * Get a list of all members of a project 
      *

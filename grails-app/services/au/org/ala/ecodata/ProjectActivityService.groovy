@@ -26,6 +26,7 @@ class ProjectActivityService {
     PermissionService permissionService
     ElasticSearchService elasticSearchService
     EmailService emailService
+    PersonService personService
     MessageSource messageSource
 
     /**
@@ -193,7 +194,7 @@ class ProjectActivityService {
         result
     }
 
-    Map get(String id, levelOfDetail = [], version = null) {
+    Map get(String id, levelOfDetail = [], version = null, userId = null) {
         if (version) {
             def all = AuditMessage.findAllByEntityIdAndEntityTypeAndDateLessThanEquals(id, ProjectActivity.class.name,
                     new Date(version as Long), [sort:'date', order:'desc', max: 1])
@@ -208,7 +209,7 @@ class ProjectActivityService {
             projectActivity
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
-            projectActivity ? toMap(projectActivity, levelOfDetail) : [:]
+            projectActivity ? toMap(projectActivity, levelOfDetail, userId) : [:]
         }
     }
 
@@ -241,7 +242,7 @@ class ProjectActivityService {
      * @param levelOfDetail list of features to include
      * @return map of properties
      */
-    Map toMap(projectActivity, levelOfDetail = []) {
+    Map toMap(projectActivity, levelOfDetail = [], userId = null) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
             projectActivity.getProperty("dbo").toMap() : projectActivity
 
@@ -250,9 +251,12 @@ class ProjectActivityService {
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
 
-            // potential fix for getting only sites booked by a person into the survey form
-            List personSites = siteService.getSitesForPerson("123456", "survey")
-            mapOfProperties.sites = personSites.intersect(projectActivity.sites)
+            if (userId){
+                // potential fix for getting only sites booked by a person into the survey form
+                def personId = personService.getPersonId(userId)
+                List personSites = siteService.getSitesForPerson(personId, "survey")
+                mapOfProperties.sites = personSites.intersect(projectActivity.sites)
+            }
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
                 siteService.get(it, "brief")
             }
