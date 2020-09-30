@@ -116,7 +116,7 @@ class PersonController {
             No sites or records have been linked to your account"
             log.debug "This user's account is not linked to a person. The admin has to create a new person and link it to this user's ID"
         } else {
-            sites = siteService.getSitesForPerson(personId)
+            sites = siteService.getSitesForPerson(personId, "homepage")
             List personProjects = person?.projects
             if (!personProjects.isEmpty()){
                 personProjects.each { project ->

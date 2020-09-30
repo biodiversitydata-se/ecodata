@@ -243,13 +243,16 @@ class ProjectActivityService {
      */
     Map toMap(projectActivity, levelOfDetail = []) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
-                projectActivity.getProperty("dbo").toMap() : projectActivity
+            projectActivity.getProperty("dbo").toMap() : projectActivity
 
         if (levelOfDetail == DOCS) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
 
+            // potential fix for getting only sites booked by a person into the survey form
+            List personSites = siteService.getSitesForPerson("123456", "survey")
+            mapOfProperties.sites = personSites.intersect(projectActivity.sites)
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
                 siteService.get(it, "brief")
             }
