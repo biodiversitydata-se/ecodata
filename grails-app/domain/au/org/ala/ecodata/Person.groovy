@@ -34,7 +34,9 @@ class Person {
     // userId is for registered users only, same as in CAS system
     String userId
     List projects
-    List bookedSites 
+    List bookedSites
+    Date dateCreated
+    Date lastUpdated 
 
     static constraints = {
         firstName nullable: false
