@@ -93,7 +93,6 @@ class PersonController {
 
     /**
      * Search for a person by email address and/ or name
-     * This is done when an existing person first registers in CAS 
      *
      * @param params - contain a string search term which can be a mixture of email and name 
      * @return <List>result - a list of persons who match the search criteria
@@ -119,16 +118,14 @@ class PersonController {
             sites = siteService.getSitesForPerson(personId, "homepage")
             List personProjects = person?.projects
             if (!personProjects.isEmpty()){
-                personProjects.each { project ->
-                    projects << projectService.get(project, 'basic')
-                    surveys << projectActivityService.getAllByProject(project, 'docs')
+                personProjects.each { projectId ->
+                    projects << projectService.get(projectId, 'basic')
+                    surveys << projectActivityService.getAllByProject(projectId, 'docs')
                 }
             } else {
-                log.debug "This person has no projects assigned."
                 personStatus = "This person has no projects assigned."
             }
         }
-
         Map result = [
             personStatus: personStatus,
             person: person,
