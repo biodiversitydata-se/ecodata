@@ -801,29 +801,26 @@ class SiteService {
     def getSitesForPerson(String personId, ctx){
         Map result = [:]
         def sites
+        try {
+            sites = Site.findAllByBookedByOrOwner(personId, personId)
+        } catch (Exception e){
+            log.debug 'An exception occurred: ' + e.message
+            result = [status: 'error', message: 'Something went wrong']
+        }
+        // display on homepage sites created or booked by the person linked to this user 
         if (ctx == 'homepage'){
-            try {
-                sites = Site.findAllByBookedBy(personId)
-            } catch (Exception e){
-                log.debug 'An exception occurred: ' + e.message
-                result = [status: 'error', message: 'Something went wrong']
-            }
-            log.debug "sites "+ sites
             if (sites){
                 result = [status: 'ok', sites: sites]
             } else {
                 result = [status: 'ok', message: "You haven't booked any sites yet. Contact the administrator of the project."]
             }
             return result
-        } 
-        else if (ctx == 'survey'){
-            def allSites = Site.findAllByBookedBy(personId)
-            log.debug "allSites" + allSites
+        } else if (ctx == 'survey'){
+        // inside survey form give a choice of sites created or booked by the person linked to this user
             def siteIds = []
-            allSites.each { site ->
+            sites.each { site ->
                 siteIds << site.siteId
             }
-            log.debug "allSites" + allSites
             return siteIds
         }
     }
