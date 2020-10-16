@@ -79,6 +79,11 @@ class PersonService {
         
     }
 
+    def checkPersonExists(String id){
+        def person = Person.findByPersonId(id)
+        return person ? true : false
+    }
+
     def getPersonId(userId) {
         def person = Person.findByUserId(userId)
         return person.personId

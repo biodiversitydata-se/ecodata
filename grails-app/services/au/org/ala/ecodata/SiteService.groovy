@@ -29,6 +29,7 @@ class SiteService {
     PermissionService permissionService
     ProjectActivityService projectActivityService
     SpatialService spatialService
+    PersonService personService
 
     def getCommonService() {
         grailsApplication.mainContext.commonService
@@ -728,30 +729,56 @@ class SiteService {
         site.extent.source = 'Point'
     }
 
+    def isBooked(site){
+        return (site.bookedBy == null || site.bookedBy == "") ? false : true
+    }
+
     /**
      * For systematic monitoring - volunteer management 
-     * changes status of site to booked and registers who booked the site
+     * modifies bookedBy field value to personId of the person who requested the site
      * 
-     * @param props - contains ID of the person who requested the site
+     * @param props - contains personId and siteId or names of sites in case of batch booking
      * @return result - status update for the admin
      */
     def bookSites(props){
-        def bookedBy = [bookedBy: props.personId]
-        log.debug "booked: " + bookedBy
-
+        def personId = props.personId
+        def bookedBy = [bookedBy: personId]
         def messageSuccess = ""
         def messageFail = ""
-        props?.siteNames.each { name ->
-            log.debug "name" + name
-            def site = Site.findByName(name)
-            if (site) {
-                log.debug "site updated " + site
-                updateSite(site, bookedBy, false)
-                messageSuccess = messageSuccess + "<li>Site ${name} saved.</li>"
+
+        if (personService.checkPersonExists(personId)){
+            def siteId = props?.siteId
+            if (siteId){
+                def site = Site.findBySiteId(siteId)
+                //////////////
+                if (!isBooked(site)){
+                    updateSite(site, bookedBy, false)
+                    messageSuccess = messageSuccess + "<li>Site ${site.name} has been successfully booked.</li>"
+                } else {
+                    messageFail = messageFail + "<li>Site ${site.name} cannot be booked. It has been previously booked by person with ID ${personId}.</li>"
+                }
+                //////////////
             } else {
-                messageFail = messageFail + "<li>Site ${name} not recognized. Check name and try again.</li>"
+                props?.siteNames.each { name ->
+                    def site = Site.findByName(name)
+                    ////////////
+                    if (site){
+                        if (!isBooked(site)){
+                            updateSite(site, bookedBy, false)
+                            messageSuccess = messageSuccess + "<li>Site ${name} has been successfully booked.</li>"
+                        } else {
+                            messageFail = messageFail + "<li>Site ${name} cannot be booked. It has been previously booked by person with ID ${personId}.</li>"
+                        }
+                        ///////////////
+                    } else {
+                        messageFail = messageFail + "<li>Site ${name} cannot be found. Please check the name again.</li>"
+                    }
+                }
             }
+        } else {
+            messageFail = messageFail + "Person with id ${personId} does not exist."
         }
+
         def result = [messageSuccess, messageFail]
         log.debug "result " + result
         return result     
