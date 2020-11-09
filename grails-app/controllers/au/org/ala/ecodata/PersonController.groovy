@@ -27,20 +27,6 @@ class PersonController {
         render result as JSON
     }
 
-    // def list(String projectId) {
-
-    //     def list = []
-    //     def persons = Person.list()
-    //         // TODO should be findByProject(params.project) or something but person doesn't store projectId now
-    //     persons.each { person ->
-    //         list << person
-    //     }
-    //     list.sort {it.lastName}
-    //     def result = [data: list] 
-
-    //     render result as JSON
-    // }
-
     /**
      * Create a new member of the project (person, not registered online)
      *
@@ -118,10 +104,19 @@ class PersonController {
             sites = siteService.getSitesForPerson(personId, "homepage")
             List personProjects = person?.projects
             if (!personProjects.isEmpty()){
-                personProjects.each { projectId ->
-                    projects << projectService.get(projectId, 'basic')
-                    surveys << projectActivityService.getAllByProject(projectId, 'docs')
-                }
+                // TODO - fix the format how projects are saved to get rid of the nested array then the try/ catch won't be necessary
+                try {
+                    personProjects.each { projectId ->
+                        projects << projectService.get(projectId, 'basic')
+                        surveys << projectActivityService.getAllByProject(projectId, 'docs')
+                    }
+                } catch (Exception MissingMethodException) {
+                    personProjects[0].each { projectId ->
+                        projects << projectService.get(projectId, 'basic')
+                        surveys << projectActivityService.getAllByProject(projectId, 'docs')
+                    }
+                } 
+
             } else {
                 personStatus = "This person has no projects assigned."
             }
