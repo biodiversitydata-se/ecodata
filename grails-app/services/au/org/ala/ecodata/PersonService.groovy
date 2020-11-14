@@ -61,6 +61,13 @@ class PersonService {
         }
     }
 
+    def addBookedSites(siteId, personId){
+        Person person = get(personId)
+        person.bookedSites.push(siteId)
+        def props = [bookedSites : person.bookedSites]
+        commonService.updateProperties(person, props)
+    }
+
     /**
      * Get personal details of a member of a project 
      *

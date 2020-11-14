@@ -167,6 +167,7 @@ class SiteService {
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
+        mapOfProperties.remove("transectParts")
 
         if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF)) {
             mapOfProperties.documents = documentService.findAllForSiteId(site.siteId, version)
@@ -743,8 +744,8 @@ class SiteService {
     def bookSites(props){
         def personId = props.personId
         def bookedBy = [bookedBy: personId]
-        def messageSuccess = ""
-        def messageFail = ""
+        String messageSuccess = ""
+        String messageFail = ""
 
         if (personService.checkPersonExists(personId)){
             def siteId = props?.siteId
@@ -753,9 +754,10 @@ class SiteService {
                 //////////////
                 if (!isBooked(site)){
                     updateSite(site, bookedBy, false)
-                    messageSuccess = messageSuccess + "<li>Site ${site.name} has been successfully booked.</li>"
+                    personService.addBookedSites(siteId, personId)
+                    messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
                 } else {
-                    messageFail = messageFail + "<li>Site ${site.name} cannot be booked. It has been previously booked by person with ID ${personId}.</li>"
+                    messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
                 }
                 //////////////
             } else {
@@ -765,18 +767,19 @@ class SiteService {
                     if (site){
                         if (!isBooked(site)){
                             updateSite(site, bookedBy, false)
-                            messageSuccess = messageSuccess + "<li>Site ${name} has been successfully booked.</li>"
+                            personService.addBookedSites(site.siteId, personId)
+                            messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
                         } else {
-                            messageFail = messageFail + "<li>Site ${name} cannot be booked. It has been previously booked by person with ID ${personId}.</li>"
+                            messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
                         }
                         ///////////////
                     } else {
-                        messageFail = messageFail + "<li>Site ${name} cannot be found. Please check the name again.</li>"
+                        messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
                     }
                 }
             }
         } else {
-            messageFail = messageFail + "Person with id ${personId} does not exist."
+            messageFail = messageFail + "Person with id <b>${personId}</b> does not exist.<br>"
         }
 
         def result = [messageSuccess, messageFail]
