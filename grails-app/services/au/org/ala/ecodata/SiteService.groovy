@@ -167,7 +167,9 @@ class SiteService {
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
-        mapOfProperties.remove("transectParts")
+        if (levelOfDetail.contains("excludeTransects")){
+            mapOfProperties.remove("transectParts")
+        }
 
         if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF)) {
             mapOfProperties.documents = documentService.findAllForSiteId(site.siteId, version)

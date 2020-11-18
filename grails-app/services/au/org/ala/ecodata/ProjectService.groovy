@@ -190,7 +190,7 @@ class ProjectService {
             if (levelOfDetail != FLAT) {
                 mapOfProperties.remove("sites")
                 if(levelOfDetail == PRIVATE_SITES_REMOVED){
-                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectId(project.projectId, [SiteService.FLAT])
+                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectId(project.projectId, [SiteService.FLAT, 'excludeTransects'])
                 } else {
                     mapOfProperties.sites = siteService.findAllForProjectId(project.projectId, [SiteService.FLAT], version)
                 }
