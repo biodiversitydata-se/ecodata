@@ -63,8 +63,13 @@ class PersonService {
 
     def addBookedSites(siteId, personId){
         Person person = get(personId)
-        person.bookedSites.push(siteId)
+        if (person?.bookedSites){
+            person.bookedSites.push(siteId)
+        } else {
+        person.bookedSites = [siteId]
+        }
         def props = [bookedSites : person.bookedSites]
+        log.debug "props " + props
         commonService.updateProperties(person, props)
     }
 
@@ -95,6 +100,16 @@ class PersonService {
         def person = Person.findByUserId(userId)
         return person.personId
     }
+
+    def getPersonIdByInternalPersonId(internalPersonId) {
+        def person = Person.findByInternalPersonId(internalPersonId)
+        log.debug "PERSON " + person
+        def personId
+        if (person){
+            personId = person?.personId
+        }
+        return personId
+    } 
 
     /**
      * Get a list of all members of a project 

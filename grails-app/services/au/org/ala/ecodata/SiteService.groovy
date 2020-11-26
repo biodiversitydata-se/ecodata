@@ -740,20 +740,59 @@ class SiteService {
      * For systematic monitoring - volunteer management 
      * modifies bookedBy field value to personId of the person who requested the site
      * 
-     * @param props - contains personId and siteId or names of sites in case of batch booking
+     * @param props - contains String personId and List of site names 
      * @return result - status update for the admin
      */
-    def bookSites(props){
-        def personId = props.personId
-        def bookedBy = [bookedBy: personId]
+    def bookMultipleSites(props){
+        def personId = props?.personId
+        Boolean personExists = personService.checkPersonExists(personId)
         String messageSuccess = ""
         String messageFail = ""
 
-        if (personService.checkPersonExists(personId)){
-            def siteId = props?.siteId
+        if (personExists){
+            def bookedBy = [bookedBy: personId]
+            props?.siteNames.each { name ->
+                def site = Site.findByName(name)
+                ////////////
+                if (site){
+                    if (!isBooked(site)){
+                        updateSite(site, bookedBy, false)
+                        personService.addBookedSites(site.siteId, personId)
+                        messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
+                    } else {
+                        messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+                    }
+                    ///////////////
+                } else {
+                    messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
+                }
+            }
+        } else {
+            messageFail = messageFail + "Person with this id does not exist.<br>"
+        }
+        def result = [messageSuccess, messageFail]
+        log.debug "result " + result
+        return result 
+    }
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * modifies bookedBy field value to personId of the person who requested the site
+     * 
+     * @param props - contains internalPersonId and siteId 
+     * @return result - status update for the admin
+     */
+    def bookOneSite(props){
+        def internalPersonId = props?.internalPersonId
+        def personId = personService.getPersonIdByInternalPersonId(internalPersonId)
+        def bookedBy = [bookedBy: personId]
+        def siteId = props?.siteId
+        String messageSuccess = ""
+        String messageFail = ""
+
+        if (personId){
             if (siteId){
                 def site = Site.findBySiteId(siteId)
-                //////////////
                 if (!isBooked(site)){
                     updateSite(site, bookedBy, false)
                     personService.addBookedSites(siteId, personId)
@@ -761,33 +800,14 @@ class SiteService {
                 } else {
                     messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
                 }
-                //////////////
             } else {
-                props?.siteNames.each { name ->
-                    def site = Site.findByName(name)
-                    ////////////
-                    if (site){
-                        if (!isBooked(site)){
-                            updateSite(site, bookedBy, false)
-                            personService.addBookedSites(site.siteId, personId)
-                            messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
-                        } else {
-                            messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
-                        }
-                        ///////////////
-                    } else {
-                        messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
-                    }
-                }
+                messageFail = messageFail + "Person with this id does not exist.<br>"
             }
-        } else {
-            messageFail = messageFail + "Person with id <b>${personId}</b> does not exist.<br>"
         }
-
         def result = [messageSuccess, messageFail]
         log.debug "result " + result
-        return result     
-    } 
+        return result 
+    }
 
     /**
      * For systematic monitoring - volunteer management 
@@ -799,7 +819,6 @@ class SiteService {
      */
     def getSiteNameAndCode(id){
         def site = Site.findBySiteId(id)
-        log.debug "site" + site 
         return site 
     }
 

@@ -336,18 +336,25 @@ class SiteController {
         render result as JSON
     }
 
-
+    /**
+     * Redirects to either book one site by its ID if initiated from ADMIN tab 
+     * or multiple sites by their names if initiated from a person's profile
+     *
+     */
     def bookSites (){
         def props = request.JSON
-        log.debug "props should contain site names" + props
-        def message = siteService.bookSites(props)
+        def message
+        if (props?.bookOne){
+            message = siteService.bookOneSite(props)
+        } else if (props?.bookMany){
+            message = siteService.bookMultipleSites(props)
+        }
         Map result = [message: message]
         log.debug "message" + result.message
         render result as JSON
     }
 
     def getSitesForPerson(String personId){
-        log.debug "getting sites for " + personId
         def result = siteService.getSitesForPerson(personId)
         render result as JSON
     }
