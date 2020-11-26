@@ -132,4 +132,30 @@ class PersonController {
         render result as JSON
     }
 
+    def linkUserToPerson(){
+        Map body = request.JSON
+        Map userId = [userId: body.userId]
+        def internalPersonId = body.internalPersonId
+        def person = Person.findAllByInternalPersonId(internalPersonId)
+
+        Map result
+
+        if (person.size() == 1){
+            if (person){
+                result = personService.update(userId, person.personId)
+            } else {
+                def error = "Failed to link person - no such internal id: ${internalPersonId}"
+                log.error error
+                result = [status:'notFound', internalPersonId:internalPersonId]
+            }
+        } else {
+            def names = person.collect { 
+                return it.firstName + ' ' + it.lastName 
+                }
+            result = [status:'foundMany', internalPersonId:internalPersonId, persons:names]
+        }
+        
+        render result as JSON
+    }
+
 }
