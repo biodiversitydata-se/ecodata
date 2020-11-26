@@ -17,8 +17,8 @@ class Person {
     ObjectId id
     // personId assigned automatically to every person
     String personId
-    // personCode assigned to SFT persons - DOB
-    String personCode
+    // internalPersonId assigned to SFT persons - DOB
+    String internalPersonId
     String firstName
     String lastName
     String email 
@@ -41,7 +41,7 @@ class Person {
     static constraints = {
         firstName nullable: false
         lastName nullable: false
-        personCode nullable: true
+        internalPersonId nullable: true
         email nullable: false
         gender nullable: true
         birthDate nullable: true
