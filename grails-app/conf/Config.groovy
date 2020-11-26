@@ -698,6 +698,7 @@ environments {
         security.apikey.serviceUrl = "${casBaseUrl}/apikey/ws/check?apikey="
     }
     production {
+        app.uploads.url = "${grails.serverURL}/document/download?filename="
         app.external.model.dir = "/data/ecodata/models/"
         grails.serverURL = "https://ecodata.bioatlas.se"
         grails.logging.jul.usebridge = false
