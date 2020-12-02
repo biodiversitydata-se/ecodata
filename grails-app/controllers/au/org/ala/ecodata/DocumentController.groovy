@@ -208,6 +208,7 @@ class DocumentController {
      * Serves up a file named by the supplied filename HTTP parameter.  It is mostly as a convenience for development
      * as the files will be served by Apache in prod.
      */
+    @PreAuthorise(basicAuth = false)
     def download() {
 
         if (!params.filename) {
