@@ -134,38 +134,6 @@ class OutputController {
         asJson outputs:outputList
     }
 
-    /**
-     * Get map of output name and how many outputs the person submitted.
-     * @param personId
-     *
-     * @return Map [name: count]
-     */
-    def countAllForPerson(String id) {         
-        List surveys = Output.findAllByPersonId(id)
-        List names = []
-        surveys.each { survey ->
-            names.push(survey.name)
-        }
-        def result = [:]
-        // count unique names of output and how many times they occur
-        result = names.countBy {it}
-        log.debug "output count " + result
-        render result as JSON
-    }
 
-    /**
-     * Get a list of all outputs recorded by a person under one scheme
-     * and site names where the sightings occurred.
-     *
-     * @param id of the person
-     * @param params containing the name of the survey form
-     * @return list of outputs containing names of sites instead of their Id
-     *          and selected output properties
-     */
-    def getAllForPersonBySurveyName(String id){
-        List result = outputService.getAllForPersonBySurveyName(id, params)
-        log.debug "surveys " + result
-        render result as JSON
-    }
 
 }

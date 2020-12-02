@@ -12,6 +12,7 @@ import org.grails.datastore.mapping.mongo.MongoSession
 class PersonController {
 
     PersonService personService
+    ActivityService activityService
     SiteService siteService
     ProjectActivityService projectActivityService
     ProjectService projectService
@@ -23,7 +24,9 @@ class PersonController {
      * @return result - map containing personal details of the member
      */
     def get(String id) {
-        def result = personService.get(id)
+        def person = personService.get(id)
+        Map activityCount = activityService.countActivitiesForPerson(id)
+        Map result = [person: person, activityCount: activityCount]
         render result as JSON
     }
 

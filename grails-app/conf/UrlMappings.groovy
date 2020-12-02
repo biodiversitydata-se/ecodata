@@ -22,7 +22,7 @@ class UrlMappings {
         "/ws/record/$id"(controller: "record"){ action = [GET:"get", PUT:"update", DELETE:"delete", POST:"update"] }
 
         "/ws/activity/getDefaultFacets"(controller: "activity", action: "getDefaultFacets")
-
+        "/ws/activity/getActivitiesForPersonByType"(controller: "activity", action: "getActivitiesForPersonByType")
 
         "/ws/location"(controller: "location"){ action = [GET:"list", POST:"create"] }
         "/ws/location/"(controller: "location"){ action = [GET:"list", POST:"create"] }
@@ -44,7 +44,6 @@ class UrlMappings {
         "/ws/site/bookSites/" (controller: 'site', action: 'bookSites')
         "/ws/site/getSitesForPerson/$personId"(controller: 'site', action: 'getSitesForPerson')
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
-        "/ws/output/countAllForPerson/$id"(controller: "output"){ action = [GET:"countAllForPerson"] }
         "/ws/output/getAllForPersonBySurveyName/$id"(controller: "output"){ action = [GET:"getAllForPersonBySurveyName"] }
 
         "/ws/activitiesForProject/$id" {

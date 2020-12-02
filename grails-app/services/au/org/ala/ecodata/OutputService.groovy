@@ -402,27 +402,4 @@ class OutputService {
             return []
         }
     }
-
-    /**
-     * Get a list of all outputs recorded by a person under one scheme
-     * and site names where the sightings occurred.
-     * @param id of the person
-     * @param params containing the name of the survey for which outputs are to be found 
-     * @return list of outputs containing names of sites instead of their Id
-     *          and selected output properties
-     */
-    def getAllForPersonBySurveyName(id, params){
-        def surveyName = params.surveyName
-        log.debug "getting outputs for survey: " + surveyName 
-        List outputs = Output.findAllByPersonIdAndName(id, surveyName)
-        List result = []
-        outputs.each { output ->
-            // fetch name and code of the site
-            def site = siteService.getSiteNameAndCode(output.data.location)
-            def row = ['siteName': site?.name, 'siteCode': site?.name, 
-                'dateCreated': output?.dateCreated, 'period': output?.period, 'activityId': output?.activityId]
-            result << row
-        }
-        return result
-    }
 }
