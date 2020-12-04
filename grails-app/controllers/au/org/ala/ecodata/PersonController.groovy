@@ -51,7 +51,7 @@ class PersonController {
     // @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        Map result = personService.update(props, id)
+        Map result = personService.update(id, props)
         render result as JSON
     }
 
