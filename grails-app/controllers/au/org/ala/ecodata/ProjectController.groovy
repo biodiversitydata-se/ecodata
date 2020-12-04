@@ -433,4 +433,19 @@ class ProjectController {
         response.addHeader("entityId", projectId)
     }
 
+    List getRelatedProjectIds(){
+        List relatedProjects = Project.findAllByHubUrl(params.hub)
+        List projectIds = relatedProjects.collect {
+            it?.projectId
+        }
+        def result
+        if (projectIds){
+            log.debug "projectIds" + projectIds
+            result = [relatedProjectIds: projectIds]
+        } else {
+            result = [noRelatedProjects: true]
+        }
+        render result as JSON
+    }
+
 }
