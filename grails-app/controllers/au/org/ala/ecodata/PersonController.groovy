@@ -139,13 +139,14 @@ class PersonController {
         Map body = request.JSON
         Map userId = [userId: body.userId]
         def internalPersonId = body.internalPersonId
-        def person = Person.findAllByInternalPersonId(internalPersonId)
+        List person = Person.findAllByInternalPersonId(internalPersonId)
+        log.debug "person to link to user is: " + person + " with ID " + person.personId
 
         Map result
 
         if (person.size() == 1){
             if (person){
-                result = personService.update(userId, person.personId)
+                result = personService.update(person[0].personId, userId)
             } else {
                 def error = "Failed to link person - no such internal id: ${internalPersonId}"
                 log.error error

@@ -42,7 +42,7 @@ class PersonService {
      * @param id of an existing person
      * @props map containing personal details entered in a web form
      */
-    def update(Map props, String id){
+    def update(String id, Map props){
         Person person = Person.findByPersonId(id)
         if (person){
             try {
