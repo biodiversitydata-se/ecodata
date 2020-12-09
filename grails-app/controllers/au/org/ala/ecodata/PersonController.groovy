@@ -55,6 +55,12 @@ class PersonController {
         render result as JSON
     }
 
+    def addSiteOwnership(String id) {
+        def props = request.JSON
+        def siteId = props.siteId
+        Map result = personService.addSiteOwnership(id, siteId)
+    }
+
     /**
      * Delete a member of a project 
      *

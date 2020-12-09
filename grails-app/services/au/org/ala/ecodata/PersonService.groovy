@@ -61,7 +61,20 @@ class PersonService {
         }
     }
 
-    def addBookedSites(siteId, personId){
+    def addSiteOwnership(String personId, String siteId){
+        // TODO - check if the site is already owned by the person to avoid having multiple copies of the id stored
+        Person person = get(personId)
+        if (person?.ownedSites){
+            person.ownedSites.push(siteId)
+        } else {
+        person.ownedSites = [siteId]
+        }
+        def props = [ownedSites : person.ownedSites]
+        log.debug "props with owned sites: " + props
+        commonService.updateProperties(person, props)
+    }
+
+    def addBookedSites(String siteId, String personId){
         Person person = get(personId)
         if (person?.bookedSites){
             person.bookedSites.push(siteId)
