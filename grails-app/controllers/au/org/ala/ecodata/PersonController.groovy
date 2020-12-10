@@ -100,17 +100,30 @@ class PersonController {
 
     def getDataForPersonHomepage(String id){
         def person = Person.findByUserId(id)
+        log.debug "PERSON" + person
         String personStatus = "ok"
         String personId = person?.personId
-        def projects = []
-        def surveys = []
-        def sites = []
+        List projects = []
+        List surveys = []
+        List siteIds = []
+        Map sites = [:]
+        List ownedSites = person?.ownedSites
+        List bookedSites = person?.bookedSites
+        ownedSites?.each {
+            siteIds << it
+        }
+        bookedSites?.each {
+            siteIds << it
+        }
+        
         if (personId == null){
             personStatus = "Please contact the project administrator to link your account to a project. \
             No sites or records have been linked to your account"
             log.debug "This user's account is not linked to a person. The admin has to create a new person and link it to this user's ID"
         } else {
-            sites = siteService.getSitesForPerson(personId, "homepage")
+            if (siteIds){
+                sites = siteService.getSitesForPersonBySiteId(siteIds)
+            }
             List personProjects = person?.projects
             if (!personProjects.isEmpty()){
                 // TODO - fix the format how projects are saved to get rid of the nested array then the try/ catch won't be necessary
@@ -138,6 +151,7 @@ class PersonController {
             projects: projects,
             surveys: surveys
         ]
+        log.debug result
         render result as JSON
     }
 

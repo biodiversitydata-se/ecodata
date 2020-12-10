@@ -849,6 +849,18 @@ class SiteService {
         }
     }
 
+    def getSitesForPersonBySiteId(List siteIds){
+        def sites = []
+        siteIds.each { siteId ->
+            def site = Site.findBySiteId(siteId)
+            def siteBasics = [siteId: site?.siteId, name: site?.name]
+            sites << siteBasics
+        }
+        Map result = [status: 'ok', sites: sites]
+        log.debug "COMPACT SITES" + sites
+        return result
+    }
+
     /**
      * get images for a list of sites. The images are associated with the point of interest of each site.
      * @param ids
