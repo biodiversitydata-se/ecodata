@@ -251,11 +251,12 @@ class ProjectActivityService {
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
 
+            // for systematic monitoring
+            // this filters sites that are in the project according to which sites the volunteer has permissions to access
             if (userId){
-                // potential fix for getting only sites booked by a person into the survey form
-                def personId = personService.getPersonId(userId)
-                List personSites = siteService.getSitesForPerson(personId, "survey")
-                mapOfProperties.sites = personSites.intersect(projectActivity.sites)
+                def person = personService.getPersonByUserId(userId)
+                List personSiteIds = personService.getSiteIdsForPerson(person)
+                mapOfProperties.sites = personSiteIds.intersect(projectActivity.sites)
             }
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
                 siteService.get(it, "brief")

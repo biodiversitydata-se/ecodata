@@ -61,30 +61,48 @@ class PersonService {
         }
     }
 
-    def addSiteOwnership(String personId, String siteId){
-        // TODO - check if the site is already owned by the person to avoid having multiple copies of the id stored
+    def addSiteForPerson(String personId, String siteId, String ctx){
         Person person = get(personId)
-        if (person?.ownedSites){
-            person.ownedSites.push(siteId)
-        } else {
-        person.ownedSites = [siteId]
+        Map props = [:]
+        if (ctx == 'owner'){
+            if (person?.ownedSites){
+                person.ownedSites.push(siteId)
+            } else {
+            person.ownedSites = [siteId]
+            }
+            props = [ownedSites : person.ownedSites]
+        } else if (ctx == 'booking'){
+            if (person?.bookedSites){
+                person.bookedSites.push(siteId)
+            } else {
+            person.bookedSites = [siteId]
+            }
+            props = [bookedSites: person.bookedSites]
         }
-        def props = [ownedSites : person.ownedSites]
-        log.debug "props with owned sites: " + props
         commonService.updateProperties(person, props)
     }
 
-    def addBookedSites(String siteId, String personId){
-        Person person = get(personId)
-        if (person?.bookedSites){
-            person.bookedSites.push(siteId)
-        } else {
-        person.bookedSites = [siteId]
-        }
-        def props = [bookedSites : person.bookedSites]
-        log.debug "props " + props
-        commonService.updateProperties(person, props)
-    }
+    // def addSiteOwnership(String personId, String siteId){
+    //     // TODO - check if the site is already owned by the person to avoid having multiple copies of the id stored
+
+    //     Person person = get(personId)
+
+    //     log.debug "props with owned sites: " + props
+
+    //     commonService.updateProperties(person, props)
+    // }
+
+    // def addBookedSites(String siteId, String personId){
+    //     Person person = get(personId)
+    //     if (person?.bookedSites){
+    //         person.bookedSites.push(siteId)
+    //     } else {
+    //     person.bookedSites = [siteId]
+    //     }
+    //     def props = [bookedSites : person.bookedSites]
+    //     log.debug "props " + props
+    //     commonService.updateProperties(person, props)
+    // }
 
     /**
      * Get personal details of a member of a project 
@@ -109,9 +127,22 @@ class PersonService {
         return person ? true : false
     }
 
-    def getPersonId(userId) {
-        def person = Person.findByUserId(userId)
-        return person.personId
+    def getPersonByUserId(String userId) {
+        def person = Person.findByUserId(userId)    
+        person
+    }
+
+    List getSiteIdsForPerson(person){
+        List siteIds = []
+        List ownedSites = person?.ownedSites
+        List bookedSites = person?.bookedSites
+        ownedSites?.each {
+            siteIds << it
+        }
+        bookedSites?.each {
+            siteIds << it
+        }
+        siteIds
     }
 
     def getPersonIdByInternalPersonId(internalPersonId) {

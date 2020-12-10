@@ -757,7 +757,7 @@ class SiteService {
                 if (site){
                     if (!isBooked(site)){
                         updateSite(site, bookedBy, false)
-                        personService.addBookedSites(site.siteId, personId)
+                        personService.addSiteForPerson(personId, site.siteId, 'booking')
                         messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
                     } else {
                         messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
@@ -795,7 +795,7 @@ class SiteService {
                 def site = Site.findBySiteId(siteId)
                 if (!isBooked(site)){
                     updateSite(site, bookedBy, false)
-                    personService.addBookedSites(siteId, personId)
+                    personService.addSiteForPerson(personId, siteId, 'booking')
                     messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
                 } else {
                     messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
@@ -820,33 +820,6 @@ class SiteService {
     def getSiteNameAndCode(id){
         def site = Site.findBySiteId(id)
         return site 
-    }
-
-    def getSitesForPerson(String personId, ctx){
-        Map result = [:]
-        def sites
-        try {
-            sites = Site.findAllByBookedByOrOwner(personId, personId)
-        } catch (Exception e){
-            log.debug 'An exception occurred: ' + e.message
-            result = [status: 'error', message: 'Something went wrong']
-        }
-        // display on homepage sites created or booked by the person linked to this user 
-        if (ctx == 'homepage'){
-            if (sites){
-                result = [status: 'ok', sites: sites]
-            } else {
-                result = [status: 'ok', message: "You haven't booked any sites yet. Contact the administrator of the project."]
-            }
-            return result
-        } else if (ctx == 'survey'){
-        // inside survey form give a choice of sites created or booked by the person linked to this user
-            def siteIds = []
-            sites.each { site ->
-                siteIds << site.siteId
-            }
-            return siteIds
-        }
     }
 
     def getSitesForPersonBySiteId(List siteIds){

@@ -354,8 +354,4 @@ class SiteController {
         render result as JSON
     }
 
-    def getSitesForPerson(String personId){
-        def result = siteService.getSitesForPerson(personId)
-        render result as JSON
-    }
 }

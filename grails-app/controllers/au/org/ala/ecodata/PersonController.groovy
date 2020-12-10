@@ -56,9 +56,15 @@ class PersonController {
     }
 
     def addSiteOwnership(String id) {
-        def props = request.JSON
-        def siteId = props.siteId
-        Map result = personService.addSiteOwnership(id, siteId)
+        Boolean personExists = personService.checkPersonExists(id)
+        if (personExists){
+            def props = request.JSON
+            def siteId = props.siteId
+            Map result = personService.addSiteForPerson(id, siteId, 'owner')
+        } else {
+            log.debug "PERSON ID IS INCORRECT - no such person exists"
+        }
+
     }
 
     /**
@@ -100,21 +106,13 @@ class PersonController {
 
     def getDataForPersonHomepage(String id){
         def person = Person.findByUserId(id)
-        log.debug "PERSON" + person
         String personStatus = "ok"
         String personId = person?.personId
         List projects = []
         List surveys = []
-        List siteIds = []
+        List siteIds = personService.getSiteIdsForPerson(person)
+        log.debug "SITE IDS" + siteIds
         Map sites = [:]
-        List ownedSites = person?.ownedSites
-        List bookedSites = person?.bookedSites
-        ownedSites?.each {
-            siteIds << it
-        }
-        bookedSites?.each {
-            siteIds << it
-        }
         
         if (personId == null){
             personStatus = "Please contact the project administrator to link your account to a project. \
