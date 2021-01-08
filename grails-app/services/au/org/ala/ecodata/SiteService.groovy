@@ -1,7 +1,7 @@
 package au.org.ala.ecodata
 
 import com.mongodb.*
-import com.vividsolutions.jts.geom.Geometry
+import com.vividsolutions.jts.geom.*
 import grails.converters.JSON
 import org.elasticsearch.common.geo.builders.ShapeBuilder
 import org.elasticsearch.common.xcontent.XContentParser
@@ -30,6 +30,7 @@ class SiteService {
     PermissionService permissionService
     ProjectActivityService projectActivityService
     SpatialService spatialService
+    PersonService personService
 
     def getCommonService() {
         grailsApplication.mainContext.commonService
@@ -167,6 +168,9 @@ class SiteService {
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
+        if (levelOfDetail.contains("excludeTransects")){
+            mapOfProperties.remove("transectParts")
+        }
 
         if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF)) {
             mapOfProperties.documents = documentService.findAllForSiteId(site.siteId, version)
@@ -267,6 +271,13 @@ class SiteService {
         props.remove('asyncUpdate')
 
         assignPOIIds(props)
+        
+        if (props?.transectParts?.size() > 0) {
+            // different procedure for systematic sites
+            assignTransectPartIds(props)
+            getSegmentLength(props.transectParts)
+            setCentroidAsExtent(props)  
+        }
         // If the site location is being updated, refresh the location metadata.
         if (forceRefresh || hasGeometryChanged(toMap(site), props)) {
             if (asyncUpdate){
@@ -396,6 +407,18 @@ class SiteService {
     }
 
     /**
+     * Goes through the transect parts assigned to a a site and assigns GUIDs to any new parts.
+     * @param site the site to check the transect parts of.
+     */
+    def assignTransectPartIds(site) {
+        site.transectParts?.each { 
+            if (!it.transectPartId) {
+                it.transectPartId = Identifiers.getNew(true, '')
+            }
+        }
+    }
+
+    /**
      * Creates a point of interest for a site.
      * @param siteId the ID of the site
      * @param props the properties of the POI.
@@ -448,6 +471,46 @@ class SiteService {
 
         update([poi:site.poi], siteId)
         return [status:'ok', poiId:props.poiId]
+    }
+
+    def updateTransectPart(siteId, props) {
+        if (!props.transectPartId) {
+            return createTransectPart(siteId, props)
+        }
+        def site = get(siteId, [FLAT])
+
+        if (!site) {
+            return [status:'error', error:"No site with ID ${siteId}"]
+        }
+        Map transectParts = site.transectParts?.find{it.transectPartId == props.transectPartId}
+        if (!transectParts) {
+            return [status:'error', error:"No transect part exists with Id=${props.transectPartId}"]
+        }
+        transectParts.putAll(props)
+
+        update([transectParts:site.transectParts], siteId)
+        return [status:'ok', transectPartId:props.transectPartId]
+    }
+
+    /**
+     * Creates a transect part for a transect in systematic monitoring.
+     * @param siteId the ID of the site
+     * @param props the properties of the transectPart.
+     * @return the ID of the new part.
+     */
+    def createTransectPart(siteId, props) {
+        props.transectPartId = Identifiers.getNew(true, '')
+        def site = get(siteId, [FLAT])
+
+        if (!site) {
+            return [status:'error', error:"No site with ID ${siteId}"]
+        }
+        def transectParts = site.transectParts ?:[]
+        transectParts.push(props)
+
+        update([transectParts:transectParts], siteId)
+
+        return [status:'ok', transectPartId:props.transectPartId]
     }
 
     def removeProject(siteId, projectId){
@@ -604,9 +667,11 @@ class SiteService {
     }
 
     def populateLocationMetadataForSite(Map site) {
+        def siteGeom = null
+        siteGeom = geometryAsGeoJson(site)
 
-        def siteGeom = geometryAsGeoJson(site)
         if (siteGeom) {
+
             GeometryJSON gjson = new GeometryJSON()
             Geometry geom = gjson.read((siteGeom as JSON).toString())
             if (!site.extent) {
@@ -624,9 +689,156 @@ class SiteService {
             else {
                 log.error("No geometry for site: ${site.siteId}")
             }
-
             site.extent.geometry += lookupGeographicFacetsForSite(site)
         }
+    }
+
+    /**
+     * For systematic monitoring 
+     * Calculates length of saved polyline
+     * @param <List>transectParts
+     * @return transectPart.length in meters
+     */
+    def getSegmentLength(transectParts){
+        transectParts.each { 
+            if (it.geometry.type == 'LineString'){
+                GeometryJSON gjson = new GeometryJSON()
+                Geometry geom = gjson.read((it.geometry as JSON).toString())
+                it.length = GeometryUtils.lineStringLength(geom)
+            }
+            else {
+                it.length = null
+            }
+        }
+    }
+
+    /**
+     * For systematic monitoring 
+     * calculates centroid of all features drawn and saved as transect parts
+     * assign the calculated centroid as site.extent 
+     * @param site
+     * @return
+     */
+    def setCentroidAsExtent(site) {
+        def geometry = site?.extent?.geometry
+
+        if (!geometry) {
+            log.error("Invalid site: ${site.siteId} missing geometry")
+            return
+        }
+        def extentCentroid = GeometryUtils.centroid(site.transectParts)
+        def x = extentCentroid.getX()
+        def y = extentCentroid.getY() 
+
+        def result = [type: 'Point', coordinates: [x, y], 
+            decimalLongitude: x, 
+            decimalLatitude: y,
+            centre: [Double.toString(x), Double.toString(y)]
+        ]
+        site.extent.geometry = result
+        site.extent.source = 'Point'
+    }
+
+    def isBooked(site){
+        return (site.bookedBy == null || site.bookedBy == "") ? false : true
+    }
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * modifies bookedBy field value to personId of the person who requested the site
+     * 
+     * @param props - contains String personId and List of site names 
+     * @return result - status update for the admin
+     */
+    def bookMultipleSites(props){
+        def personId = props?.personId
+        Boolean personExists = personService.checkPersonExists(personId)
+        String messageSuccess = ""
+        String messageFail = ""
+
+        if (personExists){
+            def bookedBy = [bookedBy: personId]
+            props?.siteNames.each { name ->
+                def site = Site.findByName(name)
+                ////////////
+                if (site){
+                    if (!isBooked(site)){
+                        updateSite(site, bookedBy, false)
+                        personService.addSiteForPerson(personId, site.siteId, 'booking')
+                        messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
+                    } else {
+                        messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+                    }
+                    ///////////////
+                } else {
+                    messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
+                }
+            }
+        } else {
+            messageFail = messageFail + "Person with this id does not exist.<br>"
+        }
+        def result = [messageSuccess, messageFail]
+        log.debug "result " + result
+        return result 
+    }
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * modifies bookedBy field value to personId of the person who requested the site
+     * 
+     * @param props - contains internalPersonId and siteId 
+     * @return result - status update for the admin
+     */
+    def bookOneSite(props){
+        def internalPersonId = props?.internalPersonId
+        def personId = personService.getPersonIdByInternalPersonId(internalPersonId)
+        def bookedBy = [bookedBy: personId]
+        def siteId = props?.siteId
+        String messageSuccess = ""
+        String messageFail = ""
+
+        if (personId){
+            if (siteId){
+                def site = Site.findBySiteId(siteId)
+                if (!isBooked(site)){
+                    updateSite(site, bookedBy, false)
+                    personService.addSiteForPerson(personId, siteId, 'booking')
+                    messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
+                } else {
+                    messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+                }
+            } else {
+                messageFail = messageFail + "Person with this id does not exist.<br>"
+            }
+        }
+        def result = [messageSuccess, messageFail]
+        log.debug "result " + result
+        return result 
+    }
+
+    /**
+     * For systematic monitoring - volunteer management 
+     * outputs store site id. When outputs submitted by a person are displayed
+     * the name and code of the site need to be seen by the admin
+     * 
+     * @param id - of the site in the output
+     * @return site
+     */
+    def getSiteNameAndCode(id){
+        def site = Site.findBySiteId(id)
+        return site 
+    }
+
+    def getSitesForPersonBySiteId(List siteIds){
+        def sites = []
+        siteIds.each { siteId ->
+            def site = Site.findBySiteId(siteId)
+            def siteBasics = [siteId: site?.siteId, name: site?.name]
+            sites << siteBasics
+        }
+        Map result = [status: 'ok', sites: sites]
+        log.debug "COMPACT SITES" + sites
+        return result
     }
 
     /**

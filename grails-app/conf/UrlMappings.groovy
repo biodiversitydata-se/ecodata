@@ -3,7 +3,12 @@ class UrlMappings {
 	static mappings = {
         "/ws/record"(controller: "record"){ action = [GET:"list", POST:"create"] }
         "/ws/record/"(controller: "record"){ action = [GET:"list", POST:"create"] }
-
+        "/ws/person/"(controller: "person"){ action = [GET:"list", POST:"create"] }
+        "/ws/person/$id"(controller: "person"){action = [POST: "update", DELETE: "delete", GET: "get"]}
+        "/ws/person/searchPerson"(controller: "person"){action = [GET: "searchPerson"]}
+        "/ws/person/getDataForPersonHomepage/$id"(controller: "person"){action = [GET: "getDataForPerson"]}
+        "/ws/person/addSiteOwnership/$id"(controller: "person"){action = [POST: "addSiteOwnership"]}
+        "/ws/person/linkUserToPerson/"(controller: "person"){action = [POST: "linkUserToPerson"]}
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
         "/ws/record/uncertainIdentifications"(controller: "record"){ action = [GET:"listUncertainIdentifications"] }
@@ -18,7 +23,7 @@ class UrlMappings {
         "/ws/record/$id"(controller: "record"){ action = [GET:"get", PUT:"update", DELETE:"delete", POST:"update"] }
 
         "/ws/activity/getDefaultFacets"(controller: "activity", action: "getDefaultFacets")
-
+        "/ws/activity/getActivitiesForPersonByType"(controller: "activity", action: "getActivitiesForPersonByType")
 
         "/ws/location"(controller: "location"){ action = [GET:"list", POST:"create"] }
         "/ws/location/"(controller: "location"){ action = [GET:"list", POST:"create"] }
@@ -37,8 +42,9 @@ class UrlMappings {
 
         "/ws/site/getImages"( controller: 'site', action: 'getImages')
         "/ws/site/getPoiImages"( controller: 'site', action: 'getPoiImages')
-
+        "/ws/site/bookSites/" (controller: 'site', action: 'bookSites')
         "/ws/output/getOutputSpeciesUUID/"(controller: "output"){ action = [GET:"getOutputSpeciesUUID"] }
+        "/ws/output/getAllForPersonBySurveyName/$id"(controller: "output"){ action = [GET:"getAllForPersonBySurveyName"] }
 
         "/ws/activitiesForProject/$id" {
             controller = 'activity'
@@ -96,6 +102,11 @@ class UrlMappings {
         "/ws/site/$id/poi" {
             controller = 'site'
             action = [POST:'createOrUpdatePoi']
+        }
+
+        "/ws/site/$id/transectPart" {
+            controller = 'site'
+            action = [POST:'createOrUpdateTransectPart']
         }
 
         "/ws/site/$id/poi/$poiId" {
@@ -179,6 +190,7 @@ class UrlMappings {
         "/ws/project/getDataCollectionWhiteList"(controller: "project"){ action = [GET:"getDataCollectionWhiteList"] }
         "/ws/project/getBiocollectFacets"(controller: "project"){ action = [GET:"getBiocollectFacets"] }
         "/ws/project/getDefaultFacets"(controller: "project", action: "getDefaultFacets")
+        "/ws/project/getRelatedProjectIds/"(controller: "project", action: "getRelatedProjectIds")
         "/ws/admin/initiateSpeciesRematch"(controller: "admin", action: "initiateSpeciesRematch")
 
         "/ws/$controller/list"() { action = [GET:'list'] }

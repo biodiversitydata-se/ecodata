@@ -1,0 +1,22 @@
+{"programs": [{
+    "weekDaysToCompleteReport": 0,
+    "activities": [
+        "LU test bird monitoring 1",
+        "Multiple Sightings",
+        "Fauna survey - trap and transect",
+        "2-ha Track Plot Datasheet",
+        "LU test bird monitoring 4",
+        "LU test bird monitoring 5",
+        "LU test bird monitoring activity 2",
+        "LU test butterly monitoring 1",
+        "Bird Survey - SAMD"
+    ],
+    "name": "Lund University Systematic Monitoring Project",
+    "speciesFieldsSettings": null,
+    "subprograms": [],
+    "optionalProjectContent": [
+        "MERI Plan",
+        "Risks and Threats"
+    ],
+    "isMeritProgramme": false
+}]}

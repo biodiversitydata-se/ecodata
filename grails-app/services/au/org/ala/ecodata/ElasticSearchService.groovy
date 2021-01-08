@@ -847,8 +847,10 @@ class ElasticSearchService {
         }
         projectMap.sites?.each { site ->
             // Not useful for the search index and there is a bug right now that can result in invalid POI
-            // data causing the indexing to fail.
+            // data causing the indexing to fail. Same applies to transectPart for systematic monitoring
             site.remove('poi')
+            site.remove('transectParts')
+
             if (site?.extent?.geometry?.coordinates) {
                 // This can be very large in some cases and is not used for searching (see the geoIndex field)
                 site.extent.geometry.remove('coordinates')
@@ -1020,8 +1022,9 @@ class ElasticSearchService {
             def site = siteService.get(activity.siteId, [SiteService.FLAT, SiteService.INDEXING], version)
             if (site) {
                 // Not useful for the search index and there is a bug right now that can result in invalid POI
-                // data causing the indexing to fail.
+                // data causing the indexing to fail. Same applies to transectPart for systematic monitoring
                 site.remove('poi')
+                site.remove('transectParts');
                 activity.sites = [site]
             }
         }

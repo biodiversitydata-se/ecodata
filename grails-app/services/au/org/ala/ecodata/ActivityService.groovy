@@ -610,5 +610,47 @@ class ActivityService {
             }
         }
     }
+    /**
+     * Get map of activity type and how many activitied the person submitted.
+     * @param personId
+     *
+     * @return Map [type: count]
+     */
+
+    def countActivitiesForPerson(String personId){
+        List activities = Activity.findAllByPersonId(personId)
+        List names = []
+        activities?.each { 
+            names.push(it.type)
+        }
+        Map activityCount = [:]
+        // count unique names of activities and how many times they occur
+        activityCount = names.countBy {it}
+        log.debug "activity count " + activityCount
+        activityCount
+    }
+
+    /**
+     * Get a list of all activities recorded by a person under one scheme
+     * and site names where the sightings occurred.
+     * @param id of the person
+     * @param params containing the name of the survey for which activities are to be found 
+     * @return list of activities containing names of sites instead of their Id
+     *          and selected output properties
+     */
+    def getAllForPersonByType(String activityType, String personId){
+        log.debug "getting activities for survey: " + activityType 
+        List activities = Activity.findAllByPersonIdAndType(personId, activityType)
+        List result = []
+        activities?.each { 
+            // fetch name and code of the site
+            def site = siteService.getSiteNameAndCode(it.siteId)
+            def row = ['siteName': site?.name, 'siteCode': site?.name, 
+                'dateCreated': it?.dateCreated, 'activityId': it?.activityId]
+            result << row
+        } 
+        log.debug "RESULT" + result
+        result
+    }
 
 }

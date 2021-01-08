@@ -17,6 +17,7 @@ class OutputService {
     DocumentService documentService
     CommentService commentService
     ActivityService activityService
+    SiteService siteService
 
     static final ACTIVE = "active"
     static final SCORES = 'scores'
@@ -60,6 +61,7 @@ class OutputService {
     def findAllForActivityIdAndName(id, name, levelOfDetail = []) {
         Output.findAllByActivityIdAndNameAndStatus(id, name, ACTIVE).collect { toMap(it, levelOfDetail) }
     }
+
 
     Map delete(String id, boolean destroy = false) {
         Output output = Output.findByOutputId(id)

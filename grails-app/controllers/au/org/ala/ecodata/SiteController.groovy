@@ -119,7 +119,6 @@ class SiteController {
     @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        log.debug props
         def result
         def message
         if (id) {
@@ -149,6 +148,24 @@ class SiteController {
         def result = siteService.updatePoi(id, props)
         if (result.status == 'ok') {
             def message = [message:'ok', poiId: result.poiId]
+            asJson(message)
+        }
+        else {
+            render status:400, text:result.error
+        }
+    }
+
+    @RequireApiKey
+    def createOrUpdateTransectPart(String id) {
+        def props = request.JSON
+
+        if (!id) {
+            render status:400, text:'Site ID is mandatory'
+            return
+        }
+        def result = siteService.updateTransectPart(id, props)
+        if (result.status == 'ok') {
+            def message = [message:'ok', transectPartId: result.transectPartId]
             asJson(message)
         }
         else {
@@ -318,4 +335,23 @@ class SiteController {
         Map result = [projectId:id, sites: features]
         render result as JSON
     }
+
+    /**
+     * Redirects to either book one site by its ID if initiated from ADMIN tab 
+     * or multiple sites by their names if initiated from a person's profile
+     *
+     */
+    def bookSites (){
+        def props = request.JSON
+        def message
+        if (props?.bookOne){
+            message = siteService.bookOneSite(props)
+        } else if (props?.bookMany){
+            message = siteService.bookMultipleSites(props)
+        }
+        Map result = [message: message]
+        log.debug "message" + result.message
+        render result as JSON
+    }
+
 }

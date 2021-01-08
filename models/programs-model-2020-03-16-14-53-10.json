@@ -1,0 +1,13 @@
+{"programs": [{
+    "weekDaysToCompleteReport": 0,
+    "activities": [
+        "LU test bird monitoring 1",
+        "Multiple Sightings",
+        "Fauna survey - trap and transect",
+        "2-ha Track Plot Datasheet"
+    ],
+    "name": "Lund University Systematic Monitoring Project",
+    "speciesFieldsSettings": null,
+    "subprograms": [],
+    "optionalProjectContent": []
+}]}

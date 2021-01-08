@@ -82,7 +82,7 @@ class ProjectActivity {
         dataManagementPolicyDocument nullable: true
         excludeProjectSite nullable: true
         mapLayersConfig nullable: true
-        surveySiteOption nullable: true, inList: ['sitepick','sitecreate', 'sitepickcreate']
+        surveySiteOption nullable: true, inList: ['sitecreatesystematic', 'sitepick','sitecreate', 'sitepickcreate']
         canEditAdminSelectedSites nullable: true
     }
 

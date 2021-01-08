@@ -26,6 +26,7 @@ class ProjectActivityService {
     PermissionService permissionService
     ElasticSearchService elasticSearchService
     EmailService emailService
+    PersonService personService
     MessageSource messageSource
 
     /**
@@ -193,7 +194,7 @@ class ProjectActivityService {
         result
     }
 
-    Map get(String id, levelOfDetail = [], version = null) {
+    Map get(String id, levelOfDetail = [], version = null, userId = null) {
         if (version) {
             def all = AuditMessage.findAllByEntityIdAndEntityTypeAndDateLessThanEquals(id, ProjectActivity.class.name,
                     new Date(version as Long), [sort:'date', order:'desc', max: 1])
@@ -208,7 +209,7 @@ class ProjectActivityService {
             projectActivity
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
-            projectActivity ? toMap(projectActivity, levelOfDetail) : [:]
+            projectActivity ? toMap(projectActivity, levelOfDetail, userId) : [:]
         }
     }
 
@@ -241,15 +242,22 @@ class ProjectActivityService {
      * @param levelOfDetail list of features to include
      * @return map of properties
      */
-    Map toMap(projectActivity, levelOfDetail = []) {
+    Map toMap(projectActivity, levelOfDetail = [], userId = null) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
-                projectActivity.getProperty("dbo").toMap() : projectActivity
+            projectActivity.getProperty("dbo").toMap() : projectActivity
 
         if (levelOfDetail == DOCS) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
 
+            // for systematic monitoring
+            // this filters sites that are in the project according to which sites the volunteer has permissions to access
+            if (userId){
+                def person = personService.getPersonByUserId(userId)
+                List personSiteIds = personService.getSiteIdsForPerson(person)
+                mapOfProperties.sites = personSiteIds.intersect(projectActivity.sites)
+            }
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
                 siteService.get(it, "brief")
             }

@@ -39,4 +39,17 @@
 /.slcache
 
 out
-models/*
+# compilation files
+/build
+/dump
+
+# files specific to the instance
+/models
+/models/programs-model.json
+
+.gradle
+
+
+custom_install_canmove_ecodata.txt
+
+
