@@ -39,3 +39,4 @@
 /.slcache
 
 out
+models/*
