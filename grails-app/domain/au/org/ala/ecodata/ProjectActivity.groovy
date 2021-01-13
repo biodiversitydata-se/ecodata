@@ -60,7 +60,7 @@ class ProjectActivity {
         temporalAccuracy inList: ['low', 'moderate', 'high']
         nonTaxonomicAccuracy inList: ['low', 'moderate', 'high']
         dataQualityAssuranceMethods validator: { values ->
-            [ "dataownercurated", "subjectexpertverification", "crowdsourcedverification", "recordannotation", "systemsupported", "nodqmethodsused", "na" ].containsAll(values)
+            [ "dataownercurated", "subjectexpertverification", "crowdsourcedverification", "recordannotation", "systemsupported", "nodqmethodsused", "adminverification", "na" ].containsAll(values)
         }
         dataAccessMethods validator: { values ->
             ["oasrdfs", "oaordfs", "lsrds", "ordfsvr", "oasrdes", "casrdes", "rdna", "odidpa", "na"].containsAll(values)

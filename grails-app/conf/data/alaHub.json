@@ -101,6 +101,16 @@
           "interval": 10,
           "state": "Expanded",
           "title": "Year"
+        },
+        {
+          "isNotHistogram": true,
+          "helpText": "Verification status",
+          "facetTermType": "Default",
+          "formattedName": "Verification status (verificationStatusFacet)",
+          "name": "verificationStatusFacet",
+          "interval": 10,
+          "state": "Expanded",
+          "title": "Verification status"
         }
       ]
     },
