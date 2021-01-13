@@ -960,7 +960,14 @@ facets.data = [
                 title: 'Is data management policy documented?',
                 dataType: 'text',
                 helpText: ''
+        ],
+        [
+                name:  "verificationStatusFacet",
+                title:  "Verification status",
+                dataType: 'text',
+                helpText: 'Verification status'
         ]
+
 
 ]
 
