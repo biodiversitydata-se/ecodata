@@ -105,6 +105,7 @@
         {
           "isNotHistogram": true,
           "helpText": "Verification status",
+          "adminOnly": true,
           "facetTermType": "Default",
           "formattedName": "Verification status (verificationStatusFacet)",
           "name": "verificationStatusFacet",
