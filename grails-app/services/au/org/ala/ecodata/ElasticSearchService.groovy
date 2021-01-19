@@ -1199,6 +1199,8 @@ class ElasticSearchService {
     *
     */
     void buildProjectActivityQuery(params) {
+        log.debug "params with ala admin check " + params
+        log.debug "params.fq class " + params.fq.getClass()
 
         String query = params.searchTerm ?: ''
         String userId = params.userId ?: '' // JSONNull workaround.
@@ -1220,19 +1222,20 @@ class ElasticSearchService {
                     if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId) || permissionService.isUserEditorForProject(userId, projectId))) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ')'
                     } else if (userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND (projectActivity.embargoed:false OR userId:' + userId + '))'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND (projectActivity.embargoed:false OR userId:' + userId + ' AND (verificationStatus:3 OR verificationStatus:0)))'
                     } else if (!userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false)'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
                     }
                 }
                 break
 
             case 'allrecords':
                 if (!projectId) {
+                    // should also check for FC_ADMIN role?
                     if (userId && permissionService.isUserAlaAdmin(userId)) {
                         forcedQuery = '(docType:activity)'
                     } else if (userId) {
-                        forcedQuery = '((docType:activity)'
+                        forcedQuery = '((docType:activity AND (verificationStatus:3 OR verificationStatus:0))'
                         List<String> projectsTheUserIsAMemberOf = permissionService.getProjectsForUser(userId, AccessLevel.admin, AccessLevel.editor)
 
                         projectsTheUserIsAMemberOf?.eachWithIndex { item, index ->
@@ -1250,7 +1253,7 @@ class ElasticSearchService {
                             forcedQuery = forcedQuery + ' AND (projectActivity.embargoed:false OR userId:' + userId + '))'
                         }
                     } else if (!userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.embargoed:false)'
+                        forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
                     }
                 }
                 break
@@ -1260,7 +1263,7 @@ class ElasticSearchService {
                     if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId) || permissionService.isUserEditorForProject(userId, projectId))) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ')'
                     } else {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false)'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
                     }
                 }
                 break
@@ -1281,7 +1284,7 @@ class ElasticSearchService {
                 break
 
             default:
-                forcedQuery = '(docType:activity AND projectActivity.embargoed:false)'
+                forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
                 break
         }
 
