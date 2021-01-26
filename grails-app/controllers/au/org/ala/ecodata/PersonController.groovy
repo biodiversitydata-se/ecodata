@@ -149,7 +149,6 @@ class PersonController {
             projects: projects,
             surveys: surveys
         ]
-        log.debug result
         render result as JSON
     }
 
