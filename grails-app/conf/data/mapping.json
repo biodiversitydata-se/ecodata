@@ -487,6 +487,13 @@
             "surveyYearFacet":{"type":"string", "index":"not_analyzed"}
           }
         },
+        "surveyDate":{
+          "type" : "date",
+          "path" : "just_name",
+          "fields" : {
+            "surveyDateSort" : {"type" : "string", "analyzer" : "case_insensitive_sort"}
+          }
+        },
         "verificationStatus": {
           "type":"string",
           "fields": {

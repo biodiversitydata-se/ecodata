@@ -854,6 +854,12 @@ facets.data = [
                 helpText: 'Name of survey'
         ],
         [
+                name: "surveyDateFacet",
+                title: 'Survey date',
+                dataType: 'date',
+                helpText: 'Date when survey was created'
+        ],
+        [
                 name: "recordNameFacet",
                 title:  'Species name',
                 dataType: 'text',
@@ -1232,6 +1238,7 @@ geoServer.layerNames = [
                                                'projectNameFacet',
                                                'surveyMonthFacet',
                                                'surveyYearFacet',
+                                               'surveyDate',
                                                'sites.geometryType'
                                        ]
                 ],
