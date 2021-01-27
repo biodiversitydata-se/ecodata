@@ -1225,9 +1225,9 @@ class ElasticSearchService {
                     if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId) || permissionService.isUserEditorForProject(userId, projectId))) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ')'
                     } else if (userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND (projectActivity.embargoed:false OR userId:' + userId + ' AND (verificationStatus:3 OR verificationStatus:0)))'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND (projectActivity.embargoed:false OR userId:' + userId + ' AND (verificationStatus:"not applicable" OR verificationStatus:"approved")))'
                     } else if (!userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:"not applicable" OR verificationStatus:"approved"))'
                     }
                 }
                 break
@@ -1238,7 +1238,7 @@ class ElasticSearchService {
                     if (userId && permissionService.isUserAlaAdmin(userId)) {
                         forcedQuery = '(docType:activity)'
                     } else if (userId) {
-                        forcedQuery = '((docType:activity AND (verificationStatus:3 OR verificationStatus:0))'
+                        forcedQuery = '((docType:activity AND (verificationStatus:"not applicable" OR verificationStatus:"approved"))'
                         List<String> projectsTheUserIsAMemberOf = permissionService.getProjectsForUser(userId, AccessLevel.admin, AccessLevel.editor)
 
                         projectsTheUserIsAMemberOf?.eachWithIndex { item, index ->
@@ -1256,7 +1256,7 @@ class ElasticSearchService {
                             forcedQuery = forcedQuery + ' AND (projectActivity.embargoed:false OR userId:' + userId + '))'
                         }
                     } else if (!userId) {
-                        forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
+                        forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:"not applicable" OR verificationStatus:"approved"))'
                     }
                 }
                 break
@@ -1266,7 +1266,7 @@ class ElasticSearchService {
                     if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId) || permissionService.isUserEditorForProject(userId, projectId))) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ')'
                     } else {
-                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:"not applicable" OR verificationStatus:"approved"))'
                     }
                 }
                 break
@@ -1287,7 +1287,7 @@ class ElasticSearchService {
                 break
 
             default:
-                forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:3 OR verificationStatus:0))'
+                forcedQuery = '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:"not applicable" OR verificationStatus:"approved"))'
                 break
         }
 
