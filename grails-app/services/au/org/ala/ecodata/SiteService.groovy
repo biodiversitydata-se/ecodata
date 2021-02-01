@@ -156,6 +156,14 @@ class SiteService {
         }.collect { toMap(it, levelOfDetail) }
     }
 
+    def findAllNonPrivateSitesForProjectIdBrief(id, levelOfDetail = []){
+        Site.withCriteria {
+            eq('status', ACTIVE)
+            ne('visibility', PRIVATE)
+            inList('projects', [id])
+        }.collect { toMap(it, levelOfDetail) }
+    }
+
     /**
      * Converts the domain object into a map of properties, including
      * dynamic properties.
@@ -187,6 +195,12 @@ class SiteService {
         if (levelOfDetail.contains(INDEXING)) {
             mapOfProperties.geometryType = site.geometryType
             mapOfProperties.geoPoint = site.geoPoint
+        }
+
+        if (levelOfDetail.contains(BRIEF)){
+            mapOfProperties.remove("transectParts")
+            mapOfProperties.remove("geoIndex")
+            mapOfProperties.remove("projects")
         }
 
         mapOfProperties.findAll {k,v -> v != null}
