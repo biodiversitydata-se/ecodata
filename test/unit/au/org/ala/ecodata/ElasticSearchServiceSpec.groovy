@@ -41,7 +41,7 @@ class ElasticSearchServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "View type : Invalid - Build a query that returns only non-embargoed records"() {
+    void "View type : Invalid - Build a query that returns only non-embargoed records that have been verified or don't require verification"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -53,7 +53,7 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
+        map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:not applicable OR verificationStatus:approved))'
     }
 
     void "View type: 'myrecords' and empty userId - Build a query that should return only non-embargoed records"() {
@@ -68,7 +68,7 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
+        map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:not applicable OR verificationStatus:approved))'
     }
 
     void "View type: 'myrecords' and valid userId - Build a query that returns all records associated to the user."() {
@@ -101,7 +101,7 @@ class ElasticSearchServiceSpec extends Specification {
         map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ')'
     }
 
-    void "View type: 'project'- if logged in user >> show non embargoed records + records created by user"() {
+    void "View type: 'project'- if logged in user >> show non embargoed records + records created by user that have been verified or don't require verification"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -113,11 +113,11 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND (projectActivity.embargoed:false OR userId:' + map.userId + '))'
+        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND (projectActivity.embargoed:false OR userId:' + map.userId + ') AND (userId:' + map.userId +' OR (verificationStatus:not applicable OR verificationStatus:approved)))'
     }
 
 
-    void "View type: 'project'- if unauthenticated user and valid project >> show non embargoed records."() {
+    void "View type: 'project'- if unauthenticated user and valid project >> show non embargoed records that have been verified or don't require verification."() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -129,7 +129,7 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND projectActivity.embargoed:false)'
+        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND projectActivity.embargoed:false AND (verificationStatus:not applicable OR verificationStatus:approved))'
     }
 
     void "View type: 'allrecords' - logged in users and ala admin >> show all records across the projects"() {
@@ -147,7 +147,7 @@ class ElasticSearchServiceSpec extends Specification {
         map.query == '(docType:activity)'
     }
 
-    void "View type: 'allrecords' - logged in users and not ala admin >> show embargoed records that user own or been a member of the projects"() {
+    void "View type: 'allrecords' - logged in users and not ala admin >> show embargoed records that user own or been a member of the projects and records that have been verified or don't require verification"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -160,10 +160,10 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '((docType:activity) AND ((projectActivity.projectId:abc OR projectActivity.projectId:cde) OR (projectActivity.embargoed:false OR userId:' + map.userId + ')))'
+        map.query == '((docType:activity) AND (userId:' + map.userId + ' OR verificationStatus:not applicable OR verificationStatus:approved) AND ((projectActivity.projectId:abc OR projectActivity.projectId:cde) OR (projectActivity.embargoed:false OR userId:' + map.userId + ')))'
     }
 
-    void "View type: 'allrecords', logged in users and not ala admin >> show embargoed records that user own "() {
+    void "View type: 'allrecords', logged in users and not ala admin >> show embargoed records that user own and don't show unverified records"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -176,10 +176,10 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '((docType:activity) AND (projectActivity.embargoed:false OR userId:' + map.userId + '))'
+        map.query == '((docType:activity) AND (userId:' + map.userId + ' OR verificationStatus:not applicable OR verificationStatus:approved) AND (projectActivity.embargoed:false OR userId:' + map.userId + ') OR (projectActivity.embargoed:false))'
     }
 
-    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records across the projects."() {
+    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records across the projects and don't show unverified records."() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -192,10 +192,10 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.embargoed:false)'
+        map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatus:not applicable OR verificationStatus:approved))'
     }
 
-    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records across the projects and attach the searchTerm"() {
+    void "View type: 'allrecords' - unauthenticated user >> show only embargoed records and don't show unverified records across the projects and attach the searchTerm"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -208,7 +208,7 @@ class ElasticSearchServiceSpec extends Specification {
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == 'Test AND (docType:activity AND projectActivity.embargoed:false)'
+        map.query == 'Test AND (docType:activity AND projectActivity.embargoed:false AND (verificationStatus:not applicable OR verificationStatus:approved))'
     }
 
 
