@@ -186,12 +186,14 @@ class ProjectService {
             mapOfProperties["id"] = id
             mapOfProperties["status"] = mapOfProperties["status"]?.capitalize();
             mapOfProperties.remove("_id")
-
+            
             if (levelOfDetail != FLAT) {
-                mapOfProperties.remove("sites")
-                if(levelOfDetail == PRIVATE_SITES_REMOVED){
-                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectId(project.projectId, [SiteService.FLAT, 'excludeTransects'])
-                } else {
+                if (levelOfDetail == PRIVATE_SITES_REMOVED && !project.isSystematicMonitoring) {
+                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectId(project.projectId, [SiteService.FLAT])
+                } else if (project.isSystematicMonitoring) { 
+                    // get basic site info without transect features
+                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectIdBrief(project.projectId, [SiteService.BRIEF])
+                }else {
                     mapOfProperties.sites = siteService.findAllForProjectId(project.projectId, [SiteService.FLAT], version)
                 }
 
@@ -200,7 +202,7 @@ class ProjectService {
 
                 if (levelOfDetail == ALL) {
                     mapOfProperties.activities = activityService.findAllForProjectId(project.projectId, levelOfDetail, includeDeletedActivities)
-                    List<Report> reports = reportingService.findAllForProject(project.projectId)
+                    List<Report> reports = [] // reportingService.findAllForProject(project.projectId)
                     if (reports) {
                         mapOfProperties.reports = reports
                     }
@@ -219,38 +221,38 @@ class ProjectService {
             }
 
             result = mapOfProperties.findAll { k, v -> v != null }
-
-            //Fetch name of MU
-            if (result?.managementUnitId) {
-                ManagementUnit mu = ManagementUnit.findByManagementUnitId(result.managementUnitId)
-                result['managementUnitName'] = mu?.name
-            }
-            // Populate the associatedProgram and associatedSubProgram properties if the programId exists.
-            if (result?.programId) {
-                Program program = Program.findByProgramId(result.programId)
-                if (program) {
-                    if (program.parent) {
-                        result['associatedProgram'] = program.parent.name
-                        result['associatedSubProgram'] = program.name
-                    } else {
-                        result['associatedProgram'] = program.name
+            if (!project.isSystematicMonitoring){
+                //Fetch name of MU
+                if (result?.managementUnitId) {
+                    ManagementUnit mu = ManagementUnit.findByManagementUnitId(result.managementUnitId)
+                    result['managementUnitName'] = mu?.name
+                }
+                // Populate the associatedProgram and associatedSubProgram properties if the programId exists.
+                if (result?.programId) {
+                    Program program = Program.findByProgramId(result.programId)
+                    if (program) {
+                        if (program.parent) {
+                            result['associatedProgram'] = program.parent.name
+                            result['associatedSubProgram'] = program.name
+                        } else {
+                            result['associatedProgram'] = program.name
+                        }
                     }
                 }
-            }
 
-            // look up current associated organisation details
-            result.associatedOrgs?.each {
-                if (it.organisationId) {
-                    Organisation org = Organisation.findByOrganisationId(it.organisationId)
-                    if (org) {
-                        it.name = org.name
-                        it.url = org.url
-                        it.logo = Document.findByOrganisationIdAndRoleAndStatus(it.organisationId, "logo", ACTIVE)?.thumbnailUrl
+                // look up current associated organisation details
+                result.associatedOrgs?.each {
+                    if (it.organisationId) {
+                        Organisation org = Organisation.findByOrganisationId(it.organisationId)
+                        if (org) {
+                            it.name = org.name
+                            it.url = org.url
+                            it.logo = Document.findByOrganisationIdAndRoleAndStatus(it.organisationId, "logo", ACTIVE)?.thumbnailUrl
+                        }
                     }
                 }
             }
         }
-
         result
     }
 
