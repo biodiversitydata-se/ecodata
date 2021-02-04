@@ -179,7 +179,7 @@ class SiteService {
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
 
-        if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF) && levelOfDetail != TRANSECTS) {
+        if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF) && levelOfDetail != TRANSECTS && !levelOfDetail.contains(TRANSECTS)) {
             mapOfProperties.documents = documentService.findAllForSiteId(site.siteId, version)
             if (levelOfDetail.contains(LevelOfDetail.PROJECTS.name())) {
                 def projects = projectService.getBrief(mapOfProperties.projects, version)
@@ -200,7 +200,7 @@ class SiteService {
             mapOfProperties.keySet().retainAll(["name", "siteId", "extent", "bookedBy", "owner", "type", "isSensitive", "status"])
             log.debug "site level brief used here" + mapOfProperties
         }
-        if (levelOfDetail == TRANSECTS){
+        if (levelOfDetail == TRANSECTS || levelOfDetail.contains(TRANSECTS) || levelOfDetail.contains('PROJECTS')){
             mapOfProperties["transectParts"].collect {
                 part -> return part.keySet().retainAll(["name", "geometry"])
             }
