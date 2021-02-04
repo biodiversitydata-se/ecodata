@@ -11,6 +11,7 @@ class ProjectActivityService {
     static transactional = false
     static final DOCS = 'docs'
     static final ALL = 'all' // docs and sites
+    static final BRIEF = 'brief' // without sites
     static final SUBSCRIBED_PROPERTIES = [
             'methodName'
     ]
@@ -257,9 +258,10 @@ class ProjectActivityService {
                 def person = personService.getPersonByUserId(userId)
                 List personSiteIds = personService.getSiteIdsForPerson(person)
                 mapOfProperties.sites = personSiteIds.intersect(projectActivity.sites)
+                levelOfDetail = "transects"
             }
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
-                siteService.get(it, "brief")
+                siteService.get(it, levelOfDetail)
             }
 
         }
@@ -267,6 +269,10 @@ class ProjectActivityService {
         mapOfProperties["attribution"] = generateAttributionText(projectActivity)
         mapOfProperties["submissionRecords"] = mapOfProperties.submissionRecords.collect {
             submissionService.get(it)
+        }
+        // for systematic monitoring - only retains basic info needed for homepage
+        if (levelOfDetail == BRIEF) {
+            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id"])
         }
 
         String id = mapOfProperties["_id"].toString()
