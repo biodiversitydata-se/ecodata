@@ -128,12 +128,12 @@ class PersonController {
                 try {
                     personProjects.each { projectId ->
                         projects << projectService.get(projectId, 'basic')
-                        surveys << projectActivityService.getAllByProject(projectId, 'docs')
+                        surveys << projectActivityService.getAllByProject(projectId, 'brief')
                     }
                 } catch (Exception MissingMethodException) {
                     personProjects[0].each { projectId ->
                         projects << projectService.get(projectId, 'basic')
-                        surveys << projectActivityService.getAllByProject(projectId, 'docs')
+                        surveys << projectActivityService.getAllByProject(projectId, 'brief')
                     }
                 } 
 
