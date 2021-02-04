@@ -23,6 +23,8 @@ class SiteService {
     static final BRIEF = 'brief'
     static final RAW = 'raw'
     static final FLAT = 'flat'
+    // include all properties of sites so they can be displayed on map, used e.g. in bioactivity/create on biocollect
+    static final TRANSECTS = 'transects'
     static final PRIVATE = 'private'
     static final INDEXING = 'indexing'
 
@@ -176,11 +178,8 @@ class SiteService {
         def id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id
         mapOfProperties.remove("_id")
-        if (levelOfDetail.contains("excludeTransects")){
-            mapOfProperties.remove("transectParts")
-        }
 
-        if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF)) {
+        if (!levelOfDetail.contains(FLAT) && !levelOfDetail.contains(BRIEF) && levelOfDetail != TRANSECTS) {
             mapOfProperties.documents = documentService.findAllForSiteId(site.siteId, version)
             if (levelOfDetail.contains(LevelOfDetail.PROJECTS.name())) {
                 def projects = projectService.getBrief(mapOfProperties.projects, version)
@@ -198,9 +197,14 @@ class SiteService {
         }
 
         if (levelOfDetail.contains(BRIEF)){
-            mapOfProperties.remove("transectParts")
-            mapOfProperties.remove("geoIndex")
-            mapOfProperties.remove("projects")
+            mapOfProperties.keySet().retainAll(["name", "siteId", "extent", "bookedBy", "owner", "type", "isSensitive", "status"])
+            log.debug "site level brief used here" + mapOfProperties
+        }
+        if (levelOfDetail == TRANSECTS){
+            mapOfProperties["transectParts"].collect {
+                part -> return part.keySet().retainAll(["name", "geometry"])
+            }
+            mapOfProperties.keySet().retainAll(["name", "siteId", "extent", "transectParts", "bookedBy", "owner"])
         }
 
         mapOfProperties.findAll {k,v -> v != null}
@@ -851,7 +855,6 @@ class SiteService {
             sites << siteBasics
         }
         Map result = [status: 'ok', sites: sites]
-        log.debug "COMPACT SITES" + sites
         return result
     }
 

@@ -12,6 +12,7 @@ class SiteController {
     static final RICH = "rich"
     static final BRIEF = 'brief'
     static final RAW = 'raw'
+    static final TRANSECTS = 'transects'
     static final SCORES = 'scores'
 
     // JSON response is returned as the unconverted model with the appropriate
@@ -46,6 +47,7 @@ class SiteController {
         if (params.rich || params.view == RICH) { levelOfDetail << RICH }
         if (params.raw || params.view == RAW) { levelOfDetail << RAW }
         if (params.scores || params.view == SCORES) { levelOfDetail << SCORES }
+        if (params.view == TRANSECTS) { levelOfDetail << TRANSECTS }
         if (params.projects || params.view == LevelOfDetail.PROJECTS.name().toLowerCase()) { levelOfDetail << LevelOfDetail.PROJECTS.name()}
 
         if (!id) {
