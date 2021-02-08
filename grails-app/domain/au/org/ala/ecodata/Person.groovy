@@ -35,6 +35,7 @@ class Person {
     String userId
     List projects
     List bookedSites
+    List ownedSites
     Date dateCreated
     Date lastUpdated 
 
@@ -54,6 +55,7 @@ class Person {
         extra nullable: true, maxSize: 4000
         userId nullable: true
         bookedSites nullable: true
-        projects nullable: true
+        projects nullable: false
+        ownedSites nullable: true
     }
 }

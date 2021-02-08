@@ -19,21 +19,30 @@ class PersonService {
 
     // @RequireApiKey
     def create(Map props) {
-        assert getCommonService()
-        props.personId = Identifiers.getNew(true,'')
-        def person = new Person(props)
-        try {
-            person.save(failOnError: true)
-            log.debug "person saved is " + person.lastName
-            return [status:'ok', personName: person.lastName]
-        } catch (Exception e) {
-            e.printStackTrace()
-            // clear session to avoid exception when GORM tries to autoflush the changes
-            Person.withSession { session -> session.clear() }
-            def error = "Error creating person ${props.firstName} ${props.lastName} - ${e.message}"
-            log.error(error, e)
-            return [status:'error',error:error]
+        String internalPersonId = props.internalPersonId
+        if (internalIdIsUnique(internalPersonId)) {
+            try {
+                props.personId = Identifiers.getNew(true,'') 
+                def person = new Person(props)
+                log.debug props.projects
+                person.projects = props.projects.flatten()
+                person.save(failOnError: true)
+                return [status:'ok', personName: person.lastName]
+            } catch (Exception e) {
+                e.printStackTrace()
+                // clear session to avoid exception when GORM tries to autoflush the changes
+                Person.withSession { session -> session.clear() }
+                def error = "Error creating person ${props.firstName} ${props.lastName} - ${e.message}"
+                log.error(error, e)
+                return [status:'error',error:error]
+            }
+        } else {
+            return [status: 'error', error: 'A person with this ID already exists']
         }
+    }
+
+    Boolean internalIdIsUnique(String internalPersonId){
+        return !Person.findByInternalPersonId(internalPersonId)
     }
 
     /**
