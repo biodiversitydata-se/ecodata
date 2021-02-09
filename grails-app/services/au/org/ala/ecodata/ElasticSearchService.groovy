@@ -1202,11 +1202,10 @@ class ElasticSearchService {
     *
     */
     void buildProjectActivityQuery(params) {
-        log.debug "params with ala admin check " + params
-        log.debug "params.fq class " + params.fq.getClass()
 
         String query = params.searchTerm ?: ''
         String userId = params.userId ?: '' // JSONNull workaround.
+        String personId = params?.personId ?: ''
         String projectId = params.projectId
         String projectActivityId = params.projectActivityId
         String forcedQuery = ''
@@ -1215,7 +1214,9 @@ class ElasticSearchService {
         switch (params.view) {
 
             case 'myrecords':
-                if (userId) {
+                if (personId) {
+                    forcedQuery = '(docType:activity AND personId:' + personId + ')'
+                } else if (userId) {
                     forcedQuery = '(docType:activity AND userId:' + userId + ')'
                 }
                 break
