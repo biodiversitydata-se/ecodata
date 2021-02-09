@@ -9,6 +9,7 @@ class UrlMappings {
         "/ws/person/getDataForPersonHomepage/$id"(controller: "person"){action = [GET: "getDataForPerson"]}
         "/ws/person/addSiteOwnership/$id"(controller: "person"){action = [POST: "addSiteOwnership"]}
         "/ws/person/linkUserToPerson/"(controller: "person"){action = [POST: "linkUserToPerson"]}
+        "/ws/person/getPersonIdForUser/"(controller: "person"){action = [GET: "getPersonIdForUser"]}
         "/ws/record/export"(controller: "record"){ action = [GET:"export"] }
         "/ws/record/csvProject"(controller: "record"){ action = [GET:"csvProject"] }
         "/ws/record/uncertainIdentifications"(controller: "record"){ action = [GET:"listUncertainIdentifications"] }

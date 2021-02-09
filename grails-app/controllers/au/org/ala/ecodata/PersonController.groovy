@@ -179,4 +179,10 @@ class PersonController {
         render result as JSON
     }
 
+    def getPersonIdForUser(){
+        String userId = params.userId
+        def result = Person.findByUserId(userId)
+        render result as JSON
+    }
+
 }
