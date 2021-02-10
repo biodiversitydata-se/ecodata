@@ -2,6 +2,7 @@ package au.org.ala.ecodata
 
 import com.mongodb.*
 import org.grails.datastore.mapping.mongo.MongoSession
+import grails.validation.ValidationException
 
 /**
 * For systematic monitoring - volunteer management 
@@ -20,29 +21,27 @@ class PersonService {
     // @RequireApiKey
     def create(Map props) {
         String internalPersonId = props.internalPersonId
-        if (internalIdIsUnique(internalPersonId)) {
             try {
-                props.personId = Identifiers.getNew(true,'') 
+                String personId = Identifiers.getNew(true,'') 
+                props.personId = personId
+                props.internalPersonId = props.internalPersonId ? props.internalPersonId : personId
                 def person = new Person(props)
-                log.debug props.projects
                 person.projects = props.projects.flatten()
                 person.save(failOnError: true)
                 return [status:'ok', personName: person.lastName]
+            } catch (ValidationException e){
+                e.printStackTrace()
+                Person.withSession { session -> session.clear() }
+                def error = "A person with internal ID ${props.internalPersonId} already exists. Try a different ID."
+                return [status:'error', error:error]
             } catch (Exception e) {
                 e.printStackTrace()
                 // clear session to avoid exception when GORM tries to autoflush the changes
                 Person.withSession { session -> session.clear() }
                 def error = "Error creating person ${props.firstName} ${props.lastName} - ${e.message}"
                 log.error(error, e)
-                return [status:'error',error:error]
+                return [status:'error', error:error]
             }
-        } else {
-            return [status: 'error', error: 'A person with this ID already exists']
-        }
-    }
-
-    Boolean internalIdIsUnique(String internalPersonId){
-        return !Person.findByInternalPersonId(internalPersonId)
     }
 
     /**
