@@ -42,7 +42,7 @@ class Person {
     static constraints = {
         firstName nullable: false
         lastName nullable: false
-        internalPersonId nullable: true
+        internalPersonId nullable: false, unique: true
         email nullable: false
         gender nullable: true
         birthDate nullable: true
