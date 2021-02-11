@@ -211,6 +211,8 @@ class ProjectActivityService {
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
             projectActivity ? toMap(projectActivity, levelOfDetail, userId) : [:]
+            log.debug "projectActivity " + projectActivity
+            return projectActivity
         }
     }
 
@@ -272,7 +274,7 @@ class ProjectActivityService {
         }
         // for systematic monitoring - only retains basic info needed for homepage
         if (levelOfDetail == BRIEF) {
-            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id"])
+            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert"])
         }
 
         String id = mapOfProperties["_id"].toString()
