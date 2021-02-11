@@ -211,8 +211,6 @@ class ProjectActivityService {
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
             projectActivity ? toMap(projectActivity, levelOfDetail, userId) : [:]
-            log.debug "projectActivity " + projectActivity
-            return projectActivity
         }
     }
 
@@ -246,6 +244,7 @@ class ProjectActivityService {
      * @return map of properties
      */
     Map toMap(projectActivity, levelOfDetail = [], userId = null) {
+        log.debug "projectActivity to map " + projectActivity
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
             projectActivity.getProperty("dbo").toMap() : projectActivity
 
