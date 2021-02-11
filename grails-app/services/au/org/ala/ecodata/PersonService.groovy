@@ -74,7 +74,10 @@ class PersonService {
         Map props = [:]
         if (ctx == 'owner'){
             if (person?.ownedSites){
-                person.ownedSites.push(siteId)
+                // check if the site is already saved for person
+                if (!person.ownedSites.contains(siteId)){
+                    person.ownedSites.push(siteId)
+                }
             } else {
             person.ownedSites = [siteId]
             }
@@ -89,28 +92,6 @@ class PersonService {
         }
         commonService.updateProperties(person, props)
     }
-
-    // def addSiteOwnership(String personId, String siteId){
-    //     // TODO - check if the site is already owned by the person to avoid having multiple copies of the id stored
-
-    //     Person person = get(personId)
-
-    //     log.debug "props with owned sites: " + props
-
-    //     commonService.updateProperties(person, props)
-    // }
-
-    // def addBookedSites(String siteId, String personId){
-    //     Person person = get(personId)
-    //     if (person?.bookedSites){
-    //         person.bookedSites.push(siteId)
-    //     } else {
-    //     person.bookedSites = [siteId]
-    //     }
-    //     def props = [bookedSites : person.bookedSites]
-    //     log.debug "props " + props
-    //     commonService.updateProperties(person, props)
-    // }
 
     /**
      * Get personal details of a member of a project 
