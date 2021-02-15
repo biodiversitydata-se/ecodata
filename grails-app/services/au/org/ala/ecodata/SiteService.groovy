@@ -721,7 +721,7 @@ class SiteService {
             if (it.geometry.type == 'LineString'){
                 GeometryJSON gjson = new GeometryJSON()
                 Geometry geom = gjson.read((it.geometry as JSON).toString())
-                it.length = GeometryUtils.lineStringLength(geom)
+                it.length = GeometryUtils.lineStringLength(geom).round(1)
             }
             else {
                 it.length = null
