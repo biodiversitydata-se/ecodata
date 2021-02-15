@@ -440,7 +440,6 @@ class ProjectController {
         }
         def result
         if (projectIds){
-            log.debug "projectIds" + projectIds
             result = [relatedProjectIds: projectIds]
         } else {
             result = [noRelatedProjects: true]
