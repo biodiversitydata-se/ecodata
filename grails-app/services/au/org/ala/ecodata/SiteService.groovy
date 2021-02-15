@@ -201,7 +201,7 @@ class SiteService {
         }
         if (levelOfDetail == TRANSECTS || levelOfDetail.contains(TRANSECTS) || levelOfDetail.contains('PROJECTS')){
             mapOfProperties["transectParts"].collect {
-                part -> return part.keySet().retainAll(["name", "geometry"])
+                part -> return part.keySet().retainAll(["name", "geometry", "length", "description"])
             }
             mapOfProperties.keySet().retainAll(["name", "siteId", "extent", "transectParts", "bookedBy", "owner"])
         }
@@ -744,8 +744,8 @@ class SiteService {
             return
         }
         def extentCentroid = GeometryUtils.centroid(site.transectParts)
-        def x = extentCentroid.getX()
-        def y = extentCentroid.getY() 
+        def x = extentCentroid.getX().round(5)
+        def y = extentCentroid.getY().round(5) 
 
         def result = [type: 'Point', coordinates: [x, y], 
             decimalLongitude: x, 
