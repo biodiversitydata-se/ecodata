@@ -252,7 +252,7 @@ class ProjectActivityService {
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
             // level of details for sites should be brief on default - this eliminates the transectParts from it
-            levelOfDetailForSites = ["brief"]
+            List levelOfDetailForSites = ["brief"]
             // for systematic monitoring
             // this filters sites that are in the project according to which sites the volunteer has permissions to access
             if (userId){
