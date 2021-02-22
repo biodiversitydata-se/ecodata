@@ -244,7 +244,6 @@ class ProjectActivityService {
      * @return map of properties
      */
     Map toMap(projectActivity, levelOfDetail = [], userId = null) {
-        log.debug "projectActivity to map " + projectActivity
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
             projectActivity.getProperty("dbo").toMap() : projectActivity
 
@@ -252,28 +251,30 @@ class ProjectActivityService {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
-
+            // level of details for sites should be brief on default - this eliminates the transectParts from it
+            levelOfDetailForSites = ["brief"]
             // for systematic monitoring
             // this filters sites that are in the project according to which sites the volunteer has permissions to access
             if (userId){
                 def person = personService.getPersonByUserId(userId)
                 List personSiteIds = personService.getSiteIdsForPerson(person)
                 mapOfProperties.sites = personSiteIds.intersect(projectActivity.sites)
-                levelOfDetail = "transects"
+                // change level of detail because we need transect parts here for maps in survey forms
+                levelOfDetailForSites = ["transects"]
             }
             mapOfProperties["sites"] = mapOfProperties.sites.collect {
-                siteService.get(it, levelOfDetail)
+                siteService.get(it, levelOfDetailForSites)
             }
-
         }
 
         mapOfProperties["attribution"] = generateAttributionText(projectActivity)
         mapOfProperties["submissionRecords"] = mapOfProperties.submissionRecords.collect {
             submissionService.get(it)
         }
+
         // for systematic monitoring - only retains basic info needed for homepage
         if (levelOfDetail == BRIEF) {
-            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert"])
+            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", "allowPolygons", "allowLine", "allowPoints"])
         }
 
         String id = mapOfProperties["_id"].toString()

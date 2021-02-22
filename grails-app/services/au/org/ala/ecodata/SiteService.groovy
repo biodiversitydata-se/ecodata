@@ -199,7 +199,7 @@ class SiteService {
         if (levelOfDetail.contains(BRIEF)){
             mapOfProperties.keySet().retainAll(["name", "siteId", "extent", "bookedBy", "owner", "type", "isSensitive", "status"])
         }
-        if (levelOfDetail == TRANSECTS || levelOfDetail.contains(TRANSECTS) || levelOfDetail.contains('PROJECTS')){
+        if (levelOfDetail.contains(TRANSECTS) || levelOfDetail.contains('PROJECTS')){
             mapOfProperties["transectParts"].collect {
                 part -> return part.keySet().retainAll(["name", "geometry", "length", "description"])
             }
