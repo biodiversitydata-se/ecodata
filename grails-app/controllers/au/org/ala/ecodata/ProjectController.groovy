@@ -433,6 +433,12 @@ class ProjectController {
         response.addHeader("entityId", projectId)
     }
 
+    /**
+    * Get a list of project IDs related to the requested one through hub
+    * needed to give permissions to a person for all projects in the hub
+    * @params hubUrl
+    * @return list of project IDs
+    */
     List getRelatedProjectIds(){
         List relatedProjects = Project.findAllByHubUrl(params.hub)
         List projectIds = relatedProjects.collect {
