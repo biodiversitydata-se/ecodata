@@ -123,17 +123,26 @@ class PersonController {
             }
             List personProjects = person?.projects
             if (!personProjects.isEmpty()){
-                // TODO - fix the format how projects are saved to get rid of the nested array then the try/ catch won't be necessary
+
                 try {
                     personProjects.each { projectId ->
                         projects << projectService.get(projectId, 'basic')
-                        surveys << projectActivityService.getAllByProject(projectId, 'brief')
+                        def allSurveysForProject = projectActivityService.getAllByProject(projectId, 'brief')
+                        allSurveysForProject.forEach {
+                            surveys << it
+                        }
                     }
                 } catch (Exception MissingMethodException) {
-                    personProjects[0].each { projectId ->
-                        projects << projectService.get(projectId, 'basic')
-                        surveys << projectActivityService.getAllByProject(projectId, 'brief')
-                    }
+                    personStatus = "Available projects are incorrectly saved."
+                    // think this works but if not, it would be because of nested arrays, the solution is the comments
+                    log.error "nested person.projects"
+                    // personProjects[0].each { projectId ->
+                    //     projects << projectService.get(projectId, 'basic')
+                    //     def allSurveysForProject = projectActivityService.getAllByProject(projectId, 'brief')
+                    //     allSurveysForProject.forEach {
+                    //         surveys << it
+                    //     }
+                    // }
                 } 
 
             } else {
