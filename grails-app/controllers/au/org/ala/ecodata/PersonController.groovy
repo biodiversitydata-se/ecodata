@@ -111,7 +111,6 @@ class PersonController {
         List projects = []
         List surveys = []
         List siteIds = personService.getSiteIdsForPerson(person)
-        log.debug "SITE IDS" + siteIds
         Map sites = [:]
         
         if (personId == null){

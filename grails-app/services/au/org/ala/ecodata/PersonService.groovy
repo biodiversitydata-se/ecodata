@@ -136,32 +136,12 @@ class PersonService {
 
     def getPersonIdByInternalPersonId(internalPersonId) {
         def person = Person.findByInternalPersonId(internalPersonId)
-        log.debug "PERSON " + person
         def personId
         if (person){
             personId = person?.personId
         }
         return personId
     } 
-
-    /**
-     * Get a list of all members of a project 
-     *
-     * @param 
-     * @return <List>persons
-     */
-    // def list() {
-    //     def list = []
-    //     def persons = params.includeDeleted ? Person.list() :
-    //         Person.find()  // should be findByProject(params.project) or something
-    //     persons.each { person ->
-    //         list.data << personService.toMap(person)
-    //     }
-    //     list.sort {it.lastName}
-    //     log.debug "list to populate person table" + list
-    //     list
-    // }
-
 
     Map delete(String id) {
         Person person = Person.findByPersonId(id)
