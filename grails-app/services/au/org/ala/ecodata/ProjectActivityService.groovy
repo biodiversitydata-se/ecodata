@@ -254,7 +254,7 @@ class ProjectActivityService {
             // level of details for sites should be brief on default - this eliminates the transectParts from it
             List levelOfDetailForSites = ["brief"]
             // for systematic monitoring
-            // this filters sites that are in the project according to which sites the volunteer has permissions to access
+            // filter sites that are in the project according to which sites the volunteer has permissions to access
             if (userId){
                 def person = personService.getPersonByUserId(userId)
                 List personSiteIds = personService.getSiteIdsForPerson(person)
@@ -274,7 +274,7 @@ class ProjectActivityService {
 
         // for systematic monitoring - only retains basic info needed for homepage
         if (levelOfDetail == BRIEF) {
-            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", "allowPolygons", "allowLine", "allowPoints"])
+            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", "allowPolygons", "allowLine", "allowPoints", "surveySiteOption"])
         }
 
         String id = mapOfProperties["_id"].toString()
