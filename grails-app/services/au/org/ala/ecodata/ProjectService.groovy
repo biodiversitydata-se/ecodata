@@ -157,7 +157,8 @@ class ProjectService {
                     dataResourceId: project.dataResourceId,
                     dataProviderId: project.dataProviderId,
                     status        : project.status,
-                    alaHarvest    : project.alaHarvest
+                    alaHarvest    : project.alaHarvest,
+                    alertConfig   : project?.alertConfig
             ]
         } else if (levelOfDetail == BRIEF) {
             result = [
