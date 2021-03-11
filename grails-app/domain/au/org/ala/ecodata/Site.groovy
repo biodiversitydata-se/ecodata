@@ -36,8 +36,7 @@ class Site {
     List projects = []
     String name
     String type
-    String description
-    String habitat
+    Map displayProperties
     String area
     String recordingMethod
     String landTenure
@@ -60,8 +59,7 @@ class Site {
         name nullable: true
         externalSiteId nullable:true
         type nullable:true
-        description nullable:true, maxSize: 40000
-        habitat nullable:true
+        displayProperties nullable:true
         area nullable:true
         recordingMethod nullable:true
         landTenure nullable:true
