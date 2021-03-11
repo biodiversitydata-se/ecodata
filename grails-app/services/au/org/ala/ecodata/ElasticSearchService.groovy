@@ -976,6 +976,7 @@ class ElasticSearchService {
             if(eventDate){
                 activity.surveyMonth = new SimpleDateFormat("MMMM").format(eventDate)
                 activity.surveyYear = new SimpleDateFormat("yyyy").format(eventDate)
+                activity.surveyDate = eventDate
             }
 
             try {
