@@ -40,6 +40,7 @@ class Person {
     Date lastUpdated 
 
     static constraints = {
+        personId nullable: false, unique: true
         firstName nullable: false
         lastName nullable: false
         internalPersonId nullable: false, unique: true
