@@ -154,4 +154,22 @@ class PersonService {
             [status: 'error', error: 'No such id']
         }
     }
+
+    /**
+     * Accepts a closure that will be called once for each (not deleted) Person in the system,
+     * Implementation note, this uses the Mongo API directly as using GORM incurs a
+     * significant memory and performance overhead when dealing with so many entities
+     * at once.
+     * @param action the action to be performed on each Person.
+     */
+    void doWithAllPersons(Closure action) {
+        // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
+        com.mongodb.DBCollection collection = Person.getCollection()
+
+        DBCursor results = collection.find().batchSize(100)
+
+        results.each { dbObject ->
+            action.call(dbObject.toMap())
+        }
+    }
 }

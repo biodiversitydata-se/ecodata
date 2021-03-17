@@ -87,11 +87,12 @@ class ElasticSearchService {
     CacheService cacheService
     ProgramService programService
     ManagementUnitService managementUnitService
+    PersonService personService
 
     Node node;
     Client client;
     def indexingTempInactive = false // can be set to true for loading of dump files, etc
-    def ALLOWED_DOC_TYPES = [Project.class.name, Site.class.name, Activity.class.name, Record.class.name, Organisation.class.name, UserPermission.class.name, Program.class.name]
+    def ALLOWED_DOC_TYPES = [Project.class.name, Site.class.name, Activity.class.name, Record.class.name, Organisation.class.name, UserPermission.class.name, Program.class.name, Person.class.name]
     def DEFAULT_TYPE = "doc"
     def DEFAULT_FACETS = 10
     private static Queue<IndexDocMsg> _messageQueue = new ConcurrentLinkedQueue<IndexDocMsg>()
@@ -552,6 +553,12 @@ class ElasticSearchService {
                     indexHomePage(doc, Project.class.name)
                 }
                 break
+
+            case Person.class.name:
+                Person person = PersonService.get(docId)
+                person["className"] = Person.class.name
+                indexDoc(person, DEFAULT_INDEX)
+                break
         }
     }
 
@@ -696,6 +703,8 @@ class ElasticSearchService {
 
     /**
      * Index all documents. Index is cleared first.
+     * The different indexes are defined in src/groovy/au/org/ala/ecodata/ElasticIndex.groovy
+     * If in doubt use DEFAULT_INDEX which is search
      */
     def indexAll() {
         log.debug "Clearing index first"
@@ -723,8 +732,26 @@ class ElasticSearchService {
             }
         }
 
-        log.info "Indexing all sites"
+        log.info "Indexing all persons"
         int count = 0
+        Person.withNewSession { session ->
+            try {
+                personService.doWithAllPersons { Map person ->
+                    person["className"] = Person.class.name
+                    indexDoc(person, DEFAULT_INDEX)
+                }
+            } catch (Exception e) {
+                log.error("Unable to index person", e)
+            }
+
+            count++
+            if (count % 1000 == 0) {
+                session.clear()
+                log.debug("Indexed "+count+" persons")
+            }
+        }
+        log.info "Indexing all sites"
+        count = 0
         Site.withNewSession { session ->
             siteService.doWithAllSites { Map siteMap ->
                 siteMap["className"] = Site.class.name
