@@ -6,6 +6,10 @@
         "store": "yes"
       },
       "properties": {
+        "personId" : {
+          "type" : "string",
+          "index" : "not_analyzed"
+        },
         "siteId" : {
           "type" : "string",
           "index" : "not_analyzed"
@@ -405,6 +409,26 @@
               "fields": {
                 "mainThemeFacet":{"type":"string", "index":"not_analyzed"}
               }
+            }
+          }
+        },
+        "person": {
+          "properties": {
+            "firstName": {
+              "type":"string",
+              "index":"analyzed"
+              },
+            "lastName": {
+              "type" : "string",
+              "index": "analyzed"
+            },
+            "email": {
+              "type" : "string",
+              "index": "analyzed"
+            },
+            "town": {
+              "type" : "string",
+              "index": "analyzed"
             }
           }
         },
