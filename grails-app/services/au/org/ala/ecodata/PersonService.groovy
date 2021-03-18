@@ -156,7 +156,7 @@ class PersonService {
     }
 
     /**
-     * Accepts a closure that will be called once for each (not deleted) Person in the system,
+     * Accepts a closure that will be called once for each Person in the system,
      * Implementation note, this uses the Mongo API directly as using GORM incurs a
      * significant memory and performance overhead when dealing with so many entities
      * at once.
