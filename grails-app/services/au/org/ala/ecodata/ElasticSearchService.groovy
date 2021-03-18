@@ -738,6 +738,7 @@ class ElasticSearchService {
             try {
                 personService.doWithAllPersons { Map person ->
                     person["className"] = Person.class.name
+                    preparePersonForIndexing(person)
                     indexDoc(person, DEFAULT_INDEX)
                 }
             } catch (Exception e) {
@@ -827,6 +828,19 @@ class ElasticSearchService {
         }
         organisation.isMERIT = meritProjects.size() > 0
     }
+
+    /**
+     * Removes information not needed for searching a person
+     * @param person
+     */
+    private void preparePersonForIndexing(Map person) {
+        person.remove("projects")
+        person.remove("ownedSites")
+        person.remove("bookedSites")
+        person.remove("address1")
+        person.remove("address2")
+    }
+
 
     /**
      * Augments the supplied Project with information required by the facets supported on the home page.
@@ -948,7 +962,10 @@ class ElasticSearchService {
 
             Map projectActivity = [:]
             List records = []
-
+            // for syst monitoring get also the name of the surveyor. on default it would be only the name of
+            // the user who added the record
+            Map surveyor = personService.get(activity?.personId)
+            String surveyorName = surveyor.firstName + surveyor.lastName
             projectActivity.name = pActivity?.name ?: pActivity?.description
             projectActivity.endDate = pActivity.endDate
             projectActivity.projectActivityId = pActivity.projectActivityId
@@ -962,6 +979,7 @@ class ElasticSearchService {
             projectActivity.dataQualityAssuranceMethods = pActivity?.dataQualityAssuranceMethods
             projectActivity.isDataManagementPolicyDocumented = pActivity?.isDataManagementPolicyDocumented
             projectActivity.activityOwnerName = userService.lookupUserDetails(activity.userId)?.displayName
+            projectActivity.surveyorName = surveyorName
             projectActivity.projectName = project?.name
             projectActivity.projectId = project?.projectId
             projectActivity.projectType = project?.projectType
