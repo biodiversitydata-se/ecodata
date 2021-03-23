@@ -136,13 +136,6 @@ class PersonController {
                     personStatus = "Available projects are incorrectly saved."
                     // think this works but if not, it would be because of nested arrays, the solution is the comments
                     log.error "nested person.projects"
-                    // personProjects[0].each { projectId ->
-                    //     projects << projectService.get(projectId, 'basic')
-                    //     def allSurveysForProject = projectActivityService.getAllByProject(projectId, 'brief')
-                    //     allSurveysForProject.forEach {
-                    //         surveys << it
-                    //     }
-                    // }
                 } 
 
             } else {
