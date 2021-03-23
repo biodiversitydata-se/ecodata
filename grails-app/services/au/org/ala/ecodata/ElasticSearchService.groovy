@@ -839,6 +839,8 @@ class ElasticSearchService {
         person.remove("bookedSites")
         person.remove("address1")
         person.remove("address2")
+        person.remove("birthDate")
+
     }
 
 
@@ -964,8 +966,8 @@ class ElasticSearchService {
             List records = []
             // for syst monitoring get also the name of the surveyor. on default it would be only the name of
             // the user who added the record
-            Map surveyor = personService.get(activity?.personId)
-            String surveyorName = surveyor.firstName + surveyor.lastName
+            // def surveyor = personService.get(activity?.personId)
+            // String surveyorName = surveyor?.firstName + surveyor?.lastName
             projectActivity.name = pActivity?.name ?: pActivity?.description
             projectActivity.endDate = pActivity.endDate
             projectActivity.projectActivityId = pActivity.projectActivityId
@@ -979,7 +981,7 @@ class ElasticSearchService {
             projectActivity.dataQualityAssuranceMethods = pActivity?.dataQualityAssuranceMethods
             projectActivity.isDataManagementPolicyDocumented = pActivity?.isDataManagementPolicyDocumented
             projectActivity.activityOwnerName = userService.lookupUserDetails(activity.userId)?.displayName
-            projectActivity.surveyorName = surveyorName
+            // projectActivity.surveyorName = surveyorName
             projectActivity.projectName = project?.name
             projectActivity.projectId = project?.projectId
             projectActivity.projectType = project?.projectType
