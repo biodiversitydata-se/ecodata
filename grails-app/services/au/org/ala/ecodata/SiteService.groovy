@@ -781,7 +781,7 @@ class SiteService {
                 if (site){
                     if (!isBooked(site)){
                         updateSite(site, bookedBy, false)
-                        personService.addSiteForPerson(personId, site.siteId, 'booking')
+                        personService.addBookedSite(personId, site.siteId)
                         messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
                     } else {
                         messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
@@ -819,7 +819,7 @@ class SiteService {
                 def site = Site.findBySiteId(siteId)
                 if (!isBooked(site)){
                     updateSite(site, bookedBy, false)
-                    personService.addSiteForPerson(personId, siteId, 'booking')
+                    personService.addBookedSite(personId, siteId)
                     messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
                 } else {
                     messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
@@ -845,16 +845,44 @@ class SiteService {
         def site = Site.findBySiteId(id)
         return site 
     }
+    
+    /**
+     * For systematic monitoring - volunteer management 
+     * 
+     * @param List siteIds - ids of sites that were booked or created by the person, 
+     *          stored in person.bookedSites and person.ownedSites
+     * @return a list of site ids and names to display on person's homepage
+     */
 
     def getSitesForPersonBySiteId(List siteIds){
         def sites = []
         siteIds.each { siteId ->
-            def site = Site.findBySiteId(siteId)
-            def siteBasics = [siteId: site?.siteId, name: site?.name]
-            sites << siteBasics
+            // only allow sites manually approved by admins (doesn't apply to booked sites)
+            def site = Site.findBySiteIdAndVerificationStatus(siteId, "approved")
+            if (site){
+                sites << [siteId: site?.siteId, name: site?.name]
+            }
         }
         Map result = [status: 'ok', sites: sites]
         return result
+    }
+    /**
+     * For systematic monitoring - volunteer management 
+     * 
+     * @param List siteIds - ids of sites that were booked or created by the person, 
+     *          stored in person.bookedSites and person.ownedSites
+     * @return a list of site ids and names to be used in survey forms
+     */
+    def getApprovedSiteIds(List siteIds){
+        def approvedSites = []
+        siteIds.each { siteId ->
+            // only allow sites manually approved by admins (doesn't apply to booked sites)
+            def site = Site.findBySiteIdAndVerificationStatus(siteId, "approved")
+            if (site){
+                approvedSites << site.siteId
+            }
+        }
+        return approvedSites
     }
 
     /**
