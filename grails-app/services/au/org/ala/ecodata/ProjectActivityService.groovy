@@ -258,7 +258,8 @@ class ProjectActivityService {
             if (userId){
                 def person = personService.getPersonByUserId(userId)
                 List personSiteIds = personService.getSiteIdsForPerson(person)
-                mapOfProperties.sites = personSiteIds.intersect(projectActivity.sites)
+                List approvedSites = siteService.getApprovedSiteIds(personSiteIds)
+                mapOfProperties.sites = approvedSites.intersect(projectActivity.sites)
                 // change level of detail because we need transect parts here for maps in survey forms
                 levelOfDetailForSites = ["transects"]
             }
