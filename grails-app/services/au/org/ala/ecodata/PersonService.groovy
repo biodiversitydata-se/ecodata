@@ -69,27 +69,16 @@ class PersonService {
         }
     }
 
-    def addSiteForPerson(String personId, String siteId, String ctx){
+    def addBookedSite(String personId, String siteId){
         Person person = get(personId)
         Map props = [:]
-        if (ctx == 'owner'){
-            if (person?.ownedSites){
-                // check if the site is already saved for person
-                if (!person.ownedSites.contains(siteId)){
-                    person.ownedSites.push(siteId)
-                }
-            } else {
-            person.ownedSites = [siteId]
-            }
-            props = [ownedSites : person.ownedSites]
-        } else if (ctx == 'booking'){
-            if (person?.bookedSites){
-                person.bookedSites.push(siteId)
-            } else {
+        if (person?.bookedSites){
+            person.bookedSites.push(siteId)
+        } else {
             person.bookedSites = [siteId]
-            }
-            props = [bookedSites: person.bookedSites]
         }
+        props = [bookedSites: person.bookedSites]
+        
         commonService.updateProperties(person, props)
     }
 

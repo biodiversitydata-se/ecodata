@@ -55,16 +55,28 @@ class PersonController {
         render result as JSON
     }
 
-    def addSiteOwnership(String id) {
-        Boolean personExists = personService.checkPersonExists(id)
-        if (personExists){
-            def props = request.JSON
-            def siteId = props.siteId
-            Map result = personService.addSiteForPerson(id, siteId, 'owner')
+    /**
+     * When user creates a systematic site, add the site id to person.ownedSites 
+     *
+     * @param id of an existing person
+     * @request contains the id of the created site 
+     */    
+    def addOwnedSite(String id) {
+        Person person = personService.get(id)
+        def request = request.JSON
+        String siteId = request.siteId
+        Map props = [:]
+        if (person?.ownedSites){
+            // check if the site is already saved for person
+            if (!person.ownedSites.contains(siteId)){
+                person.ownedSites.push(siteId)
+            }
         } else {
-            log.debug "PERSON ID IS INCORRECT - no such person exists"
+            person.ownedSites = [siteId]
         }
-
+        props = [ownedSites : person.ownedSites]
+        
+        personService.update(id, props)
     }
 
     /**
