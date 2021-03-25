@@ -772,10 +772,12 @@ class SiteService {
         Boolean personExists = personService.checkPersonExists(personId)
         String messageSuccess = ""
         String messageFail = ""
+        String siteNamesStr = props?.siteNames
+        List siteNames = siteNamesStr.split(',')
 
         if (personExists){
             def bookedBy = [bookedBy: personId]
-            props?.siteNames.each { name ->
+            siteNames.each { name ->
                 def site = Site.findByName(name)
                 ////////////
                 if (site){
