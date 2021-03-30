@@ -182,9 +182,10 @@ class MetadataService {
 
         ActivityForm form = forms.max{it.version}
         Map template = form?.sections?.find{it.templateName == templateName}?.template
-        if (!template) {
-            log.warn("No template found with name ${templateName}")
-        }
+        // LU are not using these templates so supress the error message
+        // if (!template) {
+        //     log.warn("No template found with name ${templateName}")
+        // }
 
         JSON.parse(((template ?: [:]) as JSON).toString())
     }
