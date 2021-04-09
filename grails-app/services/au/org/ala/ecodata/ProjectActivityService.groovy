@@ -275,8 +275,9 @@ class ProjectActivityService {
 
         // for systematic monitoring - only retains basic info needed for homepage
         if (levelOfDetail == BRIEF) {
-            mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", 
-            "allowPolygons", "allowLine", "allowPoints", "surveySiteOption", "methodUrl", "projectId", "allowSegmentMetadata"])
+            mapOfProperties.remove("sites");
+            // mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", 
+            // "allowPolygons", "allowLine", "allowPoints", "surveySiteOption", "methodUrl", "projectId", "allowSegmentMetadata"])
         }
 
         String id = mapOfProperties["_id"].toString()
