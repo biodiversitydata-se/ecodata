@@ -518,6 +518,30 @@
             "surveyDateSort" : {"type" : "string", "analyzer" : "case_insensitive_sort"}
           }
         },
+        "bookedBy": {
+          "type": "string",
+          "fields" : {
+            "bookedByFacet" : {"type" : "string", "index" : "not_analyzed"}
+          }
+        },
+        "lsk": {
+          "type": "string",
+          "fields" : {
+            "lskFacet":{"type":"string", "index":"not_analyzed"}
+          }
+        },
+        "kartaTx":{
+          "type": "string",
+          "fields": {
+            "kartaTxFacet":{"type":"string", "index":"not_analyzed"}
+          }
+        },
+        "lan":{
+          "type": "string",
+          "fields": {
+            "lanFacet":{"type":"string", "index":"not_analyzed"}
+          }
+        },
         "verificationStatus": {
           "type":"string",
           "fields": {
