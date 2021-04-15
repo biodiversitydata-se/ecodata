@@ -879,7 +879,7 @@ class SiteService {
         def approvedSites = []
         siteIds.each { siteId ->
             // only allow sites manually approved by admins (doesn't apply to booked sites)
-            def site = Site.findBySiteIdAndVerificationStatus(siteId, "approved")
+            def site = Site.findBySiteIdAndVerificationStatus(siteId, "godkänd")
             if (site){
                 approvedSites << site.siteId
             }
