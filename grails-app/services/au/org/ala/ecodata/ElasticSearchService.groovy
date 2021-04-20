@@ -255,7 +255,8 @@ class ElasticSearchService {
             geoObj.loc = loc
             doc.geo.add(geoObj)
         }
-
+        // if site is booked then save this value to be used in a facet
+        doc.booked = (doc?.bookedBy) ?  'ja' : 'nej'
         // Homepage index is nested TODO: remove duplicate code from above
         if (doc.sites?.size() > 0) {
             // one or more sites to a project (deep copy)
@@ -603,7 +604,8 @@ class ElasticSearchService {
                 ]
             })
         }
-
+        // if site is booked then save this value to be used in a facet
+        siteMap.booked = (siteMap?.bookedBy) ?  'ja' : 'nej'
         siteMap.projectList = projects;
         siteMap.surveyList = surveys
 

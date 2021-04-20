@@ -518,10 +518,10 @@
             "surveyDateSort" : {"type" : "string", "analyzer" : "case_insensitive_sort"}
           }
         },
-        "bookedBy": {
+        "booked": {
           "type": "string",
           "fields" : {
-            "bookedByFacet" : {"type" : "string", "index" : "not_analyzed"}
+            "bookedFacet" : {"type" : "string", "index" : "not_analyzed"}
           }
         },
         "lsk": {
