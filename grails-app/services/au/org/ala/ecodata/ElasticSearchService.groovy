@@ -524,20 +524,25 @@ class ElasticSearchService {
 
             case Activity.class.name:
                 Activity activity = Activity.findByActivityId(docId)
-                def doc = activityService.toMap(activity, ActivityService.FLAT)
-                doc = prepareActivityForIndexing(doc)
-                // Works project activities are created before a survey is filled in
-                indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
-                // update linked project -- index for homepage
-                def pDoc = Project.findByProjectId(doc.projectId)
-                if (pDoc) {
-                    indexHomePage(pDoc, "au.org.ala.ecodata.Project")
-                }
+                if (!activity?.verificationStatus && activity?.verificationStatus != 'draft'){
+                    def doc = activityService.toMap(activity, ActivityService.FLAT)
+                    doc = prepareActivityForIndexing(doc)
+                    // Works project activities are created before a survey is filled in
+                    indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                    // update linked project -- index for homepage
+                    def pDoc = Project.findByProjectId(doc.projectId)
+                    if (pDoc) {
+                        indexHomePage(pDoc, "au.org.ala.ecodata.Project")
+                    }
 
-                if(activity.siteId){
-                    indexDocType(activity.siteId, Site.class.name)
+                    if(activity.siteId){
+                        indexDocType(activity.siteId, Site.class.name)
+                    }
+                } else {
+                    log.warn("Activity is a draft and will not be indexed")
                 }
                 break
+
             case Organisation.class.name:
                 Map organisation = organisationService.get(docId)
                 prepareOrganisationForIndexing(organisation)
@@ -778,8 +783,12 @@ class ElasticSearchService {
         Activity.withNewSession { session ->
             activityService.doWithAllActivities { Map activity ->
                 try {
-                    activity = prepareActivityForIndexing(activity)
-                    indexDoc(activity, activity?.projectActivityId || activity?.isWorks ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                    if (activity.verificationStatus == 'draft'){
+                        log.warn("Activity is a draft and will not be indexed")
+                    } else {
+                        activity = prepareActivityForIndexing(activity)
+                        indexDoc(activity, activity?.projectActivityId || activity?.isWorks ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                    }
                 }
                 catch (Exception e) {
                     log.error("Unable to index activity: " + activity?.activityId, e)
@@ -948,7 +957,6 @@ class ElasticSearchService {
         def project = projectService.get(activity.projectId, ProjectService.FLAT, version)
 
         boolean isWorksActivity = project?.isWorks
-
         // The below condition checks for BioCollect activity from survey and works project. It ignores MERIT activity.
         if (activity.projectActivityId || isWorksActivity) {
             Date eventDate
