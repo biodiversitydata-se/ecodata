@@ -75,6 +75,16 @@ class ActivityService {
             Activity.findAllByStatus(ACTIVE).collect { toMap(it, levelOfDetail) }
     }
 
+    // def getDraft(id, levelOfDetail = [], version = null, userId = null, hideMemberOnlyFlds = false){
+    //     def o = Activity.findByActivityIdAndStatus(id, 'draft')
+    //     def activity = o ? toMap(o, levelOfDetail) : null
+    //     if (activity == null ){
+    //         return [status:404 , error: 'Activity cannot be found']
+    //     }
+    //     log.debug "activity" + activity
+    //     activity
+    // }
+
     /**
      * Accepts a closure that will be called once for each (not deleted) Activity in the system,
      * passing the details Activity (as a Map) as the single parameter.
@@ -150,6 +160,17 @@ class ActivityService {
 
     List<Map> findAllForActivityIdsInProjectActivity(List activityIdList, String projectActivityId, levelOfDetail = []) {
         Activity.findAllByActivityIdInListAndProjectActivityIdAndStatus(activityIdList, projectActivityId, ACTIVE).collect { toMap(it, levelOfDetail) }
+    }
+
+    List findDraftsForUserId(String userId){
+        // Activity.findAllByUserIdAndVerificationStatus(userId, "draft");
+        def list = Activity.createCriteria().list() {
+            and{
+                eq ("userId", userId)
+                eq ("verificationStatus", "draft")
+            }
+           order('lastUpdated','desc')
+        }
     }
 
     def findAllForUserId(userId, query, levelOfDetail = []){

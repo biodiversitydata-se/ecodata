@@ -120,6 +120,10 @@ class PersonController {
         def person = Person.findByUserId(id)
         String personStatus = "ok"
         String personId = person?.personId
+        List draftActivityForms = activityService.findDraftsForUserId(id) // find activities by userId
+        log.debug "draftActivityForms" + draftActivityForms
+        log.debug "draftActivityForms" + draftActivityForms.getClass()
+
         List projects = []
         List surveys = []
         List siteIds = personService.getSiteIdsForPerson(person)
@@ -160,7 +164,8 @@ class PersonController {
             siteStatus: sites?.message,
             sites: sites?.sites,
             projects: projects,
-            surveys: surveys
+            surveys: surveys,
+            drafts: draftActivityForms
         ]
         render result as JSON
     }
