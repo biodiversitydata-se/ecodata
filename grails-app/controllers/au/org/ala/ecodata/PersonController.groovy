@@ -120,10 +120,7 @@ class PersonController {
         def person = Person.findByUserId(id)
         String personStatus = "ok"
         String personId = person?.personId
-        List draftActivityForms = activityService.findDraftsForUserId(id) // find activities by userId
-        log.debug "draftActivityForms" + draftActivityForms
-        log.debug "draftActivityForms" + draftActivityForms.getClass()
-
+        List draftActivityForms = activityService.findDraftsForUserId(id)
         List projects = []
         List surveys = []
         List siteIds = personService.getSiteIdsForPerson(person)
