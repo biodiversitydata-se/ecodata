@@ -512,9 +512,13 @@ class ElasticSearchService {
                 if(record) {
                     Activity activity = Activity.findByActivityId(record.activityId)
                     if (activity) {
-                        def doc = activityService.toMap(activity, ActivityService.FLAT)
-                        doc = prepareActivityForIndexing(doc)
-                        indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                        if (activity?.verificationStatus && activity?.verificationStatus != 'draft'){
+                            def doc = activityService.toMap(activity, ActivityService.FLAT)
+                            doc = prepareActivityForIndexing(doc)
+                            indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                        } else {
+                            log.warn "This record is attached to a draft activity and should not be indexed"
+                        }
                     }
                     else {
                         log.warn("No activity found with id ${record.activityId} when indexing record for project ${record.projectId} and survey ${record.projectActivityId}")
@@ -525,7 +529,7 @@ class ElasticSearchService {
 
             case Activity.class.name:
                 Activity activity = Activity.findByActivityId(docId)
-                if (!activity?.verificationStatus && activity?.verificationStatus != 'draft'){
+                if (activity?.verificationStatus && activity?.verificationStatus != 'draft'){
                     def doc = activityService.toMap(activity, ActivityService.FLAT)
                     doc = prepareActivityForIndexing(doc)
                     // Works project activities are created before a survey is filled in
@@ -540,7 +544,8 @@ class ElasticSearchService {
                         indexDocType(activity.siteId, Site.class.name)
                     }
                 } else {
-                    log.warn("Activity is a draft and will not be indexed")
+                    log.warn("Activity is a draft and will not be indexed now")
+                    break
                 }
                 break
 
@@ -785,7 +790,7 @@ class ElasticSearchService {
         Activity.withNewSession { session ->
             activityService.doWithAllActivities { Map activity ->
                 try {
-                    if (activity.verificationStatus == 'draft'){
+                    if (activity?.verificationStatus == 'draft'){
                         log.warn("Activity is a draft and will not be indexed")
                     } else {
                         activity = prepareActivityForIndexing(activity)

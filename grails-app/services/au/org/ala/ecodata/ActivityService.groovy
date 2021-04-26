@@ -26,6 +26,7 @@ class ActivityService {
     LockService lockService
     MetadataService metadataService
     PermissionService permissionService
+    AuditService auditService
 
     def get(id, levelOfDetail = [], version = null, userId = null, hideMemberOnlyFlds = false) {
         def activity = null
@@ -380,6 +381,8 @@ class ActivityService {
             commentService.deleteAllForEntity(Activity.class.name, activityId, destroy)
 
             if (destroy) {
+                // if the activity was a draft delete it from the sudit log
+                auditService.deleteAuditMessagesForDraftActivity(Activity.class.name, activityId)
                 activity.delete(flush: true)
             } else {
                 commonService.updateProperties(activity, [status: 'deleted'])
@@ -503,6 +506,9 @@ class ActivityService {
                 if (output.outputId && output.outputId != "null") {
                     // update
                     log.debug "Updating output ${output.name}"
+                    if (activity?.verificationStatus == "draft"){
+                        output.verificationStatus = "draft"
+                    }
                     def result = outputService.update(output, output.outputId)
                     if (result.error) {
                         errors << [error: result.error, name: output.name]
@@ -512,6 +518,9 @@ class ActivityService {
                     log.debug "Creating output ${output.name}"
                     output.remove('outputId')   // in case a blank one is supplied
                     output.activityId = id
+                    if (activity?.verificationStatus == "draft"){
+                        output.verificationStatus = "draft"
+                    }
                     def result = outputService.create(output)
                     if (result.error) {
                         errors << [error: result.error, name: output.name]
