@@ -676,8 +676,10 @@ class ActivityService {
             def site = siteService.getSiteNameAndCode(it.siteId)
             // get real date of the observation rather than date added to ecodata
             def survey = Output.findByActivityId(it.activityId)
+            String surveyDate = survey?.data?.surveyDate
+            String surveyDateFormatted = surveyDate.substring(0, surveyDate.indexOf("T"))
             def row = ['siteName': site?.name, 'siteCode': site?.name, 
-                'surveyDate': survey?.data?.surveyDate, 'activityId': it?.activityId]
+                'surveyDate': surveyDate, 'activityId': it?.activityId]
             result << row
         } 
         result
