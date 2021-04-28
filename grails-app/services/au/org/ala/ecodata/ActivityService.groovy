@@ -669,17 +669,17 @@ class ActivityService {
      *          and selected output properties
      */
     def getAllForPersonByType(String activityType, String personId){
-        log.debug "getting activities for survey: " + activityType 
         List activities = Activity.findAllByPersonIdAndType(personId, activityType)
         List result = []
         activities?.each { 
             // fetch name and code of the site
             def site = siteService.getSiteNameAndCode(it.siteId)
+            // get real date of the observation rather than date added to ecodata
+            def survey = Output.findByActivityId(it.activityId)
             def row = ['siteName': site?.name, 'siteCode': site?.name, 
-                'dateCreated': it?.dateCreated, 'activityId': it?.activityId]
+                'surveyDate': survey?.data?.surveyDate, 'activityId': it?.activityId]
             result << row
         } 
-        log.debug "RESULT" + result
         result
     }
 
