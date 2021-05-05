@@ -1672,7 +1672,6 @@ class ElasticSearchService {
     List addFacets(facets, filters, flimit, fsort) {
         // use FacetBuilders
         // e.g. FacetBuilders.termsFacet("f1").field("field")
-        fsort = TermsFacet.ComparatorType.TERM
         log.debug "filters = $filters; flimit = ${flimit}"
         try {
             flimit = (flimit) ? flimit as int : DEFAULT_FACETS
@@ -1681,7 +1680,7 @@ class ElasticSearchService {
             flimit = DEFAULT_FACETS
         }
         try {
-            fsort = (fsort) ? TermsFacet.ComparatorType.fromString(fsort) : TermsFacet.ComparatorType.COUNT
+            fsort = (fsort) ? TermsFacet.ComparatorType.fromString(fsort) : TermsFacet.ComparatorType.TERM
         } catch (Exception e) {
             log.warn "addFacets error: ${e.message}"
             fsort = TermsFacet.ComparatorType.TERM
