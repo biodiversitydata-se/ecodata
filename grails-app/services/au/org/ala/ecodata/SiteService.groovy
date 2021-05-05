@@ -756,7 +756,7 @@ class SiteService {
         site.extent.source = 'Point'
     }
 
-    def isBooked(site){
+    Boolean isBooked(site){
         return (site.bookedBy == null || site.bookedBy == "") ? false : true
     }
 
@@ -767,37 +767,38 @@ class SiteService {
      * @param props - contains String personId and List of site names 
      * @return result - status update for the admin
      */
-    def bookMultipleSites(props){
-        def personId = props?.personId
-        Boolean personExists = personService.checkPersonExists(personId)
+    def bookSitesByName(props){
+        String personId = props?.personId
+        Person person = personService.get(personId)
         String messageSuccess = ""
         String messageFail = ""
         String siteNamesStr = props?.siteNames
         List siteNames = siteNamesStr.split(',')
 
-        if (personExists){
-            def bookedBy = [bookedBy: personId]
+        if (person){
+            Map bookedBy = [bookedBy: person.personId]
+            List bookedSiteIds = person.bookedSites
             siteNames.each { name ->
-                def site = Site.findByName(name)
-                ////////////
-                if (site){
-                    if (!isBooked(site)){
-                        updateSite(site, bookedBy, false)
-                        personService.addBookedSite(personId, site.siteId)
+                def site = Site.findAllByName(name)
+                if (site.size() > 1){
+                    messageFail = messageFail + "There are multiple sites with the same name. Try booking from the map in project's page to get the id of the site"
+                } else if (site.size() == 1){
+                    if (!isBooked(site[0])){
+                        updateSite(site[0], bookedBy, false)
+                        bookedSiteIds.push(site[0].siteId)
                         messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
                     } else {
                         messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
                     }
-                    ///////////////
                 } else {
                     messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
                 }
             }
+            personService.addBookedSites(personId, bookedSiteIds)
         } else {
             messageFail = messageFail + "Person with this id does not exist.<br>"
         }
-        def result = [messageSuccess, messageFail]
-        log.debug "result " + result
+        List result = [messageSuccess, messageFail]
         return result 
     }
 
@@ -808,30 +809,37 @@ class SiteService {
      * @param props - contains internalPersonId and siteId 
      * @return result - status update for the admin
      */
-    def bookOneSite(props){
-        def internalPersonId = props?.internalPersonId
-        def personId = personService.getPersonIdByInternalPersonId(internalPersonId)
-        def bookedBy = [bookedBy: personId]
-        def siteId = props?.siteId
+    def bookSitesById(props){
+        def person = (props?.internalPersonId) ? personService.getPersonByInternalPersonId(props?.internalPersonId) : false
+        String siteIds = props?.siteIds
         String messageSuccess = ""
         String messageFail = ""
 
-        if (personId){
-            if (siteId){
-                def site = Site.findBySiteId(siteId)
-                if (!isBooked(site)){
-                    updateSite(site, bookedBy, false)
-                    personService.addBookedSite(personId, siteId)
-                    messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
-                } else {
-                    messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+        if (person){
+            List bookedSiteIds = person?.bookedSites
+            Map bookedBy = [bookedBy: person?.personId]
+            if (siteIds){
+                List siteIdsList = siteIds.split(',')
+                siteIdsList.each { siteId ->
+                    def site = Site.findBySiteId(siteId)
+                    if (!isBooked(site)){
+                        updateSite(site, bookedBy, false)
+                        bookedSiteIds.push(site.siteId)
+                        messageSuccess = messageSuccess + "Site <b>${site.name}</b> has been successfully booked.<br>"
+                    } else {
+                        messageFail = messageFail + "Site <b>${site.name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+                    }
                 }
+                personService.addBookedSites(person?.personId, bookedSiteIds)
             } else {
-                messageFail = messageFail + "Person with this id does not exist.<br>"
+                messageFail = messageFail + "There were no sites marked to book.<br>"
+
             }
+        } else {
+                messageFail = messageFail + "Person with this id does not exist.<br>"
         }
-        def result = [messageSuccess, messageFail]
-        log.debug "result " + result
+
+        List result = [messageSuccess, messageFail]
         return result 
     }
 

@@ -339,20 +339,14 @@ class SiteController {
     }
 
     /**
-     * Redirects to either book one site by its ID if initiated from ADMIN tab 
-     * or multiple sites by their names if initiated from a person's profile
+     * Redirects to either book sites by ID (coming from the booking map on project page) 
+     * or by site names if initiated from a person's profile following a request from the volunteer
      *
      */
-    def bookSites (){
+    def bookSites(){
         def props = request.JSON
-        def message
-        if (props?.bookOne){
-            message = siteService.bookOneSite(props)
-        } else if (props?.bookMany){
-            message = siteService.bookMultipleSites(props)
-        }
+        def message = (props?.bookBySiteId) ? siteService.bookSitesById(props) : siteService.bookSitesByName(props)
         Map result = [message: message]
-        log.debug "message" + result.message
         render result as JSON
     }
 

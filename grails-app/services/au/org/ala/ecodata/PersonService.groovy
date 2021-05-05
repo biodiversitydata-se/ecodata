@@ -69,17 +69,10 @@ class PersonService {
         }
     }
 
-    def addBookedSite(String personId, String siteId){
+    def addBookedSites(String personId, bookedSiteIdsList){
         Person person = get(personId)
-        Map props = [:]
-        if (person?.bookedSites){
-            person.bookedSites.push(siteId)
-        } else {
-            person.bookedSites = [siteId]
-        }
-        props = [bookedSites: person.bookedSites]
-        
-        commonService.updateProperties(person, props)
+        def bookedSites = bookedSiteIdsList.toSet().toList()
+        commonService.updateProperties(person, [bookedSites: bookedSites])
     }
 
     /**
@@ -100,11 +93,6 @@ class PersonService {
         
     }
 
-    def checkPersonExists(String id){
-        def person = Person.findByPersonId(id)
-        return person ? true : false
-    }
-
     def getPersonByUserId(String userId) {
         def person = Person.findByUserId(userId)    
         person
@@ -123,13 +111,9 @@ class PersonService {
         siteIds
     }
 
-    def getPersonIdByInternalPersonId(internalPersonId) {
+    def getPersonByInternalPersonId(internalPersonId) {
         def person = Person.findByInternalPersonId(internalPersonId)
-        def personId
-        if (person){
-            personId = person?.personId
-        }
-        return personId
+        return person
     } 
 
     Map delete(String id) {
