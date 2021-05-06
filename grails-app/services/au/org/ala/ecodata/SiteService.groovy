@@ -779,16 +779,16 @@ class SiteService {
             Map bookedBy = [bookedBy: person.personId]
             List bookedSiteIds = person.bookedSites
             siteNames.each { name ->
-                def site = Site.findAllByName(name)
+                def site = Site.findAllByName(name.trim())
                 if (site.size() > 1){
                     messageFail = messageFail + "There are multiple sites with the same name. Try booking from the map in project's page to get the id of the site"
                 } else if (site.size() == 1){
                     if (!isBooked(site[0])){
                         updateSite(site[0], bookedBy, false)
                         bookedSiteIds.push(site[0].siteId)
-                        messageSuccess = messageSuccess + "Site ${name}</b> has been successfully booked.<br>"
+                        messageSuccess = messageSuccess + "Site <b>${name}</b> has been successfully booked.<br>"
                     } else {
-                        messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${personId}.<br>"
+                        messageFail = messageFail + "Site <b>${name}</b> cannot be booked. It has been previously booked by person with ID ${site.bookedBy}.<br>"
                     }
                 } else {
                     messageFail = messageFail + "Site <b>${name}</b> cannot be found. Please check the name again.<br>"
