@@ -16,6 +16,7 @@ class PersonController {
     SiteService siteService
     ProjectActivityService projectActivityService
     ProjectService projectService
+    UserService userService
 
     /**
      * Get personal details of a member of a project 
@@ -117,20 +118,16 @@ class PersonController {
     }
 
     def getDataForPersonHomepage(String id){
-        def person = Person.findByUserId(id)
-        String personStatus = "ok"
-        String personId = person?.personId
+        Person person 
+        person = Person.findByUserId(id)
+        String personStatus = "registeredVolunteer"
         List draftActivityForms = activityService.findDraftsForUserId(id)
         List projects = []
         List surveys = []
         List siteIds = personService.getSiteIdsForPerson(person)
         Map sites = [:]
-        
-        if (personId == null){
-            personStatus = "Please contact the project administrator to link your account to a project. \
-            No sites or records have been linked to your account"
-            log.debug "This user's account is not linked to a person. The admin has to create a new person and link it to this user's ID"
-        } else {
+
+        if (person) {
             if (siteIds){
                 sites = siteService.getSitesForPersonBySiteId(siteIds)
             }
@@ -139,9 +136,11 @@ class PersonController {
 
                 try {
                     personProjects.each { projectId ->
-                        projects << projectService.get(projectId, 'basic')
+                        def project = projectService.get(projectId, 'basic')
+                        projects << project
                         def allSurveysForProject = projectActivityService.getAllByProject(projectId, 'brief')
                         allSurveysForProject.forEach {
+                            it.projectName = project.name
                             surveys << it
                         }
                     }
@@ -152,9 +151,19 @@ class PersonController {
                 } 
 
             } else {
-                personStatus = "This person has no projects assigned."
+                personStatus = "notMember"
+            }
+        } else {
+            person = Person.findByEmail(params?.email)
+            // if email address of user matches a person
+            if (person){
+                personStatus = "existingPerson"
+            } else {
+                personStatus = null
+                log.debug "There is no one with this email address. The admin has to create a new person and link it to this user's ID"
             }
         }
+
         Map result = [
             personStatus: personStatus,
             person: person,
@@ -169,8 +178,8 @@ class PersonController {
 
     def linkUserToPerson(){
         Map body = request.JSON
-        Map userId = [userId: body.userId]
-        def internalPersonId = body.internalPersonId
+        Map props = [userId: body?.userId, hub: body?.hub]
+        String internalPersonId = body?.internalPersonId
         List person = Person.findAllByInternalPersonId(internalPersonId)
         log.debug "person to link to user is: " + person + " with ID " + person.personId
 
@@ -178,7 +187,7 @@ class PersonController {
 
         if (person.size() == 1){
             if (person){
-                result = personService.update(person[0].personId, userId)
+                result = personService.update(person[0].personId, props)
             } else {
                 def error = "Failed to link person - no such internal id: ${internalPersonId}"
                 log.error error
