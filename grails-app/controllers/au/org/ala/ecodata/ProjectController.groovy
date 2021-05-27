@@ -440,6 +440,12 @@ class ProjectController {
     * @return list of project IDs
     */
     List getRelatedProjectIds(){ 
-        projectService.getRelatedProjectIds(params.hub)
+        def result = projectService.getRelatedProjectIds(params.hubUrl)
+        render result as JSON
+    }
+
+    def getProjectByHubUrl(){
+        def result = Project.findByHubUrl(params.hubUrl)
+        render result as JSON
     }
 }

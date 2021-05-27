@@ -913,4 +913,20 @@ class ProjectService {
             return "ecoScience"
         }
     }
+
+    /**
+    * Get a list of project IDs related to the requested one through hub
+    * needed to give permissions to a person for all projects in the hub
+    * needed to add available projects to person collection
+    * @params hubUrl
+    * @return list of project IDs
+    */
+    List getRelatedProjectIds(String hub){
+        List relatedProjects = Project.findAllByHubUrl(hub)
+        List projectIds = relatedProjects.collect {
+            it?.projectId
+        }
+        log.debug "projectIds " + projectIds
+        return projectIds 
+    }
 }
