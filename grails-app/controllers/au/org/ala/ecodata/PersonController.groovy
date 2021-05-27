@@ -178,7 +178,9 @@ class PersonController {
 
     def linkUserToPerson(){
         Map body = request.JSON
-        Map props = [userId: body?.userId, hub: body?.hub]
+        String hub = body?.hub
+        List projects = projectService.getRelatedProjectIds(hub)
+        Map props = [userId: body?.userId, hub: hub, projects: projects]
         String internalPersonId = body?.internalPersonId
         List person = Person.findAllByInternalPersonId(internalPersonId)
         log.debug "person to link to user is: " + person + " with ID " + person.personId

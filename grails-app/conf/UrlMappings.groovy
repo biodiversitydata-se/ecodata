@@ -192,6 +192,7 @@ class UrlMappings {
         "/ws/project/getBiocollectFacets"(controller: "project"){ action = [GET:"getBiocollectFacets"] }
         "/ws/project/getDefaultFacets"(controller: "project", action: "getDefaultFacets")
         "/ws/project/getRelatedProjectIds/"(controller: "project", action: "getRelatedProjectIds")
+        "/ws/project/getProjectByHubUrl/"(controller: "project", action: "getProjectByHubUrl")
         "/ws/admin/initiateSpeciesRematch"(controller: "admin", action: "initiateSpeciesRematch")
 
         "/ws/$controller/list"() { action = [GET:'list'] }

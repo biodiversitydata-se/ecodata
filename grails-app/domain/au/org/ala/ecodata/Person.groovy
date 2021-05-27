@@ -56,7 +56,7 @@ class Person {
         extra nullable: true, maxSize: 4000
         userId nullable: true
         bookedSites nullable: true
-        projects nullable: false
+        projects nullable: true
         ownedSites nullable: true
     }
 }

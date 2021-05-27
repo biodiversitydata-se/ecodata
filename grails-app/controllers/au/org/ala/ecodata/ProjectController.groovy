@@ -439,18 +439,7 @@ class ProjectController {
     * @params hubUrl
     * @return list of project IDs
     */
-    List getRelatedProjectIds(){
-        List relatedProjects = Project.findAllByHubUrl(params.hub)
-        List projectIds = relatedProjects.collect {
-            it?.projectId
-        }
-        def result
-        if (projectIds){
-            result = [relatedProjectIds: projectIds]
-        } else {
-            result = [noRelatedProjects: true]
-        }
-        render result as JSON
+    List getRelatedProjectIds(){ 
+        projectService.getRelatedProjectIds(params.hub)
     }
-
 }

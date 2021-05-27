@@ -26,7 +26,6 @@ class PersonService {
                 props.personId = personId
                 props.internalPersonId = props.internalPersonId ? props.internalPersonId : personId
                 def person = new Person(props)
-                person.projects = props.projects.flatten()
                 person.save(failOnError: true)
                 return [status:'ok', personName: person.lastName]
             } catch (ValidationException e){
@@ -91,6 +90,18 @@ class PersonService {
             return [status: 'error', error: error]
         }
         
+    }
+
+    Map toMap(person){
+        Map result = [
+            personId: person.personId,
+            internalPersonId: person.internalPersonId,
+            town: person.town,
+            email: person.email,
+            firstName: person.firstName,
+            lastName: person.lastName
+        ]
+        result
     }
 
     def getPersonByUserId(String userId) {
