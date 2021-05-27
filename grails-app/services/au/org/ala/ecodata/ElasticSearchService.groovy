@@ -566,9 +566,10 @@ class ElasticSearchService {
                 break
 
             case Person.class.name:
-                Person person = PersonService.get(docId)
-                person["className"] = Person.class.name
-                indexDoc(person, DEFAULT_INDEX)
+                Person person = Person.findByPersonId(docId.toString())
+                Map personMap = personService.toMap(person)    
+                personMap["className"] = Person.class.name
+                indexDoc(personMap, DEFAULT_INDEX)
                 break
         }
     }
