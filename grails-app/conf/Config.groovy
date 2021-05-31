@@ -552,7 +552,7 @@ if (!headerAndFooter.baseURL) {
 }
 
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://auth.bioatlas.se/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'http://biocache.ala.org.au/ws'
@@ -570,13 +570,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://auth.bioatlas.se/userdetails/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "http://auth.bioatlas.se/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "http://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://auth.bioatlas.se/userdetails/ws/admin'
+    userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
@@ -1194,7 +1194,7 @@ security {
         uriFilterPattern = '/admin.*,/activityForm/(?!get).*'
         uriExclusionFilterPattern = '/assets/.*,/images/.*,/css/.*,/js/.*,/less/.*' // this is the default value
         authenticateOnlyIfLoggedInPattern =  ''
-        loginUrl = 'https://auth.bioatlas.se/cas/login'
+        loginUrl = 'https://auth.biodiversitydata.se/cas/login'
     }
 }
 
