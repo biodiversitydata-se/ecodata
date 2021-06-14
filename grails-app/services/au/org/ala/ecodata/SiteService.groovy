@@ -816,7 +816,7 @@ class SiteService {
         String messageFail = ""
 
         if (person){
-            List bookedSiteIds = person?.bookedSites
+            List bookedSiteIds = person?.bookedSites ? person.bookedSites : []
             Map bookedBy = [bookedBy: person?.personId]
             if (siteIds){
                 List siteIdsList = siteIds.split(',')
