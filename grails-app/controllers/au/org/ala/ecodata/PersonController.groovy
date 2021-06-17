@@ -154,7 +154,9 @@ class PersonController {
                 personStatus = "notMember"
             }
         } else {
-            person = Person.findByEmail(params?.email)
+            String emailAddress = params?.email
+            emailAddress = emailAddress.matches("(.*)googlemail.com") ? emailAddress.replace("googlemail.com", "gmail.com") : emailAddress
+            person = Person.findByEmail(emailAddress)
             // if email address of user matches a person
             if (person){
                 personStatus = "existingPerson"
