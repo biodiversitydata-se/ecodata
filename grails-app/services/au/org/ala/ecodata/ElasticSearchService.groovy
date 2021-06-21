@@ -612,8 +612,10 @@ class ElasticSearchService {
         }
         // if site is booked then save this value to be used in a facet
         siteMap.booked = (siteMap?.bookedBy) ?  'ja' : 'nej'
-        siteMap.projectList = projects;
+        siteMap.projectList = projects
         siteMap.surveyList = surveys
+        siteMap.internalSiteId = siteMap?.adminProperties?.internalSiteId
+        siteMap.remove("adminProperties")
 
         Document doc = Document.findByRoleAndSiteIdAndType('photoPoint', siteMap.siteId, 'image')
         if (doc) {
@@ -910,6 +912,7 @@ class ElasticSearchService {
             // data causing the indexing to fail. Same applies to transectPart for systematic monitoring
             site.remove('poi')
             site.remove('transectParts')
+            site.remove('adminProperties')
 
             if (site?.extent?.geometry?.coordinates) {
                 // This can be very large in some cases and is not used for searching (see the geoIndex field)
