@@ -37,6 +37,7 @@ class Site {
     String name
     String type
     Map displayProperties
+    Map adminProperties
     String area
     String recordingMethod
     String landTenure
@@ -60,6 +61,7 @@ class Site {
         externalSiteId nullable:true
         type nullable:true
         displayProperties nullable:true
+        adminProperties nullable: true
         area nullable:true
         recordingMethod nullable:true
         landTenure nullable:true
