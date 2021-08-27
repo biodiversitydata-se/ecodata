@@ -195,7 +195,7 @@ class ProjectActivityService {
         result
     }
 
-    Map get(String id, levelOfDetail = [], version = null, userId = null) {
+    Map get(String id, levelOfDetail = [], version = null, personId = null) {
         if (version) {
             def all = AuditMessage.findAllByEntityIdAndEntityTypeAndDateLessThanEquals(id, ProjectActivity.class.name,
                     new Date(version as Long), [sort:'date', order:'desc', max: 1])
@@ -210,7 +210,7 @@ class ProjectActivityService {
             projectActivity
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
-            projectActivity ? toMap(projectActivity, levelOfDetail, userId) : [:]
+            projectActivity ? toMap(projectActivity, levelOfDetail, personId) : [:]
         }
     }
 
@@ -243,7 +243,7 @@ class ProjectActivityService {
      * @param levelOfDetail list of features to include
      * @return map of properties
      */
-    Map toMap(projectActivity, levelOfDetail = [], userId = null) {
+    Map toMap(projectActivity, levelOfDetail = [], personId = null) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
             projectActivity.getProperty("dbo").toMap() : projectActivity
 
@@ -255,9 +255,8 @@ class ProjectActivityService {
             List levelOfDetailForSites = ["brief"]
             // for systematic monitoring
             // filter sites that are in the project according to which sites the volunteer has permissions to access
-            if (userId){
-                def person = personService.getPersonByUserId(userId)
-                List personSiteIds = personService.getSiteIdsForPerson(person)
+            if (personId){
+                List personSiteIds = personService.getSiteIdsForPerson(personId)
                 List approvedSites = siteService.getApprovedSiteIds(personSiteIds)
                 mapOfProperties.sites = approvedSites.intersect(projectActivity.sites)
                 // change level of detail because we need transect parts here for maps in survey forms

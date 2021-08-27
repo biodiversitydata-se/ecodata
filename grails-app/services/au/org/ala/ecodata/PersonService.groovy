@@ -109,16 +109,9 @@ class PersonService {
         person
     }
 
-    List getSiteIdsForPerson(person){
-        List siteIds = []
-        List ownedSites = person?.ownedSites
-        List bookedSites = person?.bookedSites
-        ownedSites?.each {
-            siteIds << it
-        }
-        bookedSites?.each {
-            siteIds << it
-        }
+    List getSiteIdsForPerson(id){
+        Person person = Person.findByPersonId(id)
+        List siteIds = [*person?.ownedSites, *person?.bookedSites]
         siteIds
     }
 

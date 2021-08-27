@@ -124,7 +124,7 @@ class PersonController {
         List draftActivityForms = activityService.findDraftsForUserId(id)
         List projects = []
         List surveys = []
-        List siteIds = personService.getSiteIdsForPerson(person)
+        List siteIds = personService.getSiteIdsForPerson(person.personId)
         Map sites = [:]
 
         if (person) {
