@@ -121,13 +121,12 @@ class PersonController {
         Person person 
         person = Person.findByUserId(id)
         String personStatus = "registeredVolunteer"
-        List draftActivityForms = activityService.findDraftsForUserId(id)
-        List projects = []
-        List surveys = []
-        List siteIds = personService.getSiteIdsForPerson(person.personId)
-        Map sites = [:]
-
         if (person) {
+            List draftActivityForms = activityService.findDraftsForUserId(id)
+            List projects = []
+            List surveys = []
+            List siteIds = personService.getSiteIdsForPerson(person?.personId)
+            Map sites = [:]
             if (siteIds){
                 sites = siteService.getSitesForPersonBySiteId(siteIds)
             }
