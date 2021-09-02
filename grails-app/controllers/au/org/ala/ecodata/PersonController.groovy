@@ -118,15 +118,15 @@ class PersonController {
     }
 
     def getDataForPersonHomepage(String id){
-        Person person 
-        person = Person.findByUserId(id)
+        Person person = Person.findByUserId(id)
         String personStatus = "registeredVolunteer"
+        Map result
         if (person) {
             List draftActivityForms = activityService.findDraftsForUserId(id)
-            List projects = []
-            List surveys = []
             List siteIds = personService.getSiteIdsForPerson(person?.personId)
             Map sites = [:]
+            List projects = []
+            List surveys = []
             if (siteIds){
                 sites = siteService.getSitesForPersonBySiteId(siteIds)
             }
@@ -152,6 +152,15 @@ class PersonController {
             } else {
                 personStatus = "notMember"
             }
+            result = [
+                personStatus: personStatus,
+                person: person,
+                siteStatus: sites?.message,
+                sites: sites?.sites,
+                projects: projects,
+                surveys: surveys,
+                drafts: draftActivityForms
+            ]
         } else {
             String emailAddress = params?.email
             emailAddress = emailAddress.matches("(.*)googlemail.com") ? emailAddress.replace("googlemail.com", "gmail.com") : emailAddress
@@ -163,17 +172,12 @@ class PersonController {
                 personStatus = null
                 log.debug "There is no one with this email address. The admin has to create a new person and link it to this user's ID"
             }
+            result = [
+                personStatus: personStatus,
+                person: person
+            ]
         }
 
-        Map result = [
-            personStatus: personStatus,
-            person: person,
-            siteStatus: sites?.message,
-            sites: sites?.sites,
-            projects: projects,
-            surveys: surveys,
-            drafts: draftActivityForms
-        ]
         render result as JSON
     }
 
