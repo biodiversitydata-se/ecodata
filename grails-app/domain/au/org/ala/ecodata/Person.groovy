@@ -19,6 +19,7 @@ class Person {
     String personId
     // internalPersonId assigned to SFT persons - DOB
     String internalPersonId
+    String adminComment
     String firstName
     String lastName
     String email 
@@ -44,6 +45,7 @@ class Person {
         firstName nullable: false
         lastName nullable: false
         internalPersonId nullable: false, unique: true
+        adminComment nullable: true
         email nullable: false
         gender nullable: true
         birthDate nullable: true

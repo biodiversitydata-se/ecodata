@@ -99,7 +99,8 @@ class PersonService {
             town: person.town,
             email: person.email,
             firstName: person.firstName,
-            lastName: person.lastName
+            lastName: person.lastName,
+            userId: person.userId
         ]
         result
     }

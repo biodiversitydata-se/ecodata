@@ -853,13 +853,7 @@ class ElasticSearchService {
      * @param person
      */
     private void preparePersonForIndexing(Map person) {
-        person.remove("projects")
-        person.remove("ownedSites")
-        person.remove("bookedSites")
-        person.remove("address1")
-        person.remove("address2")
-        person.remove("birthDate")
-
+        person.retainAll(["firstName", "lastName", "town", "email", "internalPersonId", "personId", "userId", "mobileNum"])
     }
 
 
