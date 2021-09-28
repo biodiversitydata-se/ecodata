@@ -615,8 +615,11 @@ class ElasticSearchService {
         siteMap.projectList = projects
         siteMap.surveyList = surveys
         siteMap.internalSiteId = siteMap?.adminProperties?.internalSiteId
+        // get the adminProperties out of nested object
+        siteMap.lan = siteMap?.adminProperties?.lan
+        siteMap.lsk = siteMap?.adminProperties?.lsk
+        siteMap.kartaTx = siteMap?.adminProperties?.kartaTx
         siteMap.remove("adminProperties")
-
         Document doc = Document.findByRoleAndSiteIdAndType('photoPoint', siteMap.siteId, 'image')
         if (doc) {
             siteMap.photoType = 'photoPoint'
@@ -1938,6 +1941,7 @@ class ElasticSearchService {
      */
     def createIndexAndMapping(index) {
         log.info "Creating new index and configuring elastic search custom mapping"
+            log.debug "index " + index
         try {
             addMappings(index)
         } catch (Exception e) {
