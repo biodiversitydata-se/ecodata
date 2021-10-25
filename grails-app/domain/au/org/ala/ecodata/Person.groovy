@@ -46,7 +46,7 @@ class Person {
         lastName nullable: false
         internalPersonId nullable: false, unique: true
         adminComment nullable: true
-        email nullable: false, unique: true
+        email nullable: false, unique: true, email: true
         gender nullable: true
         birthDate nullable: true
         phoneNum nullable: true
