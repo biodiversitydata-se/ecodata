@@ -414,21 +414,17 @@
         },
         "person": {
           "properties": {
-            "firstName": {
+            "name": {
               "type":"string",
-              "index":"analyzed"
+              "index":"not_analyzed"
               },
-            "lastName": {
-              "type" : "string",
-              "index": "analyzed"
-            },
             "email": {
               "type" : "string",
-              "index": "analyzed"
+              "index": "not_analyzed"
             },
             "town": {
               "type" : "string",
-              "index": "analyzed"
+              "index": "not_analyzed"
             }
           }
         },

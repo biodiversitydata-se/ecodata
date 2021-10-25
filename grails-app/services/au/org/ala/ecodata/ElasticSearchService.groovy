@@ -856,6 +856,7 @@ class ElasticSearchService {
      * @param person
      */
     private void preparePersonForIndexing(Map person) {
+        person.name = "${person.firstName} ${person.lastName}"
         person.remove("projects")
         person.remove("ownedSites")
         person.remove("bookedSites")
