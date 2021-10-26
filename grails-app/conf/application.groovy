@@ -16,7 +16,7 @@ environments {
             mongodb {
                 host = "localhost"
                 port = "27017"
-                databaseName = "ecodata-test"
+                databaseName = "ecodata"
             }
         }
     }
@@ -25,7 +25,7 @@ environments {
             mongodb {
                 host = "localhost"
                 port = "27017"
-                databaseName = "ecodata-functional-test"
+                databaseName = "ecodata"
             }
         }
     }
@@ -508,7 +508,7 @@ if (!headerAndFooter.baseURL) {
     headerAndFooter.baseURL = "https://www.ala.org.au/commonui-bs3"//"https://www2.ala.org.au/commonui"
 }
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://auth.ala.org.au/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'https://biocache.ala.org.au/ws'
@@ -526,13 +526,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://auth.ala.org.au/userdetails/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "https://auth.ala.org.au/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "http://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://auth.ala.org.au/userdetails/ws/admin'
+    userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
@@ -580,11 +580,11 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
-        app.external.model.dir = "/data/ecodata/models/" //"./models/"
-        grails.hostname = "devt.ala.org.au"
+        app.external.model.dir = "./models/" //"./models/"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
-        grails.serverURL = "http://devt.ala.org.au:8080"
+        grails.serverURL = "http://canmove-dev.ekol.lu.se:8080"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         grails.mail.host="localhost"
         grails.mail.port=1025
@@ -600,7 +600,7 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.hostname = "devt.ala.org.au"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         // Only for travis CI, they must be overriden by ecodata-config.properties
         serverName = "http://${grails.hostname}:8080"
         grails.app.context = "ecodata"
@@ -651,6 +651,8 @@ environments {
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
         app.external.model.dir = "/data/ecodata/models/"
+        grails.serverURL = "https://ecodata.biodiversitydata.se"
+        app.uploads.url = "${grails.serverURL}/document/download?filename="
     }
 }
 
