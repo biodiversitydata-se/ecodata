@@ -88,7 +88,7 @@ if (!webservice.connectTimeout) {
     webservice.connectTimeout = 10000
 }
 if (!webservice.readTimeout) {
-    webservice.readTimeout = 30000
+    webservice.readTimeout = 20000
 }
 // spatial services
 if (!spatial.baseUrl) {
@@ -504,9 +504,11 @@ if (!collectory.baseURL) {
     collectory.dataProviderUid.biocollect = 'dp244'
     collectory.collectoryIntegrationEnabled = false
 }
+
 if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = "https://www.ala.org.au/commonui-bs3"//"https://www2.ala.org.au/commonui"
+    headerAndFooter.baseURL = "https://beta.bioatlas.se/static/bs3"
 }
+
     if (!security.apikey.serviceUrl) {
     security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
 }
@@ -648,6 +650,9 @@ environments {
         security.apikey.serviceUrl = "${casBaseUrl}/apikey/ws/check?apikey="
     }
     production {
+        app.uploads.url = "${grails.serverURL}/document/download?filename="
+        app.external.model.dir = "/data/ecodata/models/"
+        grails.serverURL = "https://ecodata.biodiversitydata.se"
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
         app.external.model.dir = "/data/ecodata/models/"
@@ -674,6 +679,12 @@ facets.data = [
                 title: 'Survey name',
                 dataType: 'text',
                 helpText: 'Name of survey'
+        ],
+        [
+                name: "surveyDateFacet",
+                title: 'Survey date',
+                dataType: 'date',
+                helpText: 'Date when survey was created'
         ],
         [
                 name: "recordNameFacet",
@@ -782,7 +793,14 @@ facets.data = [
                 title: 'Is data management policy documented?',
                 dataType: 'text',
                 helpText: ''
+        ],
+        [
+                name:  "verificationStatusFacet",
+                title:  "Verification status",
+                dataType: 'text',
+                helpText: 'Verification status'
         ]
+
 
 ]
 
@@ -1036,6 +1054,7 @@ geoServer.layerNames = [
                                                'projectNameFacet',
                                                'surveyMonthFacet',
                                                'surveyYearFacet',
+                                               'surveyDate',
                                                'sites.geometryType'
                                        ]
                 ],

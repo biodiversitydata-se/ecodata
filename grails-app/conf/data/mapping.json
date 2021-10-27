@@ -1,6 +1,10 @@
 {
   "mappings":{
       "properties": {
+        "personId" : {
+          "type" : "string",
+          "index" : "not_analyzed"
+        },
         "siteId" : {
           "type" : "keyword"
         },
@@ -391,6 +395,22 @@
             }
           }
         },
+        "person": {
+          "properties": {
+            "name": {
+              "type":"string",
+              "index":"not_analyzed"
+              },
+            "email": {
+              "type" : "string",
+              "index": "not_analyzed"
+            },
+            "town": {
+              "type" : "string",
+              "index": "not_analyzed"
+            }
+          }
+        },
         "mainTheme": {
           "type":"text",
           "copy_to":"mainThemeFacet"
@@ -520,6 +540,43 @@
               "type": "keyword",
               "index": false
             }
+          }
+        },
+        "surveyDate":{
+          "type" : "date",
+          "path" : "just_name",
+          "fields" : {
+            "surveyDateSort" : {"type" : "string", "analyzer" : "case_insensitive_sort"}
+          }
+        },
+        "booked": {
+          "type": "string",
+          "fields" : {
+            "bookedFacet" : {"type" : "string", "index" : "not_analyzed"}
+          }
+        },
+        "lan": {
+          "type": "string",
+          "fields": {
+            "lanFacet": {"type": "string", "index": "not_analyzed"}
+          }
+        },
+        "lsk": {
+          "type": "string",
+          "fields": {
+            "lskFacet": {"type": "string", "index": "not_analyzed"}
+          }
+        },
+        "kartaTx": {
+          "type": "string",
+          "fields": {
+            "kartaTxFacet": {"type": "string", "index": "not_analyzed"}
+          }
+        },
+        "verificationStatus": {
+          "type":"string",
+          "fields": {
+            "verificationStatusFacet":{"type":"string", "index":"not_analyzed"}
           }
         }
       },

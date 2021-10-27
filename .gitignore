@@ -44,3 +44,13 @@ out
 /. /logs/
 /grails-app/assets/vendor/
 /node_modules/
+
+# files specific to the instance
+/models
+/models/programs-model.json
+
+.gradle
+
+custom_install_canmove_ecodata.txt
+
+

@@ -11,6 +11,7 @@ class ProjectActivityService {
     static transactional = false
     static final DOCS = 'docs'
     static final ALL = 'all' // docs and sites
+    static final BRIEF = 'brief' // without sites
     static final SUBSCRIBED_PROPERTIES = [
             'methodName'
     ]
@@ -26,6 +27,7 @@ class ProjectActivityService {
     PermissionService permissionService
     ElasticSearchService elasticSearchService
     EmailService emailService
+    PersonService personService
     MessageSource messageSource
 
     /**
@@ -194,7 +196,7 @@ class ProjectActivityService {
         result
     }
 
-    Map get(String id, levelOfDetail = [], version = null) {
+    Map get(String id, levelOfDetail = [], version = null, personId = null) {
         if (version) {
             def all = AuditMessage.findAllByEntityIdAndEntityTypeAndDateLessThanEquals(id, ProjectActivity.class.name,
                     new Date(version as Long), [sort:'date', order:'desc', max: 1])
@@ -209,7 +211,7 @@ class ProjectActivityService {
             projectActivity
         } else {
             ProjectActivity projectActivity = ProjectActivity.findByProjectActivityId(id)
-            projectActivity ? toMap(projectActivity, levelOfDetail) : [:]
+            projectActivity ? toMap(projectActivity, levelOfDetail, personId) : [:]
         }
     }
 
@@ -242,7 +244,7 @@ class ProjectActivityService {
      * @param levelOfDetail list of features to include
      * @return map of properties
      */
-    Map toMap(projectActivity, levelOfDetail = []) {
+    Map toMap(projectActivity, levelOfDetail = [], personId = null) {
         Map mapOfProperties = projectActivity instanceof ProjectActivity ?
                 GormMongoUtil.extractDboProperties(projectActivity.getProperty("dbo")) : projectActivity
 
@@ -250,17 +252,33 @@ class ProjectActivityService {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
         } else if (levelOfDetail == ALL) {
             mapOfProperties["documents"] = documentService.findAllForProjectActivityId(mapOfProperties.projectActivityId)
-
-            mapOfProperties["sites"] = mapOfProperties.sites.collect {
-                siteService.get(it, "brief")
+            // level of details for sites should be brief on default - this eliminates the transectParts from it
+            List levelOfDetailForSites = ["brief"]
+            // for systematic monitoring
+            // filter sites that are in the project according to which sites the volunteer has permissions to access
+            if (personId){
+                List personSiteIds = personService.getSiteIdsForPerson(personId)
+                List approvedSites = siteService.getApprovedSiteIds(personSiteIds)
+                mapOfProperties.sites = approvedSites.intersect(projectActivity.sites)
+                // change level of detail because we need transect parts here for maps in survey forms
+                levelOfDetailForSites = ["transects"]
             }
-
+            mapOfProperties["sites"] = mapOfProperties.sites.collect {
+                siteService.get(it, levelOfDetailForSites)
+            }
         }
 
         mapOfProperties["attribution"] = generateAttributionText(projectActivity)
        /* mapOfProperties["submissionRecords"] = mapOfProperties.submissionRecords.collect {
             submissionService.get(it)
         } */
+
+        // for systematic monitoring - only retains basic info needed for homepage
+        if (levelOfDetail == BRIEF) {
+            mapOfProperties.remove("sites");
+            // mapOfProperties.keySet().retainAll(["name", "projectActivityId", "_id", "alert", 
+            // "allowPolygons", "allowLine", "allowPoints", "surveySiteOption", "methodUrl", "projectId", "allowSegmentMetadata"])
+        }
 
         String id = mapOfProperties["_id"].toString()
         mapOfProperties["id"] = id

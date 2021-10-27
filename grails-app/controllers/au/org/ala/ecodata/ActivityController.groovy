@@ -96,9 +96,19 @@ class ActivityController {
     @RequireApiKey
     def update(String id) {
         def props = request.JSON
-        //log.debug props
+        String personId = props?.personId
         def result
         def message
+        // if activity was saved as draft delete the draft first and create a new activity
+        if (props.deleteDraftAndSaveNewActivity){
+            // delete activity, output and records and respective audit messages
+            props.remove("deleteDraftAndSaveNewActivity")
+            props.outputs.collect { it.remove("outputId")}
+            activityService.delete(id, true)
+            // reset the ID of the draft activity so that a new one is created with the same data
+            id = null
+        }
+
         if (id) {
             result = activityService.update(props,id, Boolean.parseBoolean(params.lock))
             message = [message: 'updated']
@@ -361,5 +371,20 @@ class ActivityController {
     def getDefaultFacets(){
         List facets = grailsApplication.config.facets.data
         render text: facets as JSON, contentType: 'application/json'
+    }
+
+    /**
+     * Get a list of all activites recorded by a person under one scheme
+     * and site names where the sightings occurred.
+     *
+     * @param params containing the name of the survey form stored in activity.type
+     * @return list of activities containing names of sites instead of their Id
+     *          and selected activity properties
+     */
+    def getActivitiesForPersonByType(){
+        String activityType = params.activityType
+        String personId = params.personId
+        List result = activityService.getAllForPersonByType(activityType, personId)
+        render result as JSON
     }
 }
