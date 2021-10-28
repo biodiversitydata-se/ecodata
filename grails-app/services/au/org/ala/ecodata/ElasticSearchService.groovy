@@ -836,14 +836,14 @@ class ElasticSearchService {
         log.info "Indexing all persons"
         int count = 0
         Person.withNewSession { session ->
-            try {
-                personService.doWithAllPersons { Map person ->
-                    person["className"] = Person.class.name
-                    preparePersonForIndexing(person)
-                    indexDoc(person, DEFAULT_INDEX)
+            personService.doWithAllPersons { Map personMap ->
+                try {
+                    personMap["className"] = Person.class.name
+                    preparePersonForIndexing(personMap)
+                    indexDoc(personMap, newIndexes[DEFAULT_INDEX], bulkProcessor)
+                } catch (Exception e) {
+                    log.error("Unable to prepare person", e)
                 }
-            } catch (Exception e) {
-                log.error("Unable to index person", e)
             }
 
             count++

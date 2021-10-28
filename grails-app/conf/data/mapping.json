@@ -2,8 +2,7 @@
   "mappings":{
       "properties": {
         "personId" : {
-          "type" : "string",
-          "index" : "not_analyzed"
+          "type" : "keyword"
         },
         "siteId" : {
           "type" : "keyword"
@@ -398,16 +397,13 @@
         "person": {
           "properties": {
             "name": {
-              "type":"string",
-              "index":"not_analyzed"
+              "type":"keyword"
               },
             "email": {
-              "type" : "string",
-              "index": "not_analyzed"
+              "type" : "keyword"
             },
             "town": {
-              "type" : "string",
-              "index": "not_analyzed"
+              "type" : "keyword"
             }
           }
         },
@@ -546,37 +542,37 @@
           "type" : "date",
           "path" : "just_name",
           "fields" : {
-            "surveyDateSort" : {"type" : "string", "analyzer" : "case_insensitive_sort"}
+            "surveyDateSort" : {"type" : "keyword", "analyzer" : "case_insensitive_sort"}
           }
         },
         "booked": {
-          "type": "string",
+          "type": "keyword",
           "fields" : {
-            "bookedFacet" : {"type" : "string", "index" : "not_analyzed"}
+            "bookedFacet" : {"type" : "keyword"}
           }
         },
         "lan": {
-          "type": "string",
+          "type": "keyword",
           "fields": {
-            "lanFacet": {"type": "string", "index": "not_analyzed"}
+            "lanFacet": {"type": "keyword"}
           }
         },
         "lsk": {
-          "type": "string",
+          "type": "keyword",
           "fields": {
-            "lskFacet": {"type": "string", "index": "not_analyzed"}
+            "lskFacet": {"type": "keyword"}
           }
         },
         "kartaTx": {
-          "type": "string",
+          "type": "keyword",
           "fields": {
-            "kartaTxFacet": {"type": "string", "index": "not_analyzed"}
+            "kartaTxFacet": {"type": "keyword"}
           }
         },
         "verificationStatus": {
-          "type":"string",
+          "type":"keyword",
           "fields": {
-            "verificationStatusFacet":{"type":"string", "index":"not_analyzed"}
+            "verificationStatusFacet":{"type":"keyword"}
           }
         }
       },

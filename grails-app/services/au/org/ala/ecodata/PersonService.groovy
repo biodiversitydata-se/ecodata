@@ -142,12 +142,12 @@ class PersonService {
      */
     void doWithAllPersons(Closure action) {
         // Due to various memory & performance issues with GORM mongo plugin 1.3, this method uses the native API.
-        com.mongodb.DBCollection collection = Person.getCollection()
+        def collection = Person.getCollection()
 
-        DBCursor results = collection.find().batchSize(100)
+        def results = collection.find().batchSize(100)
 
         results.each { dbObject ->
-            action.call(dbObject.toMap())
+            action.call(dbObject)
         }
     }
 }
