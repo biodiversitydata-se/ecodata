@@ -531,7 +531,7 @@ if (!userDetailsSingleUrl) {
     userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "http://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
     userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
