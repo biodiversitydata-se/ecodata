@@ -52,5 +52,9 @@ out
 .gradle
 
 custom_install_canmove_ecodata.txt
+. /logs/stacktrace.log
+. /logs/elasticsearch-indexing.log
 
-
+.project
+.settings/
+.vscode/
