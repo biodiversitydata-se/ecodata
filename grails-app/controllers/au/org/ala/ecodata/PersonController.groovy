@@ -164,7 +164,7 @@ class PersonController {
         } else {
             String emailAddress = params?.email
             emailAddress = emailAddress.matches("(.*)googlemail.com") ? emailAddress.replace("googlemail.com", "gmail.com") : emailAddress
-            person = Person.findByEmailIlike(emailAddress)
+            person = Person.findByEmail(emailAddress)
             // if email address of user matches a person
             if (person){
                 personStatus = "existingPerson"
