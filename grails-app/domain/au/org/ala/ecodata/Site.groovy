@@ -67,7 +67,6 @@ class Site {
         habitat nullable:true
         displayProperties nullable:true
         adminProperties nullable: true
-        area nullable:true
         recordingMethod nullable:true
         landTenure nullable:true
         protectionMechanism nullable:true
