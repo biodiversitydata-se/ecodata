@@ -18,6 +18,8 @@ class OutputService {
     DocumentService documentService
     CommentService commentService
     ActivityService activityService
+    SiteService siteService
+    AuditService auditService
 
     static final ACTIVE = "active"
     static final SCORES = 'scores'
@@ -62,6 +64,7 @@ class OutputService {
         Output.findAllByActivityIdAndNameAndStatus(id, name, ACTIVE).collect { toMap(it, levelOfDetail) }
     }
 
+
     Map delete(String id, boolean destroy = false) {
         Output output = Output.findByOutputId(id)
 
@@ -72,11 +75,14 @@ class OutputService {
             if (destroy) {
                 Record.findAllByOutputId(id)?.each {
                     it.delete()
+                    auditService.deleteAuditMessagesForDraftActivity(Record.class.name, it.occurrenceID)
                 }
 
                 Document.findAllByOutputId(id)?.each {
                     it.delete(flush: true)
                 }
+
+                auditService.deleteAuditMessagesForDraftActivity(Output.class.name, id)
 
                 output.delete(flush: true)
             } else {
@@ -147,7 +153,13 @@ class OutputService {
      //   assert getCommonService()
         Activity activity = Activity.findByActivityId(props.activityId)
         if (activity) {
-            Output output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''))
+            // not sure this is neccesary
+            Output output
+            if (activity?.verificationStatus == "draft") {
+             output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''), verificationStatus: props?.verificationStatus)
+            } else {
+             output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''))
+            }
             try {
                 output.save(failOnError: true) // Getting dynamic properties not saving without this.
 

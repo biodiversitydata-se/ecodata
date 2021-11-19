@@ -12,6 +12,7 @@ class SiteController {
     static final RICH = "rich"
     static final BRIEF = 'brief'
     static final RAW = 'raw'
+    static final TRANSECTS = 'transects'
     static final SCORES = 'scores'
 
     // JSON response is returned as the unconverted model with the appropriate
@@ -46,6 +47,7 @@ class SiteController {
         if (params.rich || params.view == RICH) { levelOfDetail << RICH }
         if (params.raw || params.view == RAW) { levelOfDetail << RAW }
         if (params.scores || params.view == SCORES) { levelOfDetail << SCORES }
+        if (params.view == TRANSECTS) { levelOfDetail << TRANSECTS }
         if (params.projects || params.view == LevelOfDetail.PROJECTS.name().toLowerCase()) { levelOfDetail << LevelOfDetail.PROJECTS.name()}
 
         if (!id) {
@@ -149,6 +151,24 @@ class SiteController {
         def result = siteService.updatePoi(id, props)
         if (result.status == 'ok') {
             def message = [message:'ok', poiId: result.poiId]
+            asJson(message)
+        }
+        else {
+            render status:400, text:result.error
+        }
+    }
+
+    @RequireApiKey
+    def createOrUpdateTransectPart(String id) {
+        def props = request.JSON
+
+        if (!id) {
+            render status:400, text:'Site ID is mandatory'
+            return
+        }
+        def result = siteService.updateTransectPart(id, props)
+        if (result.status == 'ok') {
+            def message = [message:'ok', transectPartId: result.transectPartId]
             asJson(message)
         }
         else {
@@ -318,4 +338,17 @@ class SiteController {
         Map result = [projectId:id, sites: features]
         render result as JSON
     }
+
+    /**
+     * Redirects to either book sites by ID (coming from the booking map on project page) 
+     * or by site names if initiated from a person's profile following a request from the volunteer
+     *
+     */
+    def bookSites(){
+        def props = request.JSON
+        def message = (props?.bookBySiteId) ? siteService.bookSitesById(props) : siteService.bookSitesByName(props)
+        Map result = [message: message]
+        render result as JSON
+    }
+
 }

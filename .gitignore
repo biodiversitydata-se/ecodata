@@ -40,9 +40,21 @@
 
 out
 models/*
-=======
 /.gradle/
 /build/
 /. /logs/
 /grails-app/assets/vendor/
 /node_modules/
+
+# files specific to the instance
+/models/programs-model.json
+
+.gradle
+
+custom_install_canmove_ecodata.txt
+. /logs/stacktrace.log
+. /logs/elasticsearch-indexing.log
+
+.project
+.settings/
+.vscode/

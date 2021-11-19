@@ -434,4 +434,19 @@ class ProjectController {
         response.addHeader("entityId", projectId)
     }
 
+    /**
+    * Get a list of project IDs related to the requested one through hub
+    * needed to give permissions to a person for all projects in the hub
+    * @params hubUrl
+    * @return list of project IDs
+    */
+    List getRelatedProjectIds(){ 
+        def result = projectService.getRelatedProjectIds(params.hubUrl)
+        render result as JSON
+    }
+
+    def getProjectByHubUrl(){
+        def result = Project.findByHubUrl(params.hubUrl)
+        render result as JSON
+    }
 }

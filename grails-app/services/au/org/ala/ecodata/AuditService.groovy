@@ -338,4 +338,16 @@ class AuditService {
             return revisions[0]
         }
     }
+
+    /**
+     * When the activity saved as a draft is submitted in its final version, 
+     * delete the draft from the audit log
+     * 
+     */
+    def deleteAuditMessagesForDraftActivity(String entityType, String entityId){
+        List messages = AuditMessage.findAllByEntityTypeAndEntityId(entityType, entityId)
+        if (messages) {
+            messages.each { it.delete() }
+        }
+    }
 }
