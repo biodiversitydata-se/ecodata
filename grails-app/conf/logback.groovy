@@ -22,7 +22,7 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-def targetDir = (System.getProperty('ecodata.logs') ?: '. /logs')
+def targetDir = (System.getProperty('ecodata.logs') ?: '/data/ecodata/logs')
 if (Environment.isDevelopmentMode() && targetDir != null) {
     appender("FULL_STACKTRACE", FileAppender) {
         file = "${targetDir}/stacktrace.log"
