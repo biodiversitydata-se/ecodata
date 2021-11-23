@@ -671,6 +671,7 @@ class ElasticSearchService {
         siteMap.lsk = siteMap?.adminProperties?.lsk
         siteMap.kartaTx = siteMap?.adminProperties?.kartaTx
         siteMap.remove("adminProperties")
+        siteMap.remove("transectParts")
         Document doc = Document.findByRoleAndSiteIdAndType('photoPoint', siteMap.siteId, 'image')
         if (doc) {
             siteMap.photoType = 'photoPoint'
