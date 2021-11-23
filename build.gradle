@@ -192,7 +192,7 @@ assemble {
 }
 
 bootWar {
-    enabled = false
+    enabled = true
 }
 
 publish {
