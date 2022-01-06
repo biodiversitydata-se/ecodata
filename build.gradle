@@ -193,6 +193,9 @@ assemble {
 
 bootWar {
     enabled = true
+    // Temporary fix to exclude the old hsqldb library coming with the initial nexus repo.
+    // See github Biocollect issue #177 t get the details
+    rootSpec.exclude("**/hsqldb-1.8.1.1.jar")
 }
 
 publish {
