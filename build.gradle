@@ -66,7 +66,12 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
-    compile "org.grails:grails-plugin-rest"
+    compile "org.grails:grails-plugin-rest" {
+        // Fix to exclude the old hsqldb library coming with the initial nexus repo.
+        // See github Biocollect issue #177 t get the details
+        // Old fix : in the boot war section : rootSpec.exclude("**/hsqldb-1.8.1.1.jar")
+        exclude module: 'hsqldb'
+    }
     compile "org.grails:grails-plugin-databinding"
     compile "org.grails:grails-plugin-i18n"
     compile "org.grails:grails-plugin-services"
@@ -193,9 +198,6 @@ assemble {
 
 bootWar {
     enabled = true
-    // Temporary fix to exclude the old hsqldb library coming with the initial nexus repo.
-    // See github Biocollect issue #177 t get the details
-    rootSpec.exclude("**/hsqldb-1.8.1.1.jar")
 }
 
 publish {
