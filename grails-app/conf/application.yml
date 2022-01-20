@@ -50,7 +50,9 @@ spring:
                 - '**/*.js'
 server:
     # address: localhost
-    address: 'canmove-dev.ekol.lu.se'
+    # address: 'canmove-dev.ekol.lu.se'
+    address: 'ecodata.biodiversitydata.se'
+
     tomcat:
         port-header: 'X-Forwarded-Port'
         protocol-header: 'X-Forwarded-Proto'
@@ -168,7 +170,8 @@ cors:
 
 security:
     cas:
-        appServerName: 'http://canmove-dev.ekol.lu.se:8080'
+        #appServerName: 'http://canmove-dev.ekol.lu.se:8080'
+        appServerName: 'https://ecodata.biodiversitydata.se'
         casServerName: 'https://auth.biodiversitydata.se'
         casServerUrlPrefix: 'https://auth.biodiversitydata.se/cas'
         loginUrl: 'https://auth.biodiversitydata.se/cas/login'
