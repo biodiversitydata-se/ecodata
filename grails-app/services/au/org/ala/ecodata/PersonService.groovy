@@ -24,6 +24,10 @@ class PersonService {
             try {
                 String personId = Identifiers.getNew(true,'') 
                 props.personId = personId
+
+                def projectsDefault=grailsApplication.config.defaultProjectsPerson.split(',')
+		props.projects = projectsDefault
+
                 props.internalPersonId = props.internalPersonId ? props.internalPersonId : personId
                 def person = new Person(props)
                 person.save(failOnError: true)
