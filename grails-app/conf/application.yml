@@ -5,7 +5,7 @@ grails:
         defaultPackage: au.org.ala.ecodata
     config:
         locations:
-            - file:///data/ecodata/config/ecodata-config_grails4.properties
+            - file:///data/ecodata/config/ecodata-config.properties
             - file:///data/ecodata/config/ecodata-config.yml
             - file:///data/ecodata/config/ecodata-config.groovy
             - file:///data/ecodata/config/layers-config.groovy
