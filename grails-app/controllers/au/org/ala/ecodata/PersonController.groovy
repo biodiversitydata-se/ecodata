@@ -77,7 +77,9 @@ class PersonController {
         }
         props = [ownedSites : person.ownedSites]
         
-        personService.update(id, props)
+        Map result = personService.update(id, props)
+
+        render result as JSON
     }
 
     /**
