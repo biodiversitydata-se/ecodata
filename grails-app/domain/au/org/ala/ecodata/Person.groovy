@@ -34,6 +34,7 @@ class Person {
     String extra
     // userId is for registered users only, same as in CAS system
     String userId
+    String hub
     List projects
     List bookedSites
     List ownedSites
@@ -57,6 +58,7 @@ class Person {
         town nullable: false
         extra nullable: true, maxSize: 4000
         userId nullable: true
+	hub nullable: true
         bookedSites nullable: true
         projects nullable: true
         ownedSites nullable: true

@@ -38,7 +38,7 @@ class PersonService {
             } catch (ValidationException e){
                 e.printStackTrace()
                 Person.withSession { session -> session.clear() }
-                def error = "InternalID and email must be unique. Another person already exists with internalID=${props.internalPersonId} OR email=${props.email}"
+                def error = "Error creating person. InternalID and email must be correctly formatted and unique."
                 return [status:'error', error:error]
             } catch (Exception e) {
                 e.printStackTrace()
