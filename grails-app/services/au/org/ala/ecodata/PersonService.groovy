@@ -26,7 +26,10 @@ class PersonService {
                 props.personId = personId
 
                 def projectsDefault=grailsApplication.config.defaultProjectsPerson.split(',')
-		props.projects = projectsDefault
+                props.projects = projectsDefault
+
+                def hubDefault=grailsApplication.config.defaultHubPerson
+                props.hub = hubDefault
 
                 props.internalPersonId = props.internalPersonId ? props.internalPersonId : personId
                 def person = new Person(props)
