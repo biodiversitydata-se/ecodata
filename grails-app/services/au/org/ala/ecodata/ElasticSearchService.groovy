@@ -1106,6 +1106,9 @@ class ElasticSearchService {
             projectActivity.projectId = project?.projectId
             projectActivity.projectType = project?.projectType
 
+            // LU: obtains the output as well for getting the surveyDate
+            List outputs = outputService.findAllForActivityId(activity.activityId)
+
             def allRecords = activity.activityId ? recordService.getAllByActivity(activity.activityId) :
                     recordService.getAllByProjectActivity(pActivity.projectActivityId, version)
             allRecords?.each {
@@ -1141,18 +1144,28 @@ class ElasticSearchService {
                     projectActivity.lastUpdatedYear = new SimpleDateFormat("yyyy").format(it.lastUpdated)
                 }
             }
+
             projectActivity.records = records
             if (activity?.lastUpdated) {
                 projectActivity.lastUpdatedMonth = new SimpleDateFormat("MMMM").format(activity.lastUpdated)
                 projectActivity.lastUpdatedYear = new SimpleDateFormat("yyyy").format(activity.lastUpdated)
             }
-
-            if(eventDate){
+            
+            // LU : if the surveyDate from output exists, get eventDate from it 
+            if (outputs[0]?.data?.surveyDate) {
+                eventDate = outputService.parseDate(outputs[0].data.surveyDate)
                 activity.surveyMonth = new SimpleDateFormat("MMMM").format(eventDate)
                 activity.surveyYear = new SimpleDateFormat("yyyy").format(eventDate)
                 activity.surveyDate = eventDate
             }
-
+            else   {        
+                // original process of the date
+                if(eventDate){
+                    activity.surveyMonth = new SimpleDateFormat("MMMM").format(eventDate)
+                    activity.surveyYear = new SimpleDateFormat("yyyy").format(eventDate)
+                    activity.surveyDate = eventDate
+                }
+            }
             try {
                 // check if activity has images
                 Document image = Document.findByActivityIdAndRoleAndTypeAndFilenameIsNotNull(activity.activityId,'surveyImage', 'image')

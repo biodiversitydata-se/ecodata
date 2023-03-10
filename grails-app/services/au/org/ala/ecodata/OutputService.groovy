@@ -2,7 +2,7 @@ package au.org.ala.ecodata
 
 import au.org.ala.ecodata.converter.RecordConverter
 import au.org.ala.ecodata.metadata.OutputMetadata
-
+import org.apache.commons.lang.time.DateUtils
 import static au.org.ala.ecodata.Status.ACTIVE
 import static au.org.ala.ecodata.Status.DELETED
 
@@ -284,6 +284,23 @@ class OutputService {
             }
         }
         return list*.toString()
+    }
+
+    /**
+     * Event date has a variety of standards. This will try and convert it into Date object.
+     * @param eventDate
+     * @return
+     */
+    // LU: used for indexing surveyDate from output
+    Date parseDate(String eventDate) {
+        Date date
+        try {
+            date = DateUtils.parseDate(eventDate, ["yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd'T'HH:mm:ssXX", "yyyy-MM-dd'T'HH:mm:ssX", "dd-MM-yyyy"] as String[])
+        } catch (Exception pe) {
+            log.error("Error parsing date ${eventDate}")
+        }
+
+        date
     }
 
     /**
