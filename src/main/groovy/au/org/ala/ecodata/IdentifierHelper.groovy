@@ -143,6 +143,9 @@ class IdentifierHelper {
             case Hub.class.name:
                 entityId = obj.hubId
                 break
+            case Person.class.name:
+                entityId = obj.personId
+                break
             default:
                 // Last chance to find a 'real' entity id, rather than the internal mongo id.
                 // try a synthesized id member user the <class name>Id pattern

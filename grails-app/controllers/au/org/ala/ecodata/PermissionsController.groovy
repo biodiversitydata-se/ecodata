@@ -569,7 +569,7 @@ class PermissionsController {
     def getMembersForProjectPerPage() {
         String projectId = params.projectId
         Integer start = params.getInt('offset')?:0
-        Integer size = params.getInt('max')?:10
+        Integer size = params.getInt('max')?:500
 
         if (projectId){
             Project project = Project.findByProjectId(projectId)

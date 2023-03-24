@@ -185,7 +185,8 @@ class ProjectService {
                     dataResourceId: project.dataResourceId,
                     dataProviderId: project.dataProviderId,
                     status        : project.status,
-                    alaHarvest    : project.alaHarvest
+                    alaHarvest    : project.alaHarvest,
+                    alertConfig   : project?.alertConfig
             ]
         } else if (levelOfDetail == BRIEF) {
             result = [
@@ -214,12 +215,14 @@ class ProjectService {
             mapOfProperties["id"] = id
             mapOfProperties["status"] = mapOfProperties["status"]?.capitalize();
             mapOfProperties.remove("_id")
-
+            
             if (levelOfDetail != FLAT) {
-                mapOfProperties.remove("sites")
-                if (levelOfDetail == PRIVATE_SITES_REMOVED) {
+                if (levelOfDetail == PRIVATE_SITES_REMOVED && !project.isSystematicMonitoring) {
                     mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectId(project.projectId, [SiteService.FLAT])
-                } else {
+                } else if (project.isSystematicMonitoring) { 
+                    // get basic site info without transect features
+                    mapOfProperties.sites = siteService.findAllNonPrivateSitesForProjectIdBrief(project.projectId, [SiteService.BRIEF])
+                }else {
                     mapOfProperties.sites = siteService.findAllForProjectId(project.projectId, [SiteService.FLAT], version)
                 }
 
@@ -228,7 +231,7 @@ class ProjectService {
 
                 if (levelOfDetail == ALL) {
                     mapOfProperties.activities = activityService.findAllForProjectId(project.projectId, levelOfDetail, includeDeletedActivities)
-                    List<Report> reports = reportingService.findAllForProject(project.projectId)
+                    List<Report> reports = [] // reportingService.findAllForProject(project.projectId)
                     if (reports) {
                         mapOfProperties.reports = reports
                     }
@@ -265,21 +268,20 @@ class ProjectService {
                         result['associatedProgram'] = program.name
                     }
                 }
-            }
 
-            // look up current associated organisation details
-            result.associatedOrgs?.each {
-                if (it.organisationId) {
-                    Organisation org = Organisation.findByOrganisationId(it.organisationId)
-                    if (org) {
-                        it.name = org.name
-                        it.url = org.url
-                        it.logo = Document.findByOrganisationIdAndRoleAndStatus(it.organisationId, "logo", ACTIVE)?.thumbnailUrl
+                // look up current associated organisation details
+                result.associatedOrgs?.each {
+                    if (it.organisationId) {
+                        Organisation org = Organisation.findByOrganisationId(it.organisationId)
+                        if (org) {
+                            it.name = org.name
+                            it.url = org.url
+                            it.logo = Document.findByOrganisationIdAndRoleAndStatus(it.organisationId, "logo", ACTIVE)?.thumbnailUrl
+                        }
                     }
                 }
             }
         }
-
         result
     }
 
@@ -1031,4 +1033,20 @@ class ProjectService {
         count > 0
     }
 
+    /** 
+    * LUSM change
+    * Get a list of project IDs related to the requested one through hub
+    * needed to give permissions to a person for all projects in the hub
+    * needed to add available projects to person collection
+    * @params hubUrl
+    * @return list of project IDs
+    */
+    List getRelatedProjectIds(String hub){
+        List relatedProjects = Project.findAllByHubUrl(hub)
+        List projectIds = relatedProjects.collect {
+            it?.projectId
+        }
+        return projectIds 
+    }
 }
+

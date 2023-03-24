@@ -33,6 +33,7 @@ class ActivityFormController {
      * Updates the activity form identified by the name and version in the payload.
      * @return
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def update() {
 
@@ -48,6 +49,7 @@ class ActivityFormController {
         respond form
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def create() {
         // We are using JsonSlurper instead of request.JSON to avoid JSONObject.Null causing the string
@@ -67,6 +69,7 @@ class ActivityFormController {
      * @param name the name of the activity form.
      * @return the new form.
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def newDraftForm(String name) {
         respond activityFormService.newDraft(name)
@@ -77,6 +80,7 @@ class ActivityFormController {
      * @param name the name of the activity form.
      * @return the new form.
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def publish(String name, Integer formVersion) {
         respond activityFormService.publish(name, formVersion)
@@ -87,11 +91,13 @@ class ActivityFormController {
      * @param name the name of the activity form.
      * @return the new form.
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def unpublish(String name, Integer formVersion) {
         respond activityFormService.unpublish(name, formVersion)
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def findUsesOfForm(String name, Integer formVersion) {
         int count = Activity.countByTypeAndFormVersionAndStatusNotEqual(name, formVersion, Status.DELETED)

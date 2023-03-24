@@ -1,6 +1,9 @@
 {
   "mappings":{
       "properties": {
+        "personId" : {
+          "type" : "keyword"
+        },
         "siteId" : {
           "type" : "keyword"
         },
@@ -62,7 +65,7 @@
           "type" : "keyword"
         },
         "organisationName": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to": ["organisationFacet", "organisationSort"]
         },
         "organisationFacet": {
@@ -80,31 +83,31 @@
           "type" : "keyword", "normalizer" : "case_insensitive_sort"
         },
         "serviceProviderName": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to": ["organisationName","organisationFacet", "organisationSort"]
         },
         "associatedOrgs": {
           "properties" : {
             "name" : {
-              "type" : "text",
+              "type" : "keyword",
               "copy_to": ["organisationName", "organisationFacet", "organisationSort"]
             },
             "logo": {
               "index": false,
-              "type": "text"
+              "type": "keyword"
             }
           }
         },
         "typeFacet" : {"type" : "keyword"},
         "type": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to" : "typeFacet"
         },
         "className": {
           "type":"keyword"
         },
         "associatedProgram": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to": "associatedProgramFacet"
         },
         "associatedProgramFacet": {
@@ -112,7 +115,7 @@
         },
 
         "managementUnitName": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to" : "muFacet"
         },
         "muFacet": {
@@ -120,37 +123,37 @@
         },
         "primaryOutcomeFacet": {"type": "keyword"},
         "primaryOutcome": {
-          "type": "text",
+          "type": "keyword",
           "copy_to": "primaryOutcomeFacet"
         },
         "secondaryOutcomesFacet": {"type": "keyword"},
         "secondaryOutcomes": {
-          "type": "text",
+          "type": "keyword",
           "copy_to": "secondaryOutcomesFacet"
         },
         "associatedSubProgram": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to" : "associatedSubProgramFacet"
         },
         "associatedSubProgramFacet" : {
           "type" : "keyword"
         },
         "industries":{
-          "type":"text",
+          "type":"keyword",
           "copy_to":"industryFacet"
         },
         "industryFacet":{
           "type":"keyword"
         },
         "bushfireCategories":{
-          "type":"text",
+          "type":"keyword",
           "copy_to":"bushfireCategoriesFacet"
         },
         "bushfireCategoriesFacet":{
           "type":"keyword"
         },
         "name": {
-          "type" : "text",
+          "type" : "keyword",
           "copy_to": "nameSort"
         },
         "nameSort": {
@@ -233,7 +236,7 @@
               "type": "keyword"
             },
             "name": {
-              "type" : "text",
+              "type" : "keyword",
               "copy_to" : "siteNameFacet"
             },
             "description": {
@@ -337,20 +340,20 @@
         "projectActivity":{
           "properties":{
             "embargoUntil":{
-              "type":"text"
+              "type":"keyword"
             },
             "name":{
               "index": false,
-              "type":"text",
+              "type":"keyword",
               "copy_to": "projectActivityNameFacet"
             },
             "organisationName":{
               "index": false,
-              "type":"text",
+              "type":"keyword",
               "copy_to": "organisationNameFacet"
             },
             "projectName":{
-              "type":"text",
+              "type":"keyword",
               "copy_to": "projectNameFacet"
             },
             "projectId":{
@@ -361,19 +364,19 @@
               "copy_to": "embargoed"
             },
             "activityOwnerName":{
-              "type":"text",
+              "type":"keyword",
               "copy_to": "activityOwnerNameFacet"
             },
             "lastUpdated":{
               "type":"keyword"
             },
             "lastUpdatedYear":{
-              "type":"text",
+              "type":"keyword",
               "index": false,
               "copy_to": "activityLastUpdatedYearFacet"
             },
             "lastUpdatedMonth":{
-              "type":"text",
+              "type":"keyword",
               "index": false,
               "copy_to": "activityLastUpdatedMonthFacet"
             },
@@ -385,11 +388,11 @@
             "records":{
               "properties":{
                 "name":{
-                  "type":"text",
+                  "type":"keyword",
                   "copy_to": "recordNameFacet"
                 },
                 "eventTime":{
-                  "type": "text"
+                  "type": "keyword"
                 }
               }
             },
@@ -435,7 +438,7 @@
         "projectList":{
           "properties": {
             "projectName": {
-              "type": "text",
+              "type": "keyword",
               "copy_to": "siteProjectNameFacet"
             }
           }
@@ -443,7 +446,7 @@
         "surveyList":{
           "properties": {
             "surveyName": {
-              "type": "text",
+              "type": "keyword",
               "copy_to": "siteSurveyNameFacet"
             }
           }
@@ -454,7 +457,7 @@
         "activities":{
           "properties":{
             "mainTheme": {
-              "type":"text",
+              "type":"keyword",
               "copy_to": "mainThemeFacet"
             },
             "description": {
@@ -462,8 +465,21 @@
             }
           }
         },
+        "person": {
+          "properties": {
+            "name": {
+              "type":"keyword"
+              },
+            "email": {
+              "type" : "keyword"
+            },
+            "town": {
+              "type" : "keyword"
+            }
+          }
+        },
         "mainTheme": {
-          "type":"text",
+          "type":"keyword",
           "copy_to":"mainThemeFacet"
         },
         "mainThemeFacet":{
@@ -512,7 +528,7 @@
                     "rows": {
                       "properties": {
                         "data3": {
-                          "type":"text",
+                          "type":"keyword",
                           "copy_to": "partnerOrganisationTypeFacet"
                         },
                         "data2": {
@@ -691,12 +707,12 @@
         },
         "surveyMonthFacet":{"type":"keyword"},
         "surveyMonth":{
-          "type":"text",
+          "type":"keyword",
           "copy_to": "surveyMonthFacet"
         },
         "surveyYearFacet":{"type":"keyword"},
         "surveyYear":{
-          "type":"text",
+          "type":"keyword",
           "copy_to": "surveyYearFacet"
         },
         "userId": {
@@ -725,10 +741,10 @@
         "blog": {
           "properties": {
             "content": {
-              "type": "text"
+              "type": "keyword"
             },
             "title": {
-              "type": "text"
+              "type": "keyword"
             },
             "blogEntryId": {
               "index": false,
@@ -774,7 +790,42 @@
           "copy_to": "verificationStatusFacet"
         },
         "verificationStatusFacet": {
-          "type":"keyword"
+          "type": "keyword"
+        },
+        "surveyDate":{
+          "type" : "date",
+          "path" : "just_name",
+          "fields" : {
+            "surveyDateSort" : {"type" : "keyword", "analyzer" : "case_insensitive_sort"}
+          }
+        },
+        "booked": {
+          "type": "keyword",
+          "copy_to": "bookedFacet"
+        },
+        "lan": {
+          "type": "keyword",
+          "copy_to": "lanFacet"
+        },
+        "lsk": {
+          "type": "keyword",
+          "copy_to": "lskFacet"
+        },
+        "kartaTx": {
+          "type": "keyword",
+          "copy_to": "kartaTxFacet"
+        },
+        "lskFacet": {
+          "type": "keyword"
+        },
+        "kartaTxFacet": {
+          "type": "keyword"
+        },
+        "lanFacet": {
+          "type": "keyword"
+        },
+        "bookedFacet": {
+          "type": "keyword"
         }
       },
       "dynamic_templates": [
@@ -782,7 +833,7 @@
           "output_template": {
             "path_match": "outputTargets.*",
             "mapping": {
-              "type": "text"
+              "type": "keyword"
             }
           }
         },

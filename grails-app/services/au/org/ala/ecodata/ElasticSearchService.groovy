@@ -102,11 +102,12 @@ class ElasticSearchService {
     CacheService cacheService
     ProgramService programService
     ManagementUnitService managementUnitService
+    PersonService personService
 
     RestHighLevelClient client
     ElasticSearchIndexManager indexManager
     def indexingTempInactive = false // can be set to true for loading of dump files, etc
-    def ALLOWED_DOC_TYPES = [Project.class.name, Site.class.name, Document.class.name, Activity.class.name, Record.class.name, Organisation.class.name, UserPermission.class.name, Program.class.name]
+    def ALLOWED_DOC_TYPES = [Project.class.name, Site.class.name, Document.class.name, Activity.class.name, Record.class.name, Organisation.class.name, UserPermission.class.name, Program.class.name, Person.class.name]
     def DEFAULT_FACETS = 10
     private static Queue<IndexDocMsg> _messageQueue = new ConcurrentLinkedQueue<IndexDocMsg>()
 
@@ -319,7 +320,8 @@ class ElasticSearchService {
             geoObj.loc = loc
             doc.geo.add(geoObj)
         }
-
+        // if site is booked then save this value to be used in a facet
+        doc.booked = (doc?.bookedBy) ?  'ja' : 'nej'
         // Homepage index is nested TODO: remove duplicate code from above
         if (doc.sites?.size() > 0) {
             // one or more sites to a project (deep copy)
@@ -578,9 +580,13 @@ class ElasticSearchService {
                 if(record) {
                     Activity activity = Activity.findByActivityId(record.activityId)
                     if (activity) {
-                        def doc = activityService.toMap(activity, ActivityService.FLAT)
-                        doc = prepareActivityForIndexing(doc)
-                        indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                        if (activity?.verificationStatus && activity?.verificationStatus != 'draft'){
+                            def doc = activityService.toMap(activity, ActivityService.FLAT)
+                            doc = prepareActivityForIndexing(doc)
+                            indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                        } else {
+                            log.warn "This record is attached to a draft activity and should not be indexed"
+                        }
                     }
                     else {
                         log.warn("No activity found with id ${record.activityId} when indexing record for project ${record.projectId} and survey ${record.projectActivityId}")
@@ -591,18 +597,23 @@ class ElasticSearchService {
 
             case Activity.class.name:
                 Activity activity = Activity.findByActivityId(docId)
-                def doc = activityService.toMap(activity, ActivityService.FLAT)
-                doc = prepareActivityForIndexing(doc)
-                // Works project activities are created before a survey is filled in
-                indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
-                // update linked project -- index for homepage
-                def pDoc = Project.findByProjectId(doc.projectId)
-                if (pDoc) {
-                    indexHomePage(pDoc, "au.org.ala.ecodata.Project")
-                }
+                if (activity?.verificationStatus && activity?.verificationStatus != 'draft'){
+                    def doc = activityService.toMap(activity, ActivityService.FLAT)
+                    doc = prepareActivityForIndexing(doc)
+                    // Works project activities are created before a survey is filled in
+                    indexDoc(doc, (doc?.projectActivityId || doc?.isWorks) ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                    // update linked project -- index for homepage
+                    def pDoc = Project.findByProjectId(doc.projectId)
+                    if (pDoc) {
+                        indexHomePage(pDoc, "au.org.ala.ecodata.Project")
+                    }
 
-                if(activity.siteId){
-                    indexDocType(activity.siteId, Site.class.name)
+                    if(activity.siteId){
+                        indexDocType(activity.siteId, Site.class.name)
+                    }
+                } else {
+                    log.warn("Activity is a draft and will not be indexed now")
+                    break
                 }
                 break
 
@@ -628,6 +639,13 @@ class ElasticSearchService {
                     projectMap["className"] = Project.class.name
                     indexHomePage(doc, Project.class.name)
                 }
+                break
+
+            case Person.class.name:
+                Person person = Person.findByPersonId(docId.toString())
+                Map personMap = personService.toMap(person)    
+                personMap["className"] = Person.class.name
+                indexDoc(personMap, DEFAULT_INDEX)
                 break
         }
     }
@@ -668,10 +686,22 @@ class ElasticSearchService {
                 ]
             })
         }
-
-        siteMap.projectList = projects;
+        // if site is booked then save this value to be used in a facet
+        siteMap.booked = (siteMap?.bookedBy) ?  'ja' : 'nej'
+        siteMap.projectList = projects
         siteMap.surveyList = surveys
+
         addYearAndMonthToEntity(siteMap, siteMap)
+
+        // LU : add adminProperties fields 
+        siteMap.internalSiteId = siteMap?.adminProperties?.internalSiteId
+        // get the adminProperties out of nested object
+        siteMap.lan = siteMap?.adminProperties?.lan
+        siteMap.lsk = siteMap?.adminProperties?.lsk
+        siteMap.kartaTx = siteMap?.adminProperties?.kartaTx
+        siteMap.remove("adminProperties")
+        siteMap.remove("transectParts")
+        // end LU
 
         Document doc = Document.findByRoleAndSiteIdAndType('photoPoint', siteMap.siteId, 'image')
         if (doc) {
@@ -774,6 +804,8 @@ class ElasticSearchService {
 
     /**
      * Index all documents. Index is cleared first.
+     * The different indexes are defined in src/groovy/au/org/ala/ecodata/ElasticIndex.groovy
+     * If in doubt use DEFAULT_INDEX which is search
      */
     def indexAll() {
         log.debug "Clearing the unused index first"
@@ -834,8 +866,27 @@ class ElasticSearchService {
             }
         }
 
-        log.info "Indexing all sites"
+        log.info "Indexing all persons"
         int count = 0
+        Person.withNewSession { session ->
+            personService.doWithAllPersons { Map personMap ->
+                try {
+                    personMap["className"] = Person.class.name
+                    preparePersonForIndexing(personMap)
+                    indexDoc(personMap, newIndexes[DEFAULT_INDEX], bulkProcessor)
+                } catch (Exception e) {
+                    log.error("Unable to prepare person", e)
+                }
+            }
+
+            count++
+            if (count % 1000 == 0) {
+                session.clear()
+                log.debug("Indexed "+count+" persons")
+            }
+        }
+        log.info "Indexing all sites"
+        count = 0
         Site.withNewSession { session ->
             siteService.doWithAllSites { def siteMap ->
                 siteMap["className"] = Site.class.name
@@ -872,8 +923,14 @@ class ElasticSearchService {
         Activity.withNewSession { session ->
             activityService.doWithAllActivities { Map activity ->
                 try {
-                    activity = prepareActivityForIndexing(activity)
-                    indexDoc(activity, activity?.projectActivityId || activity?.isWorks ? newIndexes[PROJECT_ACTIVITY_INDEX] : newIndexes[DEFAULT_INDEX], bulkProcessor)
+                    // LUSM change
+                    if (activity?.verificationStatus == 'draft'){
+                        log.warn("Activity is a draft and will not be indexed")
+                    } else {
+                        activity = prepareActivityForIndexing(activity)
+                        indexDoc(activity, activity?.projectActivityId || activity?.isWorks ? newIndexes[PROJECT_ACTIVITY_INDEX] : newIndexes[DEFAULT_INDEX], bulkProcessor)
+                        // indexDoc(activity, activity?.projectActivityId || activity?.isWorks ? PROJECT_ACTIVITY_INDEX : DEFAULT_INDEX)
+                    }
                 }
                 catch (Exception e) {
                     log.error("Unable to index activity: " + activity?.activityId, e)
@@ -939,6 +996,21 @@ class ElasticSearchService {
     }
 
     /**
+     * Removes information not needed for searching a person
+     * @param person
+     */
+    private void preparePersonForIndexing(Map person) {
+        person.name = "${person.firstName} ${person.lastName}"
+        person.remove("projects")
+        person.remove("ownedSites")
+        person.remove("bookedSites")
+        person.remove("address1")
+        person.remove("address2")
+        person.remove("birthDate")
+    }
+
+
+    /**
      * Augments the supplied Project with information required by the facets supported on the home page.
      * Specifically this includes site & activity information.
      * @param project the project
@@ -986,8 +1058,11 @@ class ElasticSearchService {
         }
         projectMap.sites?.each { site ->
             // Not useful for the search index and there is a bug right now that can result in invalid POI
-            // data causing the indexing to fail.
+            // data causing the indexing to fail. Same applies to transectPart for systematic monitoring
             site.remove('poi')
+            site.remove('transectParts')
+            site.remove('adminProperties')
+
             if (site?.extent?.geometry?.coordinates) {
                 // This can be very large in some cases and is not used for searching (see the geoIndex field)
                 site.extent.geometry.remove('coordinates')
@@ -1050,7 +1125,6 @@ class ElasticSearchService {
         Map project = projectService.get(activity.projectId, ProjectService.FLAT, version)
 
         boolean isWorksActivity = project?.isWorks
-
         // The below condition checks for BioCollect activity from survey and works project. It ignores MERIT activity.
         if (activity.projectActivityId || isWorksActivity) {
             Date eventDate
@@ -1066,7 +1140,10 @@ class ElasticSearchService {
 
             Map projectActivity = [:]
             List records = []
-
+            // for syst monitoring get also the name of the surveyor. on default it would be only the name of
+            // the user who added the record
+            // def surveyor = personService.get(activity?.personId)
+            // String surveyorName = surveyor?.firstName + surveyor?.lastName
             projectActivity.name = pActivity?.name ?: pActivity?.description
             projectActivity.endDate = pActivity.endDate
             projectActivity.projectActivityId = pActivity.projectActivityId
@@ -1080,9 +1157,13 @@ class ElasticSearchService {
             projectActivity.dataQualityAssuranceMethods = pActivity?.dataQualityAssuranceMethods
             projectActivity.isDataManagementPolicyDocumented = pActivity?.isDataManagementPolicyDocumented
             projectActivity.activityOwnerName = userService.lookupUserDetails(activity.userId)?.displayName
+            // projectActivity.surveyorName = surveyorName
             projectActivity.projectName = project?.name
             projectActivity.projectId = project?.projectId
             projectActivity.projectType = project?.projectType
+
+            // LU: obtains the output as well for getting the surveyDate
+            List outputs = outputService.findAllForActivityId(activity.activityId)
 
             def allRecords = activity.activityId ? recordService.getAllByActivity(activity.activityId) :
                     recordService.getAllByProjectActivity(pActivity.projectActivityId, version)
@@ -1122,6 +1203,7 @@ class ElasticSearchService {
                     projectActivity.lastUpdatedYear = new SimpleDateFormat("yyyy").format(it.lastUpdated)
                 }
             }
+
             projectActivity.records = records
             if (activity?.lastUpdated) {
                 projectActivity.lastUpdatedMonth = new SimpleDateFormat("MMMM").format(activity.lastUpdated)
@@ -1133,11 +1215,22 @@ class ElasticSearchService {
 
             addYearAndMonthToEntity(activity, activity)
 
-            if(eventDate){
+            // LU : if the surveyDate from output exists, get eventDate from it 
+            if (outputs[0]?.data?.surveyDate) {
+                eventDate = outputService.parseDate(outputs[0].data.surveyDate)
+
                 activity.surveyMonth = new SimpleDateFormat("MMMM").format(eventDate)
                 activity.surveyYear = new SimpleDateFormat("yyyy").format(eventDate)
+                activity.surveyDate = eventDate
             }
-
+            else   {        
+                // original process of the date
+                if(eventDate){
+                    activity.surveyMonth = new SimpleDateFormat("MMMM").format(eventDate)
+                    activity.surveyYear = new SimpleDateFormat("yyyy").format(eventDate)
+                    activity.surveyDate = eventDate
+                }
+            }
             try {
                 // check if activity has images
                 Document image = Document.findByActivityIdAndRoleAndTypeAndFilenameIsNotNull(activity.activityId,'surveyImage', 'image')
@@ -1191,10 +1284,10 @@ class ElasticSearchService {
             def site = siteService.get(activity.siteId, [SiteService.FLAT, SiteService.INDEXING], version)
             if (site) {
                 // Not useful for the search index and there is a bug right now that can result in invalid POI
-                // data causing the indexing to fail.
-              //  def mapOfSite = site.getProperty("dbo")
+                // data causing the indexing to fail. Same applies to transectPart for systematic monitoring
                 site.remove('poi')
-              //  site = mapOfSite as Site
+                // LUSM change
+                site.remove('transectParts');
                 activity.sites = [site]
             }
         }
@@ -1408,6 +1501,7 @@ class ElasticSearchService {
 
         String query = params.searchTerm ?: ''
         String userId = params.userId ?: '' // JSONNull workaround.
+        String personId = params?.personId ?: ''
         String projectId = params.projectId
         String projectActivityId = params.projectActivityId
         String forcedQuery = ''
@@ -1416,15 +1510,19 @@ class ElasticSearchService {
         switch (params.view) {
 
             case 'myrecords':
-                if (userId) {
+                if (personId) {
+                    forcedQuery = '(docType:activity AND personId:' + personId + ')'
+                } else if (userId) {
                     forcedQuery = '(docType:activity AND userId:' + userId + ')'
                 }
                 break
 
             case 'project':
                 if (projectId) {
-                    if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId) || permissionService.isUserEditorForProject(userId, projectId))) {
+                    if (userId && (permissionService.isUserAlaAdmin(userId) || permissionService.isUserAdminForProject(userId, projectId))) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ')'
+                    } else if (userId && permissionService.isUserEditorForProject(userId, projectId)){
+                        forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND ((verificationStatus:approved OR verificationStatus:\"not applicable\") OR userId:' + userId + '))'
                     } else if (userId) {
                         forcedQuery = '(docType:activity AND projectActivity.projectId:' + projectId + ' AND ((projectActivity.embargoed:false AND (verificationStatusFacet:approved OR verificationStatusFacet:\"not applicable\" OR (NOT _exists_:verificationStatus))) OR userId:' + userId + '))'
                     } else if (!userId) {
@@ -1832,6 +1930,15 @@ class ElasticSearchService {
                 sortOrder = BucketOrder.count(false)
                 break
         }
+        log.debug "sortOrder " + sortOrder
+        // LUSM change
+        // try {
+        //     log.debug "fsort" + fsort
+        //     fsort = (fsort) ? TermsFacet.ComparatorType.fromString(fsort) : TermsFacet.ComparatorType.TERM
+        // } catch (Exception e) {
+        //     log.warn "addFacets error: ${e.message}"
+        //     fsort = TermsFacet.ComparatorType.TERM
+        // }
 
         List facetList = []
 
@@ -1840,7 +1947,6 @@ class ElasticSearchService {
                 facetList.add(AggregationBuilders.terms(it).field(it).size(flimit).order(sortOrder))
             }
         }
-
         return facetList
     }
 

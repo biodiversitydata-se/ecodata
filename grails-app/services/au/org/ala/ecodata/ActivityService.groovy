@@ -24,6 +24,7 @@ class ActivityService {
     LockService lockService
     MetadataService metadataService
     PermissionService permissionService
+    AuditService auditService
 
     def get(id, levelOfDetail = [], version = null, userId = null, hideMemberOnlyFlds = false) {
         def activity = null
@@ -176,6 +177,16 @@ class ActivityService {
 
     List<Map> findAllForActivityIdsInProjectActivity(List activityIdList, String projectActivityId, levelOfDetail = []) {
         Activity.findAllByActivityIdInListAndProjectActivityIdAndStatus(activityIdList, projectActivityId, ACTIVE).collect { toMap(it, levelOfDetail) }
+    }
+
+    List findDraftsForUserId(String userId){
+        def list = Activity.createCriteria().list() {
+            and{
+                eq ("userId", userId)
+                eq ("verificationStatus", "draft")
+            }
+           order('lastUpdated','desc')
+        }
     }
 
     def findAllForUserId(userId, query, levelOfDetail = []){
@@ -388,6 +399,8 @@ class ActivityService {
             commentService.deleteAllForEntity(Activity.class.name, activityId, destroy)
 
             if (destroy) {
+                // if the activity was a draft delete it from the sudit log
+                auditService.deleteAuditMessagesForDraftActivity(Activity.class.name, activityId)
                 activity.delete(flush: true)
             } else {
                 commonService.updateProperties(activity, [status: 'deleted'])
@@ -511,6 +524,9 @@ class ActivityService {
                 if (output.outputId && output.outputId != "null") {
                     // update
                     log.debug "Updating output ${output.name}"
+                    if (activity?.verificationStatus == "draft"){
+                        output.verificationStatus = "draft"
+                    }
                     def result = outputService.update(output, output.outputId)
                     if (result.error) {
                         errors << [error: result.error, name: output.name]
@@ -520,6 +536,9 @@ class ActivityService {
                     log.debug "Creating output ${output.name}"
                     output.remove('outputId')   // in case a blank one is supplied
                     output.activityId = id
+                    if (activity?.verificationStatus == "draft"){
+                        output.verificationStatus = "draft"
+                    }
                     def result = outputService.create(output)
                     if (result.error) {
                         errors << [error: result.error, name: output.name]
@@ -641,6 +660,50 @@ class ActivityService {
                 property("activityId")
             }
         }
+    }
+    /**
+     * Get map of activity type and how many activitied the person submitted.
+     * @param personId
+     *
+     * @return Map [type: count]
+     */
+
+    def countActivitiesForPerson(String personId){
+        List activities = Activity.findAllByPersonId(personId)
+        List names = []
+        activities?.each { 
+            names.push(it.type)
+        }
+        Map activityCount = [:]
+        // count unique names of activities and how many times they occur
+        activityCount = names.countBy {it}
+        log.debug "activity count " + activityCount
+        activityCount
+    }
+
+    /**
+     * Get a list of all activities recorded by a person under one scheme
+     * and site names where the sightings occurred.
+     * @param id of the person
+     * @param params containing the name of the survey for which activities are to be found 
+     * @return list of activities containing names of sites instead of their Id
+     *          and selected output properties
+     */
+    def getAllForPersonByType(String activityType, String personId){
+        List activities = Activity.findAllByPersonIdAndType(personId, activityType)
+        List result = []
+        activities?.each { 
+            // fetch name and code of the site
+            def site = siteService.getSiteNameAndCode(it.siteId)
+            // get real date of the observation rather than date added to ecodata
+            def survey = Output.findByActivityId(it.activityId)
+            String surveyDate = survey?.data?.surveyDate
+            String surveyDateFormatted = surveyDate.substring(0, surveyDate.indexOf("T"))
+            def row = ['siteName': site?.name, 'siteCode': site?.name, 
+                'surveyDate': surveyDate, 'activityId': it?.activityId]
+            result << row
+        } 
+        result
     }
 
 }

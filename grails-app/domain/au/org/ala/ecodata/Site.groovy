@@ -44,7 +44,10 @@ class Site {
     String type
     String description
     String habitat
-  //  Double area - the area field is a mess, it's about 1/2 doubles, 1/2 strings, most of which are numbers....
+    //  Double area - the area field is a mess, it's about 1/2 doubles, 1/2 strings, most of which are numbers....
+    // LUSM change
+    Map displayProperties
+    Map adminProperties
     String recordingMethod
     String landTenure
     String protectionMechanism
@@ -68,7 +71,8 @@ class Site {
         type nullable:true
         description nullable:true, maxSize: 40000
         habitat nullable:true
-   //     area nullable:true
+        displayProperties nullable:true
+        adminProperties nullable: true
         recordingMethod nullable:true
         landTenure nullable:true
         protectionMechanism nullable:true

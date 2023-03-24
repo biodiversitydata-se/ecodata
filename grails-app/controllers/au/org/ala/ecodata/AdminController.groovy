@@ -35,11 +35,20 @@ class AdminController {
     RecordService recordService
     ProjectActivityService projectActivityService
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def index() {}
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def tools() {}
+
+    // LU: needs to be commented in the previous version ??
+    @AlaSecured(["ROLE_ADMIN"])
+    def users() {
+        def userList = authService.getAllUserNameList()
+        [ userNamesList: userList ]
+    }
 
     @RequireApiKey
     def syncCollectoryOrgs() {
@@ -50,6 +59,7 @@ class AdminController {
             render (status: 200)
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def settings() {
         def settings = [
@@ -76,6 +86,7 @@ class AdminController {
         render model as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def reloadConfig = {
         // clear any cached external config
@@ -143,6 +154,7 @@ class AdminController {
         asJson map
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def showCache() {
         render cacheService.cache
@@ -158,7 +170,7 @@ class AdminController {
         render "Indexing done"
     }
 
-    @RequireApiKey
+    /*@RequireApiKey*/
     def clearMetadataCache() {
         // clear any cached external config
         cacheService.clear()
@@ -166,6 +178,7 @@ class AdminController {
         render 'done'
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def count() {
         def res = [
@@ -178,6 +191,7 @@ class AdminController {
         render res
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def updateDocumentThumbnails() {
 
@@ -191,6 +205,7 @@ class AdminController {
      * Refreshes site metadata (geographical facets & geocodes) for every site in the system.
      * @return {"result":"success"} if the operation is successful.
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def reloadSiteMetadata() {
         String dateStr = params.lastUpdatedBefore
@@ -204,6 +219,7 @@ class AdminController {
         render result as grails.converters.JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def updateSitesWithoutCentroids() {
         def code = 'success'
@@ -250,6 +266,7 @@ class AdminController {
         render result as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def linkWithAuth(){
         actor {
@@ -259,6 +276,7 @@ class AdminController {
         render model as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def linkWithImages(){
         actor {
@@ -268,6 +286,7 @@ class AdminController {
         render model as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def importFromUrl(){
         def model = [:]
@@ -308,6 +327,7 @@ class AdminController {
         render model as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def importFile(){
 
@@ -332,15 +352,19 @@ class AdminController {
         render model as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def audit() { }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def auditMessagesByEntity() { }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def auditMessagesByProject() { }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     private boolean createStageReportsFromTimeline(project) {
         def timeline = project.timeline
@@ -414,7 +438,72 @@ class AdminController {
 
     }
 
-    @AlaSecured("ROLE_ADMIN")
+    // LU: needs to be commented in the previous version ??
+    @AlaSecured(["ROLE_ADMIN"])
+    def populateStageReportStatus(project) {
+
+
+        List stuff = AuditMessage.findAllByProjectIdAndEventTypeAndEntityType(project.projectId, 'Update', Activity.name)
+
+        stuff.sort { a1, a2 ->
+            return a1.date.compareTo(a2.date)
+        }
+
+        //println "${project.name}"
+        //println "**************"
+
+        def reports = Report.findAllByProjectId(project.projectId)
+
+        stuff.each {
+            def status = it.entity.publicationStatus ?: ''
+            if (!status) {
+                return
+            }
+            if (it.entity.description == 'Upload of stage 1 and 2 reporting data') {
+                return
+            }
+            def activityEndDate = new DateTime(it.entity.plannedEndDate).minusDays(1).toDate()
+
+            def stageReport = reports.find {
+                it.fromDate.before(activityEndDate) &&
+                (it.toDate.after(activityEndDate) || it.toDate.equals(activityEndDate))}
+
+            if (!stageReport) {
+                throw new Exception("No stage report found for project ${project.projectId} and date ${it.entity.plannedEndDate}")
+            }
+
+
+            if (stageReport.publicationStatus != status) {
+
+                //println "found report: ${stageReport.name} for date ${it.entity.plannedEndDate} status: ${status}"
+                switch (status) {
+                    case 'pendingApproval':
+                        if (stageReport.publicationStatus == 'published') {
+                            log.warn("Adding implicit rejection step to the report ${stageReport.name} for project: ${project.projectId}")
+                            stageReport.returnForRework("-1", it.date)
+                        }
+                        stageReport.submit(it.userId, it.date)
+                        break
+                    case 'published':
+                        if (stageReport.publicationStatus != 'pendingApproval') {
+                            log.warn("Adding implicit submit step to the report ${stageReport.name} for project: ${project.projectId}")
+                            stageReport.submit("-1", it.date)
+                        }
+                        stageReport.approve(it.userId, it.date)
+                        break
+                    case 'unpublished':
+                        stageReport.returnForRework(it.userId, it.date)
+                        break
+                }
+
+                stageReport.save()
+            }
+        }
+
+    }
+
+    // LU: needs to be commented in the previous version ??
+    @AlaSecured(["ROLE_ADMIN"])
     def createStageReports(String projectId) {
 
         def reports = []
@@ -460,22 +549,26 @@ class AdminController {
     * Initiate species rematch.
     */
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def initiateSpeciesRematch() {
         speciesReMatchService.rematch()
         render ([message:' ok'] as JSON)
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def metadata() {
         [activitiesMetadata: metadataService.activitiesModel()]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def editActivityFormDefinitions() {
         def model = [availableActivities:activityFormService.activityVersionsByName()]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def programsModel() {
         List activityTypesList = metadataService.activitiesList().collect {key, value -> [name:key, list:value]}.sort{it.name}
@@ -483,6 +576,7 @@ class AdminController {
         [programsModel: metadataService.programsModel(), activityTypes:activityTypesList]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def updateProgramsModel() {
         def model = request.JSON
@@ -493,6 +587,7 @@ class AdminController {
         render result
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def editActivityFormTemplates() {
         def model = [availableActivities:activityFormService.activityVersionsByName()]
@@ -505,17 +600,20 @@ class AdminController {
     /**
      * Duplicates ActivityFormController.get to implement interactive authorization rules.
      */
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     ActivityForm findActivityForm(String name, Integer formVersion) {
         render activityFormService.findActivityForm(name, formVersion) as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def createScore() {
         Score score = new Score([entity:'Activity', configuration:[:]])
         render view:'editScore', model:[score:score]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def editScore(String id) {
         Score score = Score.findByScoreId(id)
@@ -523,6 +621,7 @@ class AdminController {
         render view:'editScore', model:[score:score]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def updateScore(String id) {
         // Using JsonSluper instead of request.JSON to avoid JSONNull being serialized to the String "null" when
@@ -538,11 +637,13 @@ class AdminController {
         }
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def deleteScore(String id) {
         respond metadataService.deleteScore(id, params.getBoolean('destroy', false))
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def searchScores() {
 
@@ -572,6 +673,7 @@ class AdminController {
         [scores:scores, count:scores.totalCount]
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     /** The synchronization is to prevent a double submit from double creating duplicates */
     synchronized def regenerateRecordsForOutput(String outputId) {
@@ -595,6 +697,7 @@ class AdminController {
 
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def regenerateRecordsForALAHarvestableProjects() {
         def result = [:]
@@ -610,18 +713,21 @@ class AdminController {
         render text: result as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def getIndexNames() {
         Map model = [indexNames: metadataService.getIndicesForDataModels()]
         render view: 'indexNames', model: model
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def updateCollectoryEntryForBiocollectProjects () {
         collectoryService.updateCollectoryEntryForBiocollectProjects()
         render text: [ message: 'Successfully submit synchronisation job.' ] as JSON
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def buildGeoServerDependencies() {
         def result = mapService.buildGeoServerDependencies()
@@ -631,6 +737,7 @@ class AdminController {
         render text: [message: message] as JSON, status: code
     }
 
+    // LU: needs to be commented in the previous version ??
     @AlaSecured(["ROLE_ADMIN"])
     def displayUnIndexedFields() {
         String index = params.get('index', ElasticIndex.HOMEPAGE_INDEX)

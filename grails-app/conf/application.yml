@@ -64,7 +64,10 @@ spring:
                 - '**/*.css'
                 - '**/*.js'
 server:
-    address: localhost
+    # address: localhost
+    # address: 'canmove-dev.ekol.lu.se'
+    address: 'ecodata.biodiversitydata.se'
+
     tomcat:
         port-header: 'X-Forwarded-Port'
         protocol-header: 'X-Forwarded-Proto'
@@ -180,11 +183,32 @@ cors:
 
 ---
 
+# needed for lU??
+#security:
+#    cas:
+#        #appServerName: 'http://canmove-dev.ekol.lu.se:8080'
+#        appServerName: 'https://ecodata.biodiversitydata.se'
+#        casServerName: 'https://auth.biodiversitydata.se'
+#        casServerUrlPrefix: 'https://auth.biodiversitydata.se/cas'
+#        loginUrl: 'https://auth.biodiversitydata.se/cas/login'
+#        logoutUrl: 'https://auth.biodiversitydata.se/cas/logout'
+#        uriFilterPattern:
+#            - '/admin/*'
+#            - '/activityForm/*'
+#        authenticateOnlyIfLoggedInPattern:
+#        uriExclusionFilterPattern:
+#            - '/images/.*'
+#            - '/css/.*'
+#            - '/js/.*'
+#            - '/less/.*'
+#            - '/assets/.*'
+#            - '/activityForm/get.*'
+
 #Fix grails taglib <g:paginate/> to work with bootstrap css.
 grails:
     mail:
         default:
-            from: noreply@volunteer.ala.org.au
+            from: biocollect@biodiversitydata.se
         poolSize: 1
 digest:
     enabled: false

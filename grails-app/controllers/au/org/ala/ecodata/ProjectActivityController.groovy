@@ -46,8 +46,12 @@ class ProjectActivityController {
         if (!id) {
             result = [status: 404, text: 'No such id'];
         } else {
-            result = projectActivityService.get(id, params.view, params?.version)
-            if( params.getBoolean('stats', false) ){
+            
+            // LU : add personId 
+            result = projectActivityService.get(id, params.view, params?.version, params?.personId)
+            //if( params.getBoolean('stats', false) ){
+            if( params.stats?.asBoolean() ){
+
                 projectActivityService.addProjectActivityStats(result)
             }
 

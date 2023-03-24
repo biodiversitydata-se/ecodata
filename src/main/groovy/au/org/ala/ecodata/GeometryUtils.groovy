@@ -188,6 +188,39 @@ class GeometryUtils {
         utmGeom.area
     }
 
+    /**
+     * Calculates the centroid of a group of features
+     * @param json json array with multiple geometries as in transect parts
+     * @return Point centroid 
+     */
+    static Geometry centroid(List json) {
+        Geometry[] geometries = new Geometry[json.size()]
+        json.eachWithIndex { it, i ->
+            if (it.geometry.type != 'Point'){
+                GeometryJSON gjson = new GeometryJSON()
+                Geometry geom = gjson.read((it.geometry as JSON).toString())
+                geometries[i] = geom
+            } else {
+                // if feature is a point then cannot be cast to string
+                Point point = geometryFactory.createPoint(new Coordinate (it.geometry.coordinates[0], it.geometry.coordinates[1]))
+                geometries[i] = point
+            }  
+        }
+        GeometryCollection gc = new GeometryCollection(geometries, geometryFactory)
+        log.debug("geomcollection to get centroid from ${gc}")
+        return gc.getCentroid()
+    }
+    
+    /**
+     * Transforms wgs84 to utm so that meters are used instead of degrees and calculates the length of a LineString
+     * @param Geometry lineString 
+     * @return double length of the lineString in meters
+     */
+    static double lineStringLength(Geometry lineString) {
+        Geometry utmLineString = wgs84ToUtm(lineString)
+        utmLineString.getLength()
+    }
+
     static Geometry wgs84ToUtm(Geometry wgs84Geom) {
         CoordinateReferenceSystem utm = CRS.decode("AUTO2:42001,"+wgs84Geom.centroid.x+","+wgs84Geom.centroid.y, true)
         MathTransform toMetres = CRS.findMathTransform(sourceCRS, utm)
@@ -301,5 +334,6 @@ class GeometryUtils {
             feature.properties[(property)] = value
         }
     }
+
 
 }

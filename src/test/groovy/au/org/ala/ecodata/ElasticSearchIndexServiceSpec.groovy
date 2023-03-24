@@ -60,6 +60,7 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
 
         then:
         map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatusFacet:approved OR verificationStatusFacet:\"not applicable\" OR (NOT _exists_:verificationStatus)))'
+
     }
 
     void "View type: 'myrecords' and empty userId - Build a query that should return only non-embargoed records that don't have to be verified or have been approved"() {
@@ -75,6 +76,7 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
 
         then:
         map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatusFacet:approved OR verificationStatusFacet:\"not applicable\" OR (NOT _exists_:verificationStatus)))'
+
     }
 
     void "View type: 'myrecords' and valid userId - Build a query that returns all records associated to the user."() {
@@ -107,8 +109,8 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
         map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ')'
     }
 
-        // Admin, moderator, editor should see all verificationStatus
-    void "View type: 'project' - if project editor >> show all records in project"() {
+    // Admin should see all verificationStatus but editor only their own records...so the below is irrelevant  
+    void "View type: 'project' - if project editor >> show records associated to the project that don't have to be verified or have been approved"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -120,7 +122,7 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
         service.buildProjectActivityQuery(map)
 
         then:
-        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ')'
+        map.query == '(docType:activity AND projectActivity.projectId:' + map.projectId + ' AND ((verificationStatusFacet:approved OR verificationStatusFacet:\"not applicable\") OR userId:' + map.userId + '))'
     }
 
     void "View type: 'project'- if logged in user >> show non embargoed records + records created by user"() {
@@ -169,7 +171,7 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
         map.query == '(docType:activity)'
     }
 
-    void "View type: 'allrecords' - logged in users and not ala admin >> show embargoed records that user owns or been a member of the projects"() {
+    void "View type: 'allrecords' - logged in users and not ala admin >> show embargoed records that user own or been a member of the projects and records that have been verified or don't require verification"() {
         when:
         permissionService.isUserAlaAdmin(_) >> false
         permissionService.isUserAdminForProject(_, _) >> false
@@ -215,6 +217,7 @@ class ElasticSearchIndexServiceSpec extends MongoSpec implements ServiceUnitTest
 
         then:
         map.query == '(docType:activity AND projectActivity.embargoed:false AND (verificationStatusFacet:approved OR verificationStatusFacet:\"not applicable\" OR (NOT _exists_:verificationStatus)))'
+
     }
 
     void "View type: 'allrecords' - unauthenticated user >> show only embargoed records  that don't have to be verified or have been approved across the projects and attach the searchTerm"() {

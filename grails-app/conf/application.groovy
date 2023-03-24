@@ -16,7 +16,7 @@ environments {
             mongodb {
                 host = "localhost"
                 port = "27017"
-                databaseName = "ecodata-test"
+                databaseName = "ecodata"
             }
         }
     }
@@ -25,7 +25,7 @@ environments {
             mongodb {
                 host = "localhost"
                 port = "27017"
-                databaseName = "ecodata-functional-test"
+                databaseName = "ecodata"
             }
         }
     }
@@ -88,7 +88,7 @@ if (!webservice.connectTimeout) {
     webservice.connectTimeout = 10000
 }
 if (!webservice.readTimeout) {
-    webservice.readTimeout = 30000
+    webservice.readTimeout = 20000
 }
 // spatial services
 if (!spatial.baseUrl) {
@@ -505,11 +505,13 @@ if (!collectory.baseURL) {
     collectory.dataProviderUid.biocollect = 'dp244'
     collectory.collectoryIntegrationEnabled = false
 }
+
 if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = "https://www.ala.org.au/commonui-bs3"//"https://www2.ala.org.au/commonui"
+    headerAndFooter.baseURL = "https://beta.bioatlas.se/static/bs3"
 }
+
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://auth.ala.org.au/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'https://biocache.ala.org.au/ws'
@@ -527,13 +529,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://auth-dev.ala.org.au/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "https://auth-dev.ala.org.au/userDetails/getUserListFull"
+    userDetailsUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://auth-dev.ala.org.au/userdetails/ws/admin'
+    userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
@@ -614,11 +616,12 @@ environments {
     development {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
-        app.external.model.dir = "/data/ecodata/models/" //"./models/"
-        grails.hostname = "devt.ala.org.au"
+        app.external.model.dir = "./models/" //"./models/"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
-        grails.serverURL = "http://devt.ala.org.au:8080"
+        grails.serverURL = "http://canmove-dev.ekol.lu.se:8080"
+        #app.uploads.url = "${grails.serverURL}/document/download?filename="
         app.uploads.url = "/document/download/"
         grails.mail.host="localhost"
         grails.mail.port=1025
@@ -634,7 +637,7 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.hostname = "devt.ala.org.au"
+        grails.hostname = "canmove-dev.ekol.lu.se"
         // Only for travis CI, they must be overriden by ecodata-config.properties
         serverName = "http://${grails.hostname}:8080"
         grails.app.context = "ecodata"
@@ -697,9 +700,13 @@ environments {
         audit.thread.schedule.interval = 500l;
     }
     production {
+        app.uploads.url = "${grails.serverURL}/document/download?filename="
+        app.external.model.dir = "/data/ecodata/models/"
+        grails.serverURL = "https://ecodata.biodiversitydata.se"
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
         app.external.model.dir = "/data/ecodata/models/"
+        app.uploads.url = "${grails.serverURL}/document/download?filename="
     }
 }
 
@@ -721,6 +728,12 @@ facets.data = [
                 title: 'Survey name',
                 dataType: 'text',
                 helpText: 'Name of survey'
+        ],
+        [
+                name: "surveyDateFacet",
+                title: 'Survey date',
+                dataType: 'date',
+                helpText: 'Date when survey was created'
         ],
         [
                 name: "recordNameFacet",
@@ -835,7 +848,14 @@ facets.data = [
                 title: 'Is data management policy documented?',
                 dataType: 'text',
                 helpText: ''
+        ],
+        [
+                name:  "verificationStatusFacet",
+                title:  "Verification status",
+                dataType: 'text',
+                helpText: 'Verification status'
         ]
+
 
 ]
 
@@ -1095,6 +1115,7 @@ geoServer.layerNames = [
                                                'projectNameFacet',
                                                'surveyMonthFacet',
                                                'surveyYearFacet',
+                                               'surveyDate',
                                                'sites.geometryType'
                                        ]
                 ],

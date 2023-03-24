@@ -2,7 +2,7 @@ package au.org.ala.ecodata
 
 import au.org.ala.ecodata.converter.RecordConverter
 import au.org.ala.ecodata.metadata.OutputMetadata
-
+import org.apache.commons.lang.time.DateUtils
 import static au.org.ala.ecodata.Status.ACTIVE
 import static au.org.ala.ecodata.Status.DELETED
 
@@ -18,6 +18,8 @@ class OutputService {
     DocumentService documentService
     CommentService commentService
     ActivityService activityService
+    SiteService siteService
+    AuditService auditService
 
     static final ACTIVE = "active"
     static final SCORES = 'scores'
@@ -62,6 +64,7 @@ class OutputService {
         Output.findAllByActivityIdAndNameAndStatus(id, name, ACTIVE).collect { toMap(it, levelOfDetail) }
     }
 
+
     Map delete(String id, boolean destroy = false) {
         Output output = Output.findByOutputId(id)
 
@@ -72,11 +75,14 @@ class OutputService {
             if (destroy) {
                 Record.findAllByOutputId(id)?.each {
                     it.delete()
+                    auditService.deleteAuditMessagesForDraftActivity(Record.class.name, it.occurrenceID)
                 }
 
                 Document.findAllByOutputId(id)?.each {
                     it.delete(flush: true)
                 }
+
+                auditService.deleteAuditMessagesForDraftActivity(Output.class.name, id)
 
                 output.delete(flush: true)
             } else {
@@ -147,7 +153,13 @@ class OutputService {
      //   assert getCommonService()
         Activity activity = Activity.findByActivityId(props.activityId)
         if (activity) {
-            Output output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''))
+            // not sure this is neccesary
+            Output output
+            if (activity?.verificationStatus == "draft") {
+             output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''), verificationStatus: props?.verificationStatus)
+            } else {
+             output = new Output(activityId: activity.activityId, outputId: Identifiers.getNew(true, ''))
+            }
             try {
                 output.save(failOnError: true) // Getting dynamic properties not saving without this.
 
@@ -272,6 +284,23 @@ class OutputService {
             }
         }
         return list*.toString()
+    }
+
+    /**
+     * Event date has a variety of standards. This will try and convert it into Date object.
+     * @param eventDate
+     * @return
+     */
+    // LU: used for indexing surveyDate from output
+    Date parseDate(String eventDate) {
+        Date date
+        try {
+            date = DateUtils.parseDate(eventDate, ["yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy-MM-dd'T'HH:mm:ssXXX", "yyyy-MM-dd'T'HH:mm:ssXX", "yyyy-MM-dd'T'HH:mm:ssX", "dd-MM-yyyy"] as String[])
+        } catch (Exception pe) {
+            log.error("Error parsing date ${eventDate}")
+        }
+
+        date
     }
 
     /**
