@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="ecodata"/>
-		<title>Ecodata | Atlas of Living Australia </title>
+		<title>Ecodata | Lunds University with Atlas of Living Australia </title>
 	</head>
 	<body>
 		<div class="container-fluid" style="margin-top:50px;">

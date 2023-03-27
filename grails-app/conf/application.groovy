@@ -511,7 +511,7 @@ if (!headerAndFooter.baseURL) {
 }
 
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://authauth.biodiversitydata.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'https://biocache.ala.org.au/ws'
@@ -529,13 +529,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://authauth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "https://authauth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
+    userDetails.admin.url = 'https://authauth.biodiversitydata.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
@@ -583,19 +583,19 @@ grails.cache.config = {
 security {
     cas {
         enabled = false
-        appServerName = 'http://devt.ala.org.au:8080' // or similar, up to the request path part
-        // service = 'http://devt.ala.org.au:8080' // optional, if set it will always be used as the return path from CAS
-        casServerUrlPrefix = 'https://auth.ala.org.au/cas'
-        loginUrl = 'https://auth.ala.org.au/cas/login'
-        logoutUrl = 'https://auth.ala.org.au/cas/logout'
-        casServerName = 'https://auth.ala.org.au'
+        appServerName = 'http://devt.biodiversitydata.se:8080' // or similar, up to the request path part
+        // service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
+        casServerUrlPrefix = 'https://auth.biodiversitydata.se/cas'
+        loginUrl = 'https://auth.biodiversitydata.se/cas/login'
+        logoutUrl = 'https://auth.biodiversitydata.se/cas/logout'
+        casServerName = 'https://auth.biodiversitydata.se'
         uriFilterPattern = ['/admin/*', '/activityForm/*', '/graphql/*']
         authenticateOnlyIfLoggedInPattern = "/graphql/*"
         uriExclusionFilterPattern = ['/assets/.*','/images/.*','/css/.*','/js/.*','/less/.*', '/activityForm/get.*']
     }
     oidc {
         enabled = true
-        discoveryUri = 'https://auth-test.ala.org.au/cas/oidc/.well-known'
+        discoveryUri = 'https://auth.biodiversitydata.se/cas/oidc/.well-known'
         clientId = 'changeMe'
         secret = 'changeMe'
         scope = 'openid,profile,email,ala,roles,user_defined'
@@ -603,7 +603,7 @@ security {
     }
     jwt {
         enabled = true
-        discoveryUri = 'https://auth-test.ala.org.au/cas/oidc/.well-known'
+        discoveryUri = 'https://auth.biodiversitydata.se/cas/oidc/.well-known'
         requiredClaims = ["sub", "iat", "exp", "jti", "client_id"]
         urlPatterns = ["/ws/graphql/*"]
         requiredScores = ["openid", 'profile', "email", "ala", "roles", "user_defined"]
@@ -617,11 +617,13 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/" //"./models/"
-        grails.hostname = "canmove-dev.ekol.lu.se"
+        //grails.hostname = "canmove-dev.ekol.lu.se"
+        grails.hostname = "devt.biodiversitydata.se"
         app.elasticsearch.indexAllOnStartup = false
         app.elasticsearch.indexOnGormEvents = true
-        grails.serverURL = "http://canmove-dev.ekol.lu.se:8080"
-        #app.uploads.url = "${grails.serverURL}/document/download?filename="
+        //grails.serverURL = "http://canmove-dev.ekol.lu.se:8080"
+        grails.serverURL = "http://devt.biodiversitydata.se:8080"
+        //app.uploads.url = "${grails.serverURL}/document/download?filename="
         app.uploads.url = "/document/download/"
         grails.mail.host="localhost"
         grails.mail.port=1025
@@ -637,7 +639,8 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.hostname = "canmove-dev.ekol.lu.se"
+        //grails.hostname = "canmove-dev.ekol.lu.se"
+        grails.hostname = "devt.biodiversitydata.se"
         // Only for travis CI, they must be overriden by ecodata-config.properties
         serverName = "http://${grails.hostname}:8080"
         grails.app.context = "ecodata"
@@ -669,7 +672,7 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
-        grails.serverURL = "http://devt.ala.org.au:8080"
+        grails.serverURL = "http://devt.biodiversitydata.se:8080"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
 
         app.elasticsearch.indexOnGormEvents = true
@@ -702,7 +705,7 @@ environments {
     production {
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         app.external.model.dir = "/data/ecodata/models/"
-        grails.serverURL = "https://ecodata.biodiversitydata.se"
+        grails.serverURL = "https://ecodataauth.biodiversitydata.se"
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
         app.external.model.dir = "/data/ecodata/models/"

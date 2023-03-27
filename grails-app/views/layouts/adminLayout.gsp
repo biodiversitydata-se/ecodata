@@ -6,8 +6,8 @@
     <meta name="app.version" content="${g.meta(name: 'info.app.version')}"/>
     <meta name="app.commit.id" content="${ec.gitProperty(name: 'git.commit.id')}"/>
     <meta name="app.build.time" content="${ec.buildProperty(name: 'build.time')}"/>
-    <meta name="description" content="Atlas of Living Australia"/>
-    <meta name="author" content="Atlas of Living Australia">
+    <meta name="description" content="Lunds University with Atlas of Living Australia"/>
+    <meta name="author" content="Lunds University with Atlas of Living Australia">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title><g:layoutTitle/></title>

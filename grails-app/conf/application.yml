@@ -66,7 +66,8 @@ spring:
 server:
     # address: localhost
     # address: 'canmove-dev.ekol.lu.se'
-    address: 'ecodata.biodiversitydata.se'
+    # address: 'ecodata.biodiversitydata.se'
+    address: devt.biodiversitydata.se
 
     tomcat:
         port-header: 'X-Forwarded-Port'
@@ -270,8 +271,8 @@ graphiql:
         Authorization: "Bearer <your-token>"
 
 
-casUrl: https://auth-test.ala.org.au/cas/logout
-appUrl: http://devt.ala.org.au:8080/admin
+casUrl: https://auth.biodiversitydata.se/cas/logout
+appUrl: http://devt.biodiversitydata.se:8080/admin
 
 
 openapi:

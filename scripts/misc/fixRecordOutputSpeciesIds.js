@@ -8,6 +8,6 @@ while (affectedOutputs.hasNext()) {
     output.data.species.outputSpeciesId = UUID.generate();
     db.output.save(output);
 
-    print("curl --cookie JSESSIONID="+sessionId+" -D headers.txt 'http://devt.ala.org.au:8080/ecodata/admin/regenerateRecordsForOutput?outputId="+output.outputId+"'");
+    print("curl --cookie JSESSIONID="+sessionId+" -D headers.txt 'http://devt.biodiversitydata.se:8080/ecodata/admin/regenerateRecordsForOutput?outputId="+output.outputId+"'");
 
 }

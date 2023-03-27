@@ -4,7 +4,7 @@ class AdminTools extends ReloadablePage {
 
     static url = "admin/tools"
 
-    static at = { waitFor { title.startsWith("Tools - Admin - Data capture - Atlas of Living Australia")}}
+    static at = { waitFor { title.startsWith("Tools - Admin - Data capture - Lunds University with Atlas of Living Australia")}}
 
     static content = {
         reindexButton { $('#btnReIndexAll') }
