@@ -582,10 +582,10 @@ grails.cache.config = {
 
 security {
     cas {
-        enabled = false
+        enabled = true
         appServerName = 'http://devt.biodiversitydata.se:8080' // or similar, up to the request path part
         //appServerName = 'http://canmove-dev.ekol.lu.se:8080' // or similar, up to the request path part
-        service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
+       //service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
         //service = 'http://canmove-dev.ekol.lu.se:8080' // optional, if set it will always be used as the return path from CAS
         casServerUrlPrefix = 'https://auth.biodiversitydata.se/cas'
         loginUrl = 'https://auth.biodiversitydata.se/cas/login'
@@ -596,7 +596,7 @@ security {
         uriExclusionFilterPattern = ['/assets/.*','/images/.*','/css/.*','/js/.*','/less/.*', '/activityForm/get.*']
     }
     oidc {
-        enabled = true
+        enabled = false
         discoveryUri = 'https://auth.biodiversitydata.se/cas/oidc/.well-known'
         clientId = 'changeMe'
         secret = 'changeMe'
@@ -604,7 +604,7 @@ security {
         connectTimeout = 5000
     }
     jwt {
-        enabled = true
+        enabled = false
         discoveryUri = 'https://auth.biodiversitydata.se/cas/oidc/.well-known'
         requiredClaims = ["sub", "iat", "exp", "jti", "client_id"]
         urlPatterns = ["/ws/graphql/*"]
