@@ -511,7 +511,7 @@ if (!headerAndFooter.baseURL) {
 }
 
     if (!security.apikey.serviceUrl) {
-    security.apikey.serviceUrl = 'https://authauth.biodiversitydata.se/apikey/ws/check?apikey='
+    security.apikey.serviceUrl = 'https://auth.biodiversitydata.se/apikey/ws/check?apikey='
 }
 if (!biocacheService.baseURL) {
     biocacheService.baseURL = 'https://biocache.ala.org.au/ws'
@@ -529,13 +529,13 @@ if (!ecodata.use.uuids) {
     ecodata.use.uuids = false
 }
 if (!userDetailsSingleUrl) {
-    userDetailsSingleUrl = "https://authauth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
+    userDetailsSingleUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserDetails"
 }
 if (!userDetailsUrl) {
-    userDetailsUrl = "https://authauth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
+    userDetailsUrl = "https://auth.biodiversitydata.se/userdetails/userDetails/getUserListFull"
 }
 if (!userDetails.admin.url) {
-    userDetails.admin.url = 'https://authauth.biodiversitydata.se/userdetails/ws/admin'
+    userDetails.admin.url = 'https://auth.biodiversitydata.se/userdetails/ws/admin'
 }
 
 if (!authGetKeyUrl) {
