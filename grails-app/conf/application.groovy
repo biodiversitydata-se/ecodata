@@ -584,7 +584,9 @@ security {
     cas {
         enabled = false
         appServerName = 'http://devt.biodiversitydata.se:8080' // or similar, up to the request path part
-        // service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
+        //appServerName = 'http://canmove-dev.ekol.lu.se:8080' // or similar, up to the request path part
+        service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
+        //service = 'http://canmove-dev.ekol.lu.se:8080' // optional, if set it will always be used as the return path from CAS
         casServerUrlPrefix = 'https://auth.biodiversitydata.se/cas'
         loginUrl = 'https://auth.biodiversitydata.se/cas/login'
         logoutUrl = 'https://auth.biodiversitydata.se/cas/logout'
@@ -659,7 +661,8 @@ environments {
 
         wiremock.port = 8018
         security.cas.bypass = true
-        security.cas.casServerUrlPrefix="http://devt.ala.org.au:${wiremock.port}/cas"
+        //security.cas.casServerUrlPrefix="http://canmove-dev.ekol.lu.se:${wiremock.port}/cas"
+        security.cas.casServerUrlPrefix="http://devt.biodiversitydata.se:${wiremock.port}/cas"
         security.cas.loginUrl="${security.cas.casServerUrlPrefix}/login"
     }
     meritfunctionaltest {
@@ -672,6 +675,7 @@ environments {
         grails.logging.jul.usebridge = true
         ecodata.use.uuids = false
         app.external.model.dir = "./models/"
+        //grails.serverURL = "http://canmove-dev.ekol.lu.se:8080"
         grails.serverURL = "http://devt.biodiversitydata.se:8080"
         app.uploads.url = "${grails.serverURL}/document/download?filename="
 
