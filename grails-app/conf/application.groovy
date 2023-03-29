@@ -709,7 +709,7 @@ environments {
     production {
         app.uploads.url = "${grails.serverURL}/document/download?filename="
         app.external.model.dir = "/data/ecodata/models/"
-        grails.serverURL = "https://ecodataauth.biodiversitydata.se"
+        grails.serverURL = "https://auth.biodiversitydata.se"
         grails.logging.jul.usebridge = false
         app.elasticsearch.indexAllOnStartup = false // Makes deployments too slow
         app.external.model.dir = "/data/ecodata/models/"
