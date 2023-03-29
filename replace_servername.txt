@@ -1,0 +1,3 @@
+grep -nrw -e devt.biodiversitydata.se
+sed -i 's/devt.biodiversitydata.se/canmove-dev.ekol.lu.se/g' grails-app/conf/*
+sed -i 's/devt.biodiversitydata.se/canmove-dev.ekol.lu.se/g' src/main/resources/openapi.yml
