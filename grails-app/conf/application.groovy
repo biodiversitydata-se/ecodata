@@ -583,7 +583,7 @@ grails.cache.config = {
 security {
     cas {
         enabled = true
-        appServerName = 'http://devt.biodiversitydata.se:8080' // or similar, up to the request path part
+        appServerName = 'https://ecodata.biodiversitydata.se' // or similar, up to the request path part
         //appServerName = 'http://canmove-dev.ekol.lu.se:8080' // or similar, up to the request path part
        //service = 'http://devt.biodiversitydata.se:8080' // optional, if set it will always be used as the return path from CAS
         //service = 'http://canmove-dev.ekol.lu.se:8080' // optional, if set it will always be used as the return path from CAS
@@ -1089,10 +1089,10 @@ elasticsearch.primary = true
 
 // geo server config
 geoServer.enabled = false
-geoServer.baseURL = "http://localhost:8081/geoserver"
+geoServer.baseURL = "https://ecodata.biodiversitydata.se/geoserver"
 geoServer.workspace = "ecodata"
 geoServer.username = "admin"
-geoServer.password = "geoserver"
+geoServer.password = "G3053rver!!"
 geoServer.datastore = "pasearch"
 geoServer.defaultIndexName = "pasearch"
 geoServer.pasearch.geometryTypeField = "sites.geometryType"
