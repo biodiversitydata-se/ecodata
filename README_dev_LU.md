@@ -1,16 +1,40 @@
 to launch ecodata on canmove-dev :
 
+1- check that java version is 8
 
-1- launch elastic search
+java -version
+
+if not : 
+
+*** change java version ****
+
+sudo nano /etc/profile
+=> enable the correct jdk 8 by uncommenting the lines
+
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/java-8-openjdk-amd64/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/java-8-openjdk-amd64/bin/javac" 1
+
+
+sudo update-alternatives --config java
+=> select /usr/lib/jvm/java-8-openjdk-amd64/bin/java (la 4 normalement)
+sudo update-alternatives --config javac
+=> select /usr/lib/jvm/java-8-openjdk-amd64/bin/javac (la 4 normalement)
+
+source /etc/profile
+
+2- use the correct version of grails as described in gradle.properties
+sdk use grals 4.0.11
+
+3- launch elastic search
 cd elasticsearch/elasticsearch-7.15.1
 ./bin/elasticsearch
 
 
-2- OPTIONAL : launch geoserver
+4- OPTIONAL : launch geoserver
 cd geoserver-2.7.4
 ./bin/startup.sh (not tested for a long time, to be checked)
 
-3- launch ecodata
+5- launch ecodata
 grails run-app
 
 
