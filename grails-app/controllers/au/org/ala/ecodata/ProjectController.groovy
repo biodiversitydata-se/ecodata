@@ -507,5 +507,10 @@ class ProjectController {
         render result as JSON
     }
 
+
+    def getProjectByHubUrl(){
+        def result = Project.findByHubUrl(params.hubUrl)
+        render result as JSON
+    }
 }
 
