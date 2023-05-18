@@ -123,7 +123,7 @@ class Activity {
         userId nullable:true
         embargoed nullable:true
         formVersion nullable: true
-        verificationStatus nullable: true, inList: ['not applicable', 'not approved', 'not verified', 'under review' , 'approved']
+        verificationStatus nullable: true, inList: ['not applicable', 'not approved', 'not verified', 'under review' , 'approved', 'draft']
     }
 
 }
