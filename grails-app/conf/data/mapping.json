@@ -794,9 +794,8 @@
         },
         "surveyDate":{
           "type" : "date",
-          "path" : "just_name",
           "fields" : {
-            "surveyDateSort" : {"type" : "keyword", "analyzer" : "case_insensitive_sort"}
+            "surveyDateSort" : {"type" : "keyword"}
           }
         },
         "booked": {

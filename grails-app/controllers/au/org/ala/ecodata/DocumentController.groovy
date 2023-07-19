@@ -212,7 +212,7 @@ class DocumentController {
      * Serves up a file named by the supplied filename HTTP parameter.  It is mostly as a convenience for development
      * as the files will be served by Apache in prod.
      */
-    @RequireApiKey
+    //@RequireApiKey
     def download(String path, String filename) {
 
         if (!filename || !documentService.validateDocumentFilePath(path, filename)) {
