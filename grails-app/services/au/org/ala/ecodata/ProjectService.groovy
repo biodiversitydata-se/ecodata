@@ -66,7 +66,8 @@ class ProjectService {
                 }
             } else {
                 Project.findAllByProjectIdInListAndStatusNotEqual(listOfIds, DELETED).collect {
-                    [projectId: it.projectId, name: it.name]
+                    // for LU : bring the project config regarding the booking system
+                    [projectId: it.projectId, name: it.name, bookingConfig: it.alertConfig.ctx]
                 }
             }
         } else {
