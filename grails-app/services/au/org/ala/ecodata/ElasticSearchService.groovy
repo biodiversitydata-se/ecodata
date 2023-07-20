@@ -1140,6 +1140,10 @@ class ElasticSearchService {
 
             Map projectActivity = [:]
             List records = []
+
+            // LU: obtains the output as well for getting the surveyDate and recorderName
+            List outputs = outputService.findAllForActivityId(activity.activityId)
+
             // for syst monitoring get also the name of the surveyor. on default it would be only the name of
             // the user who added the record
             // def surveyor = personService.get(activity?.personId)
@@ -1156,14 +1160,19 @@ class ElasticSearchService {
             projectActivity.nonTaxonomicAccuracy = pActivity?.nonTaxonomicAccuracy
             projectActivity.dataQualityAssuranceMethods = pActivity?.dataQualityAssuranceMethods
             projectActivity.isDataManagementPolicyDocumented = pActivity?.isDataManagementPolicyDocumented
-            projectActivity.activityOwnerName = userService.lookupUserDetails(activity.userId)?.displayName
+
+            // LU : if the surveyDate from output exists, get eventDate from it 
+            if (outputs[0]?.data?.recordedBy) {
+                projectActivity.activityOwnerName = outputs[0]?.data?.recordedBy
+            }
+            else {
+                projectActivity.activityOwnerName = userService.lookupUserDetails(activity.userId)?.displayName
+            }
+
             // projectActivity.surveyorName = surveyorName
             projectActivity.projectName = project?.name
             projectActivity.projectId = project?.projectId
             projectActivity.projectType = project?.projectType
-
-            // LU: obtains the output as well for getting the surveyDate
-            List outputs = outputService.findAllForActivityId(activity.activityId)
 
             def allRecords = activity.activityId ? recordService.getAllByActivity(activity.activityId) :
                     recordService.getAllByProjectActivity(pActivity.projectActivityId, version)
