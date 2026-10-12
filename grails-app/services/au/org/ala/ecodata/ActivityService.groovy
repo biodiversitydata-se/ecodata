@@ -700,7 +700,7 @@ class ActivityService {
             String surveyDate = survey?.data?.surveyDate
             String surveyDateFormatted = surveyDate.substring(0, surveyDate.indexOf("T"))
             def row = ['siteName': site?.name, 'siteCode': site?.name, 
-                'surveyDate': surveyDate, 'activityId': it?.activityId, 'verificationStatus': it?.verificationStatus]
+                'surveyDate': surveyDate, 'activityId': it?.activityId, 'verificationStatus': it?.verificationStatus, 'status': it?.status]
             result << row
         } 
         result
