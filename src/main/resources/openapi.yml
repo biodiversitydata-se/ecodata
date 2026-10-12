@@ -16,7 +16,7 @@
   },
   "servers":[
     {
-      "url":"http://devt.biodiversitydata.se:8080"
+      "url":"http://devt.biodiversitydata.se:8086"
     }
   ],
   "paths":{

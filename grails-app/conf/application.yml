@@ -272,7 +272,7 @@ graphiql:
 
 
 casUrl: https://auth.biodiversitydata.se/cas/logout
-appUrl: http://devt.biodiversitydata.se:8080/admin
+appUrl: http://devt.biodiversitydata.se:8086/admin
 
 
 openapi:

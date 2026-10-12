@@ -88,7 +88,7 @@ class SchemaBuilderSpec extends Specification implements GrailsUnitTest {
 
         then:
         schema == [
-                id:"http://devt.biodiversitydata.se:8080/ecodata/ws/documentation/draft/output/Test%20Output",
+                id:"http://devt.biodiversitydata.se:8086/ecodata/ws/documentation/draft/output/Test%20Output",
                 $schema:"http://json-schema.org/draft-04/schema#",
                 type:"object",
                 properties:[
@@ -111,7 +111,7 @@ class SchemaBuilderSpec extends Specification implements GrailsUnitTest {
 
         then:
         schema == [
-                id:"http://devt.biodiversitydata.se:8080/ecodata/ws/documentation/draft/output/Test%20Output",
+                id:"http://devt.biodiversitydata.se:8086/ecodata/ws/documentation/draft/output/Test%20Output",
                 $schema:"http://json-schema.org/draft-04/schema#",
                 type:"object",
                 properties:[
@@ -140,7 +140,7 @@ class SchemaBuilderSpec extends Specification implements GrailsUnitTest {
 
         then:
         schema == [
-                id:"http://devt.biodiversitydata.se:8080/ecodata/ws/documentation/draft/output/Test%20Output",
+                id:"http://devt.biodiversitydata.se:8086/ecodata/ws/documentation/draft/output/Test%20Output",
                 $schema:"http://json-schema.org/draft-04/schema#",
                 type:"object",
                 properties:[
