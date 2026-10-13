@@ -703,6 +703,10 @@ class ActivityService {
                 'surveyDate': surveyDate, 'activityId': it?.activityId, 'verificationStatus': it?.verificationStatus, 'status': it?.status]
             result << row
         } 
+        result.sort { a, b ->
+            (b.surveyDate ?: '') <=> (a.surveyDate ?: '')
+        }
+
         result
     }
 
